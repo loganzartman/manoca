@@ -7,6 +7,8 @@ var BasicLaser = Bullet.extend(function(props){
 	this.angle = Math.atan2(this.xs,-this.ys);
 	this.updateSprite();
 	Graphics.stage.addChild(this.sprite);
+
+	this.damage = 7;
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/laserRed01.png"),

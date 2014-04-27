@@ -3,6 +3,7 @@
 var Game = {
 	player: null,
 	entities: [],
+	particles: [],
 
 	init: function() {
 		ResourceLoader.queueScripts();
@@ -43,6 +44,21 @@ var Game = {
 			if (typeof e === "object") {
 				e.step();
 			}
+		}
+
+		for (var i = Game.particles.length - 1; i >= 0; i--) {
+			var p = Game.particles[i];
+			if (typeof p === "object") {
+				p.step();
+			}
+		}
+
+		//starfield 3d-ness
+		var xo = Game.player.x - Graphics.width/2,
+			yo = Game.player.y - Graphics.height/2;
+		Starfield.offset = {
+			"x": -xo*0.5,
+			"y": -yo*0.5
 		};
 	}
 };
@@ -52,10 +68,14 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/pixi.dev.js");
 		ResourceLoader.queue("script/klass.js");
 		ResourceLoader.queue("script/util.js");
-		ResourceLoader.queue("script/input.js");
 		ResourceLoader.queue("script/graphics.js");
+		ResourceLoader.queue("script/input.js");
 		ResourceLoader.queue("script/starfield.js");
 		ResourceLoader.queue("script/entity.js");
+		ResourceLoader.queue("script/particle.js");
+		ResourceLoader.queue("script/smoke.js");
+		ResourceLoader.queue("script/trailSmoke.js");
+		ResourceLoader.queue("script/explosion.js");
 		ResourceLoader.queue("script/player.js");
 		ResourceLoader.queue("script/bullet.js");
 		ResourceLoader.queue("script/basiclaser.js");

@@ -3,6 +3,7 @@
 var Ufo = Hostile.extend(function(props){
 	this.sprite.depth = 1000;
 	Graphics.stage.addChild(this.sprite);
+	this.health = 20;
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/ufoGreen.png"),
@@ -17,17 +18,6 @@ var Ufo = Hostile.extend(function(props){
 		if (this.collidesCircles(Game.player)) {
 			this.kill();
 			Game.player.kill();
-		}
-
-		for (var i = Game.entities.length - 1; i >= 0; i--) {
-			var e = Game.entities[i];
-			if (e instanceof Bullet) {
-				if (this.collidesCircles(e)) {
-					e.destroy();
-					this.kill();
-					break;
-				}
-			}
 		}
 
 		this.updateSprite();

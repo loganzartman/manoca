@@ -8,6 +8,7 @@ var Entity = klass(function(props){
 	this.y = props.y||0;
 	this.xs = props.xs||0;
 	this.ys = props.ys||0;
+	this.friction = props.friction||0;
 	this.sprite = props.texture ? new PIXI.Sprite(props.texture) : {};
 	this.sprite.anchor = new PIXI.Point(0.5,0.5);
 	this.angle = 0;
@@ -24,6 +25,12 @@ var Entity = klass(function(props){
 	step: function() {
 		this.x += this.xs;
 		this.y += this.ys;
+		this.xs *= (1-this.friction);
+		this.ys *= (1-this.friction);
+
+		if (this.health<=0 && typeof this.kill === "function") {
+			this.kill();
+		}
 	},
 	inBounds: function(bounds) {
 		return (this.x>=bounds.x1-this.sprite.width/2 || typeof bounds.x1 === "undefined") &&
@@ -52,7 +59,10 @@ var Entity = klass(function(props){
 		}
 	},
 	destroy: function() {
-		Game.entities.splice(Game.entities.indexOf(this),1);
-		Graphics.stage.removeChild(this.sprite);
+		var ind = Game.entities.indexOf(this);
+		if (ind >= 0) {
+			Game.entities.splice(ind,1);
+			Graphics.stage.removeChild(this.sprite);
+		}
 	}
 });

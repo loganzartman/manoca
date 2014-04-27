@@ -9,7 +9,7 @@ var Player = Entity.extend(function(props){
 	this.rightGun = new GunMount(this, new PIXI.Point(0.5,0.9));
 	this.guns = new GunCycler([this.leftGun, this.rightGun], BasicLaser.delay/2);
 
-	this.sprite.depth = 1000;
+	this.sprite.depth = 1001;
 
 	Graphics.addEngineFire(this, "engineFire");
 	Graphics.stage.addChild(this.sprite);
@@ -80,6 +80,18 @@ var Player = Entity.extend(function(props){
 			this.guns.fire(BasicLaser);
 		}
 
+		var rand = new Random();
+		for (var i=0; i<1; i++) {
+			Game.particles.push(new TrailSmoke({
+				x: this.x-this.sprite.width/2+rand.next(-10,10),
+				y: this.y+rand.next(-10,10),
+				xs: rand.next(-5,-4.5),
+				ys: rand.next(-0.25,0.25),
+				texture: Particle.textureSmoke
+			}));
+		}
+
+		
 		this.updateSprite();
 	},
 	kill: function() {

@@ -29,9 +29,9 @@ var Input = {
 		document.addEventListener("keyup", function(event){
 			Input.keys[event.keyCode] = false;
 		}, false);
-		document.addEventListener("mousemove", function(event){
-			Input.mouseX = event.pageX;
-			Input.mouseY = event.pageY;
+		Graphics.canvas.addEventListener("mousemove", function(event){
+			Input.mouseX = event.layerX;
+			Input.mouseY = event.layerY;
 		}, false);
 	},
 

@@ -35,3 +35,22 @@ Random.prototype.next = function(min,max) {
 function sign(x) {
     return typeof x === "number" ? x ? x < 0 ? -1 : 1 : x === x ? 0 : NaN : NaN;
 }
+
+var Util = {
+	//time, beginning value, change in value, duration
+	easeInCubic: function (t, b, c, d) {
+		return c*(t/=d)*t*t + b;
+	},
+	easeOutCubic: function (t, b, c, d) {
+		return c*((t=t/d-1)*t*t + 1) + b;
+	},
+	easeInOutCubic: function (t, b, c, d) {
+		if ((t/=d/2) < 1) {
+			return c/2*t*t*t + b;
+		}
+		else {
+			return c/2*((t-=2)*t*t + 2) + b;
+		}
+	},
+	xmod: function(a,b) {return ((a%b)+b)%b;}
+};

@@ -6,6 +6,10 @@ var Graphics = {
 	//The Pixi Stage which contains game objects
 	stage: null,
 
+	//Spritebatch used to render particles
+	particles: null,
+	displacementFilter: null,
+
 	//The Pixi Renderer used to draw the stage
 	renderer: null,
 
@@ -20,7 +24,8 @@ var Graphics = {
 	//Pixi Textures stored for re-use
 	texture: {
 		engineFire: PIXI.Texture.fromImage("img/fire10.png"),
-		engineFireLight: PIXI.Texture.fromImage("img/fire10light.png")
+		engineFireLight: PIXI.Texture.fromImage("img/fire10light.png"),
+		displacement1: PIXI.Texture.fromImage("img/disp1.png")
 	},
 
 	/**
@@ -28,6 +33,7 @@ var Graphics = {
 	 * This method sizes and positions the canvas.
 	 */
 	init: function() {
+		var rand = new Random();
 		Graphics.canvas = document.getElementById("display");
 		Graphics.canvas.width = Graphics.width;
 		Graphics.canvas.height = Graphics.height;
@@ -43,17 +49,23 @@ var Graphics = {
 			Graphics.canvas
 		);
 
+		//particle batch
+		Graphics.particles = new PIXI.DisplayObjectContainer();
+		Graphics.particles.depth = 1000;
+		Graphics.particles.blendMode = PIXI.blendModes.NORMAL;
+		Graphics.stage.addChild(Graphics.particles);
+
 		//barely-noticeable bloom
 		//fuck yeah!
-		Graphics.bloomTexture = new PIXI.RenderTexture(Graphics.width, Graphics.height);
-		Graphics.bloomSprite = new PIXI.Sprite(Graphics.bloomTexture);
-		Graphics.bloomSprite.blendMode = PIXI.blendModes.ADD;
-		var bloomBlur = new PIXI.BlurFilter();
-		bloomBlur.blurX = bloomBlur.blurY = 16;
-		Graphics.bloomSprite.filters = [bloomBlur];
-		Graphics.bloomSprite.depth = 1;
-		Graphics.bloomSprite.alpha = 0.9;
-		Graphics.stage.addChild(Graphics.bloomSprite);
+		// Graphics.bloomTexture = new PIXI.RenderTexture(Graphics.width, Graphics.height);
+		// Graphics.bloomSprite = new PIXI.Sprite(Graphics.bloomTexture);
+		// Graphics.bloomSprite.blendMode = PIXI.blendModes.ADD;
+		// var bloomBlur = new PIXI.BlurFilter();
+		// bloomBlur.blurX = bloomBlur.blurY = 8;
+		// Graphics.bloomSprite.filters = [bloomBlur];
+		// Graphics.bloomSprite.depth = 1;
+		// Graphics.bloomSprite.alpha = 0.9;
+		// Graphics.stage.addChild(Graphics.bloomSprite);
 
 		window.addEventListener("resize", Graphics.resize, false);
 	},
@@ -73,7 +85,7 @@ var Graphics = {
 			return a.depth<b.depth ? -1 : a.depth>b.depth ? 1 : 0;
 		});
 
-		Graphics.bloomTexture.render(Graphics.stage);
+		//Graphics.bloomTexture.render(Graphics.stage);
 		Graphics.renderer.render(Graphics.stage);
 
 		requestAnimationFrame(Graphics.frame);
