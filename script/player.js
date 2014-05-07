@@ -17,7 +17,7 @@ var Player = Entity.extend(function(props){
 .statics({
 	texture: PIXI.Texture.fromImage("img/playerShip2_red.png"),
 	accel: 3,
-	top: 20,
+	top: 30,
 	friction: 8/7
 })
 .methods({
@@ -29,23 +29,43 @@ var Player = Entity.extend(function(props){
 		this.supr();
 		
 		//movement
-		if (Input.key(Input.VK_UP)) {
-			this.ys-=Player.accel;
+		if (Input.movementMode === Input.modes.KEYBOARD) {
+			if (Input.key(Input.VK_UP)) {
+				this.ys-=Player.accel;
+			}
+			else if (Input.key(Input.VK_DOWN)) {
+				this.ys+=Player.accel;
+			}
+			if (Input.key(Input.VK_LEFT)) {
+				this.xs-=Player.accel;
+				this.engineFire.scale = 0.7;
+			}
+			else if (Input.key(Input.VK_RIGHT)) {
+				this.xs+=Player.accel;
+				this.engineFire.scale = 1.5;
+			}
+			else {
+				this.engineFire.scale = 1;
+			}
 		}
-		else if (Input.key(Input.VK_DOWN)) {
-			this.ys+=Player.accel;
+		else if (Input.movementMode === Input.modes.MOUSE) {
+			var dist = this.distanceTo({
+				"x": Input.mouseX,
+				"y": Input.mouseY
+			});
+			var dir = this.directionTo({
+				"x": Input.mouseX,
+				"y": Input.mouseY
+			});
+			var dx = Math.cos(dir),
+			    dy = Math.sin(dir);
+
+			var md = 100;
+		 	this.xs += dx*Math.min(dist/md,md)*Player.accel;
+		 	this.ys += dy*Math.min(dist/md,md)*Player.accel;
 		}
-		if (Input.key(Input.VK_LEFT)) {
-			this.xs-=Player.accel;
-			this.engineFire.scale = 0.7;
-		}
-		else if (Input.key(Input.VK_RIGHT)) {
-			this.xs+=Player.accel;
-			this.engineFire.scale = 1.5;
-		}
-		else {
-			this.engineFire.scale = 1;
-		}
+
+		this.engineFire.scale = 1+(this.xs/Player.top)
 
 		//speed limiter
 		if (Math.abs(this.ys)>Player.top) {
@@ -56,8 +76,8 @@ var Player = Entity.extend(function(props){
 		}
 
 		//soft boundaries
-		if (this.x>Graphics.width/2) {
-			this.x -= (this.x-Graphics.width/2)/10;
+		if (this.x>Graphics.width/(3/2)) {
+			this.x -= (this.x-Graphics.width/(3/2))/10;
 		}
 		else if (this.x<this.sprite.width) {
 			this.x += (this.sprite.width-this.x)/5;
@@ -76,17 +96,17 @@ var Player = Entity.extend(function(props){
 		this.angle = Math.PI/2+(this.ys/Player.top)*Math.PI/7;
 
 		//guns
-		if (Input.key(Input.VK_SPACE)) {
+		if (Input.key(Input.VK_SPACE) || Input.mouseLeft) {
 			this.guns.fire(BasicLaser);
 		}
 
 		var rand = new Random();
-		for (var i=0; i<1; i++) {
+		for (var i=0; i<3; i++) {
 			Game.particles.push(new TrailSmoke({
-				x: this.x-this.sprite.width/2+rand.next(-10,10),
+				x: this.x-(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-10,10),
 				y: this.y+rand.next(-10,10),
 				xs: rand.next(-5,-4.5),
-				ys: rand.next(-0.25,0.25),
+				ys: rand.next(-1,1),
 				texture: Particle.textureSmoke
 			}));
 		}

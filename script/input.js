@@ -1,11 +1,40 @@
 "use strict";
 var Input = {
-	//A sparse array of booleans representing keypress state
+	/**
+	 * Enums representing player movement mode (keyboard or mouse)
+	 */
+	modes: {KEYBOARD: 0, MOUSE: 1},
+
+	/**
+	 * The currently selected movement mode (of Input.modes)
+	 */
+	movementMode: 1,
+
+	/**
+	 * A sparse array of booleans representing keypress state.
+	 * Each index corresponds to a KeyEvent keycode.
+	 */
 	keys: [],
 
-	//Mouse position data
+	/**
+	 * Mouse X position
+	 */
 	mouseX: 0,
+
+	/**
+	 * Mouse Y position
+	 */
 	mouseY: 0,
+
+	/**
+	 * Boolean representing mouse left button pressed state
+	 */
+	mouseLeft: false,
+
+	/**
+	 * Boolean representing mouse right button pressed state
+	 */
+	mouseRight: false,
 
 	/**
 	 * Keycode constants to be used with the Input.key() method.
@@ -29,10 +58,28 @@ var Input = {
 		document.addEventListener("keyup", function(event){
 			Input.keys[event.keyCode] = false;
 		}, false);
-		Graphics.canvas.addEventListener("mousemove", function(event){
-			Input.mouseX = event.layerX;
-			Input.mouseY = event.layerY;
+		document.addEventListener("mousemove", function(event){
+			Input.mouseX = event.pageX - Graphics.canvas.offsetLeft;
+			Input.mouseY = event.pageY - Graphics.canvas.offsetTop;
 		}, false);
+		Graphics.canvas.addEventListener("mousedown", function(event) {
+			event.preventDefault();
+			if ((event.button || event.which) > 1) {
+				Input.mouseRight = true;
+			}
+			else {
+				Input.mouseLeft = true;
+			}
+		});
+		Graphics.canvas.addEventListener("mouseup", function(event) {
+			event.preventDefault();
+			if ((event.button || event.which) > 1) {
+				Input.mouseRight = false;
+			}
+			else {
+				Input.mouseLeft = false;
+			}
+		});
 	},
 
 	/**

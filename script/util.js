@@ -14,7 +14,7 @@ var Time = {
 };
 
 function Random(seed) {
-	this.seed = seed || Date.now();
+	this.seed = seed || ~~(Math.random()*10e8);
 }
 Random.prototype.next = function(min,max) {
 	if (typeof min === "number") {
@@ -30,6 +30,17 @@ Random.prototype.next = function(min,max) {
 
 	var x = Math.sin(this.seed++) * 10000;
     return (x - Math.floor(x))*(max-min)+min;
+};
+Random.prototype.hexcol = function(rl,rh,gl,gh,bl,bh) {
+	return this.next(rl,rh)<<16 +
+	       this.next(gl,gh)<<8  +
+	       this.next(bl,bh);
+};
+Random.next = function(min,max) {
+	return new Random().next(min,max);
+};
+Random.hexcol = function(rl,rh,gl,gh,bl,bh) {
+	return new Random().hexcol(rl,rh,gl,gh,bl,bh);
 };
 
 function sign(x) {

@@ -14,6 +14,7 @@ var Particle = Entity.extend(function(params){
 
 	this.minAlpha = params.minAlpha||0;
 	this.maxAlpha = params.maxAlpha||1;
+	this.easeTime = params.easeTime||1;
 	this.easeIn = params.easeIn||false;
 	this.easeOut = params.easeOut||true;
 
@@ -22,42 +23,57 @@ var Particle = Entity.extend(function(params){
 	this.sprite.blendMode = PIXI.blendModes.NORMAL;
 	this.sprite.anchor = new PIXI.Point(0.5,0.5);
 	this.updateSprite();
-	this.sprite.depth = 1000;
+	this.sprite.depth = 10;
 	Graphics.stage.addChild(this.sprite);
 })
 .statics({
 	textureSmoke: PIXI.Texture.fromImage("img/part2.png"),
 
+	/**
+	 * Create a fiery explosion.
+	 * @param x x position
+	 * @param y y position
+	 * @param n number of particles
+	 * @param s multiplier
+	 */
 	emitExplosion: function(params) {
 		var x = params.x||0;
 		var y = params.y||0;
 		var n = params.n||1;
+		var s = typeof params.s === "number" ? params.s : 1;
 
 		var r = new Random();
 		for (var i=n; i>=0; i--) {
 			Game.particles.push(new Explosion({
 				"x": x,
 				"y": y,
-				"xs": r.next(-10,10),
-				"ys": r.next(-10,10),
-				"scale": r.next(0.5,1)
+				"xs": r.next(-10,10)*s,
+				"ys": r.next(-10,10)*s,
+				"life": r.next(10,40),
+				"scale": r.next(0.2,0.5)*s
 			}));			
 		}
 
-		for (var i=n/2; i>=0; i--) {
+		for (var i=n*4; i>=0; i--) {
 			Game.particles.push(new Smoke({
 				"x": x+r.next(-50,50),
 				"y": y+r.next(-50,50),
-				"xs": r.next(-2,2),
-				"ys": r.next(-2,2),
-				"life": 100,
-				"scale": r.next(1,3),
-				"friction": r.next(0.01,0.06)
+				"xs": r.next(-3,3)*s,
+				"ys": r.next(-3,3)*s,
+				"life": r.next(40,80),
+				"scale": r.next(1,10)*s,
+				"tint": 0x333333,
+				"friction": r.next(0.01,0.06),
+				"easeIn": false
 			}));
 		}
 	}
 })
 .methods({
+	/**
+	 * Update the particle's sprite.
+	 * Generally called once per frame by particle's step method.
+	 */
 	updateSprite: function() {
 		this.t++;
 		this.sprite.position = new PIXI.Point(
@@ -68,27 +84,32 @@ var Particle = Entity.extend(function(params){
 		this.sprite.rotation = this.angle;
 
 		//transparency easing
-		if (this.easeIn && this.t<this.life/2) {
+		if (this.easeIn && this.t<this.life*0.5*this.easeTime) {
 			this.sprite.alpha = Util.easeInCubic(
 				this.t,
-				0,
-				1,
-				this.life/2
+				this.minAlpha,
+				this.maxAlpha,
+				this.life*0.5*this.easeTime
 			);
 		}
-		else if (this.easeOut) {
-			this.sprite.alpha = 1-Util.easeOutCubic(
-				this.t-this.life/2,
-				0,
-				1,
-				this.life/2
+		else if (this.easeOut && this.t>this.life-this.life*0.5*this.easeTime) {
+			this.sprite.alpha = this.maxAlpha-Util.easeOutCubic(
+				this.t-this.life*0.5,
+				this.minAlpha,
+				this.maxAlpha,
+				this.life*0.5*this.easeTime
 			);	
 		}
 		else {
-			this.sprite.alpha = 1;
+			this.sprite.alpha = this.maxAlpha;
 		}
 	},
 
+	/**
+	 * Step the particle.
+	 * Includes physics, sprite updates, etc.
+	 * Called once per frame by game loop.
+	 */
 	step: function() {
 		this.updateSprite();
 		this.supr();
@@ -99,6 +120,10 @@ var Particle = Entity.extend(function(params){
 		}
 	},
 
+	/**
+	 * Remove the particle from game objects array and PIXI stage.
+	 * Must not be called more than once.
+	 */
 	destroy: function() {
 		Game.particles.splice(Game.particles.indexOf(this),1);
 		Graphics.stage.removeChild(this.sprite);
