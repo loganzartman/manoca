@@ -21,6 +21,9 @@ var Graphics = {
 	width: 1200,
 	height: 700,
 
+	//Scale of score text
+	scoreScale: 1,
+
 	//Pixi Textures stored for re-use
 	texture: {
 		engineFire: PIXI.Texture.fromImage("img/fire10.png"),
@@ -55,6 +58,18 @@ var Graphics = {
 		Graphics.particles.blendMode = PIXI.blendModes.NORMAL;
 		Graphics.stage.addChild(Graphics.particles);
 
+		//score thingy
+		Graphics.score = new PIXI.Text("Score: fag", {
+			font: "bold 20px monospace",
+			fill: "white",
+			stroke: "black",
+			strokeThickness: 4
+		});
+		Graphics.score.position = new PIXI.Point(32,16);
+		Graphics.score.scale = new PIXI.Point(1,1);
+		Graphics.score.depth = 20000;
+		Graphics.stage.addChild(Graphics.score);
+
 		//barely-noticeable bloom
 		//fuck yeah!
 		// Graphics.bloomTexture = new PIXI.RenderTexture(Graphics.width, Graphics.height);
@@ -84,6 +99,11 @@ var Graphics = {
 			if (!b.depth) {b.depth = 0;}
 			return a.depth<b.depth ? -1 : a.depth>b.depth ? 1 : 0;
 		});
+
+		//update score
+		Graphics.score.setText("Score: "+Game.score);
+		Graphics.scoreScale = Math.max(1,Graphics.scoreScale/1.05);
+		Graphics.score.scale = new PIXI.Point(Graphics.scoreScale,Graphics.scoreScale);
 
 		//Graphics.bloomTexture.render(Graphics.stage);
 		Graphics.renderer.render(Graphics.stage);

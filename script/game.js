@@ -4,6 +4,7 @@ var Game = {
 	player: null,
 	entities: [],
 	particles: [],
+	score: 0,
 
 	init: function() {
 		ResourceLoader.queueScripts();
@@ -60,6 +61,11 @@ var Game = {
 			"x": -xo*0.5,
 			"y": -yo*0.5
 		};
+	},
+
+	addScore: function(points) {
+		Graphics.scoreScale *= 1.5;
+		Game.score += points;
 	}
 };
 

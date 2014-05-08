@@ -2,6 +2,7 @@
 
 var Hostile = Entity.extend(function(props){
 	this.dead = false;
+	this.pointValue = 100;
 })
 .methods({
 	step: function() {
@@ -44,6 +45,8 @@ var Hostile = Entity.extend(function(props){
 
 	kill: function() {
 		if (!this.dead) {
+			Game.addScore(this.pointValue);
+
 			Particle.emitExplosion({
 				"x": this.x,
 				"y": this.y,
