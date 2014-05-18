@@ -5,6 +5,7 @@ var Game = {
 	entities: [],
 	particles: [],
 	score: 0,
+	level: null,
 
 	init: function() {
 		ResourceLoader.queueScripts();
@@ -16,6 +17,7 @@ var Game = {
 		Graphics.init();
 		Starfield.init();
 		Input.init();
+		Game.level = Level; //todo: modularize
 
 		Game.player = new Player({
 			"x": -128,
@@ -24,22 +26,12 @@ var Game = {
 		});
 		Game.entities.push(Game.player);
 
-		setInterval(function(){
-			var r = new Random();
-			var ufo = new Ufo({
-				"x": Graphics.width+Ufo.texture.width/2,
-				"y": r.next(Graphics.height),
-				"xs": r.next(-2,-6),
-				"ys": r.next(-1,1),
-				"texture": Ufo.texture
-			});
-			Game.entities.push(ufo);
-		},1000);
-
 		Graphics.frame();
 	},
 
 	step: function() {
+		Game.level.step();
+
 		for (var i = Game.entities.length - 1; i >= 0; i--) {
 			var e = Game.entities[i];
 			if (typeof e === "object") {
@@ -87,7 +79,9 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/basiclaser.js");
 		ResourceLoader.queue("script/gunmounts.js");
 		ResourceLoader.queue("script/hostile.js");
+		ResourceLoader.queue("script/hostileFactory.js");
 		ResourceLoader.queue("script/ufo.js");
+		ResourceLoader.queue("script/level.js");
 	},
 
 	resourceQueue: [],

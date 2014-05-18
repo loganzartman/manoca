@@ -13,6 +13,15 @@ var Time = {
 	}
 };
 
+function either(things) {
+	for (var i=0; i<arguments.length; i++) {
+		if (typeof arguments[i] !== "undefined") {
+			return arguments[i];
+		}
+	}
+	return undefined;
+}
+
 function Random(seed) {
 	this.seed = seed || ~~(Math.random()*10e8);
 }
