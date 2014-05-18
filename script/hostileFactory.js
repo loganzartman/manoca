@@ -82,11 +82,6 @@ var HostileFactory = {
 					params[p] = generator.params[p];
 				}
 			}
-<<<<<<< HEAD
-=======
-
-			console.log(params);
->>>>>>> origin/master
 			
 			//construct and add
 			var ent = new window[generator.type](params);
