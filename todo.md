@@ -1,17 +1,21 @@
 To-do list
 ----------
 
+<span style="background: yellow">In progress</span><br>
+<s><span style="background: lime">Complete</span></s>
+
+
 * Gameplay
-	* Score
+	* <s><span style="background: lime">Score</span></s>
 	* Player death
 * Weapons
 	* Autoturrets
 	* Missiles
 	* Moar laser
-* Enemies
+* <span style="background: yellow">Enemies</span>
 	* Randomized (+color?)
 	* Higher tiers
-	* Patterns/waves
+	* <span style="background: yellow">Patterns/waves</span>
 * Player
 	* Multiple base ships
 	* Upgrades on per-ship basis

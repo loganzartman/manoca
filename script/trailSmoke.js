@@ -7,7 +7,7 @@ var TrailSmoke = Smoke.extend(function(params){
 	this.scale = 0.1;
 	this.scalerate = 0.05;
 
-	this.life = 40;
+	this.life = 60;
 	this.maxAlpha = 0.2;
 
 	this.easeTime = 0.5;

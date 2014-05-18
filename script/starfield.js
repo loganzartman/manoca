@@ -14,6 +14,7 @@ var Starfield = {
 
 	init: function() {
 		Starfield.g = new PIXI.Graphics();
+		Starfield.g.depth = 10;
 		Graphics.stage.addChild(Starfield.g);
 		
 		for (var i=0; i<1; i++) {
@@ -32,7 +33,7 @@ var Starfield = {
 				"y": ~~rand.next(0,Graphics.height),
 				"xs": rand.next(-30,-40),
 				"ys": 0,
-				"z": rand.next(1,10),
+				"z": rand.next(2,7),
 				"a": rand.next(0,0.5)
 			});
 		}
