@@ -1244,8 +1244,22 @@ Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'height', {
  */
 PIXI.DisplayObjectContainer.prototype.addChild = function(child)
 {
-    this.addChildAt(child, this.children.length);
+	var i = this.findLocationFor(child);
+    this.addChildAt(child, i, true);
 };
+
+/**
+ * Gets the location that child should be added to in this DisplayObjectContainer's depth-sorted children array.
+ * @return index to splice into
+ */
+PIXI.DisplayObjectContainer.prototype.findLocationFor = function(child) {
+	for (var i=0; i<this.children.length; i++) {
+		if (child.depth<=this.children[i].depth) {
+			return i;
+		}
+	}
+	return i;
+}
 
 /**
  * Adds a child to the container at a specified index. If the index is out of bounds an error will be thrown
@@ -1254,7 +1268,7 @@ PIXI.DisplayObjectContainer.prototype.addChild = function(child)
  * @param child {DisplayObject} The child to add
  * @param index {Number} The index to place the child in
  */
-PIXI.DisplayObjectContainer.prototype.addChildAt = function(child, index)
+PIXI.DisplayObjectContainer.prototype.addChildAt = function(child, index, alert)
 {
     if(index >= 0 && index <= this.children.length)
     {

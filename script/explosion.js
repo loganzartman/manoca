@@ -8,7 +8,7 @@ var Explosion = Smoke.extend(function(params){
 	this.easeIn = false;
 	this.life = 30;
 	this.friction = 0.1;
-	this.sprite.depth = 1000;
+	this.sprite.depth = 1002;
 	this.sprite.tint = 0xFFFFFF;
 	this.maxAlpha = 1;
 })

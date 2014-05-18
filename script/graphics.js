@@ -94,11 +94,11 @@ var Graphics = {
 		Game.step();
 		Starfield.frame();
 
-		Graphics.stage.children.sort(function(a,b){
+		/*Graphics.stage.children.sort(function(a,b){
 			if (!a.depth) {a.depth = 0;}
 			if (!b.depth) {b.depth = 0;}
 			return a.depth<b.depth ? -1 : a.depth>b.depth ? 1 : 0;
-		});
+		});*/
 
 		//update score
 		Graphics.score.setText("Score: "+Game.score);

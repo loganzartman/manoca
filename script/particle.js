@@ -23,7 +23,7 @@ var Particle = Entity.extend(function(params){
 	this.sprite.blendMode = PIXI.blendModes.NORMAL;
 	this.sprite.anchor = new PIXI.Point(0.5,0.5);
 	this.updateSprite();
-	this.sprite.depth = 10;
+	this.sprite.depth = 1001;
 	Graphics.stage.addChild(this.sprite);
 })
 .statics({

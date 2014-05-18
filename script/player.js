@@ -9,7 +9,7 @@ var Player = Entity.extend(function(props){
 	this.rightGun = new GunMount(this, new PIXI.Point(0.5,0.9));
 	this.guns = new GunCycler([this.leftGun, this.rightGun], BasicLaser.delay/2);
 
-	this.sprite.depth = 1001;
+	this.sprite.depth = 1000;
 
 	Graphics.addEngineFire(this, "engineFire");
 	Graphics.stage.addChild(this.sprite);
