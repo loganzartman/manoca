@@ -6,8 +6,11 @@ var Level = {
 		Level.generateHostiles();
 	},
 
-	currentGenerator: HostileFactory.generators.randomUfos,
+	currentGenerators: [HostileFactory.generators.ufoRandom,
+	                    HostileFactory.generators.ufoLine],
 	generateHostiles: function() {
-		HostileFactory.make(Level.currentGenerator);
+	    for (var i=0; i<Level.currentGenerators.length; i++) {
+	        HostileFactory.make(Level.currentGenerators[i]);
+	    }
 	},
 };

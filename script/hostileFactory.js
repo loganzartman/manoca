@@ -56,6 +56,12 @@ var HostileFactory = {
 					};
 				break;
 				case "linear":
+				    return {
+			            "x": Util.lerp(generator.point1.x, generator.point2.x, i/generator.count),
+			            "y": Util.lerp(generator.point1.y, generator.point2.y, i/generator.count),
+			            "xs": generator.xs,
+			            "ys": generator.ys
+				    };
 				break;
 				case "delta":
 				break;
@@ -88,13 +94,52 @@ var HostileFactory = {
 			Game.entities.push(ent);
 		}
 	},
+	
+	/**
+	 * Get the generator name from the generators object.
+	 * Also allows you to add your own properties, as defined in params.
+	 * @name name of the generator
+	 * @params params to overwrite
+	 */
+	getGenerator: function(name, params) {
+	    var gen = {};
+	    for (var prop in generators[name]) {
+	        if (generators[name].hasOwnProperty(prop)) {
+	            gen[prop] = generators[name][prop];
+	        }
+	    }
+	    for (var repl in params) {
+	        if (params.hasOwnProperty(repl)) {
+	            gen[repl] = params[repl];
+	        }
+	    }
+	    return gen;
+	},
 
 	generators: {
-		randomUfos: {
+		ufoRandom: {
 			"pattern": "random",
 			"count": 1,
 			"type": "Ufo",
 			"delay": 60,
+			"params": {}
+		},
+		
+		ufoLine: {
+			"pattern": "linear",
+			"point1": {
+			    "x": Graphics.width+64,
+			    "y": 64
+			},
+			"point2": {
+			    "x": Graphics.width+64,
+			    "y": Graphics.height+64
+			},
+			"xs": -3,
+			"ys": 0,
+			"count": 6,
+			"type": "Ufo",
+			"delay": 360,
 			"params": {}
 		}
 	}

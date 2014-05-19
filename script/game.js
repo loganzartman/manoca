@@ -79,8 +79,8 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/basiclaser.js");
 		ResourceLoader.queue("script/gunmounts.js");
 		ResourceLoader.queue("script/hostile.js");
-		ResourceLoader.queue("script/hostileFactory.js");
 		ResourceLoader.queue("script/ufo.js");
+		ResourceLoader.queue("script/hostileFactory.js");
 		ResourceLoader.queue("script/level.js");
 	},
 

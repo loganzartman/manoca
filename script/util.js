@@ -72,5 +72,8 @@ var Util = {
 			return c/2*((t-=2)*t*t + 2) + b;
 		}
 	},
-	xmod: function(a,b) {return ((a%b)+b)%b;}
+	xmod: function(a,b) {return ((a%b)+b)%b;},
+	lerp: function(a,b,f) {
+	    return a+f*(b-a);
+	}
 };
