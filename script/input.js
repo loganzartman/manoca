@@ -8,7 +8,7 @@ var Input = {
 	/**
 	 * The currently selected movement mode (of Input.modes)
 	 */
-	movementMode: 0,
+	movementMode: 1,
 
 	/**
 	 * A sparse array of booleans representing keypress state.

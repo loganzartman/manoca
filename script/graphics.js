@@ -5,6 +5,7 @@ var Graphics = {
 
 	//The Pixi Stage which contains game objects
 	stage: null,
+	activeStage: null,
 
 	//Spritebatch used to render particles
 	particles: null,
@@ -36,6 +37,8 @@ var Graphics = {
 	 * This method sizes and positions the canvas.
 	 */
 	init: function() {
+		Graphics.activeStage = MainMenu.stage;
+
 		var rand = new Random();
 		Graphics.canvas = document.getElementById("display");
 		Graphics.canvas.width = Graphics.width;
@@ -44,13 +47,19 @@ var Graphics = {
 		Graphics.canvas.style.marginTop = ~~(-Graphics.height/2) + "px";
 		Graphics.canvas.style.left = Graphics.canvas.style.top = "50%";
 
-		Graphics.stage = new PIXI.Stage(0x000000);
+		Graphics.initStage();
 
 		Graphics.renderer = PIXI.autoDetectRenderer(
 			Graphics.width,
 			Graphics.height,
 			Graphics.canvas
 		);
+
+		window.addEventListener("resize", Graphics.resize, false);
+	},
+
+	initStage: function() {
+		Graphics.stage = new PIXI.Stage(0x000000);
 
 		//particle batch
 		Graphics.particles = new PIXI.DisplayObjectContainer();
@@ -69,20 +78,6 @@ var Graphics = {
 		Graphics.score.scale = new PIXI.Point(1,1);
 		Graphics.score.depth = 20000;
 		Graphics.stage.addChild(Graphics.score);
-
-		//barely-noticeable bloom
-		//fuck yeah!
-		// Graphics.bloomTexture = new PIXI.RenderTexture(Graphics.width, Graphics.height);
-		// Graphics.bloomSprite = new PIXI.Sprite(Graphics.bloomTexture);
-		// Graphics.bloomSprite.blendMode = PIXI.blendModes.ADD;
-		// var bloomBlur = new PIXI.BlurFilter();
-		// bloomBlur.blurX = bloomBlur.blurY = 8;
-		// Graphics.bloomSprite.filters = [bloomBlur];
-		// Graphics.bloomSprite.depth = 1;
-		// Graphics.bloomSprite.alpha = 0.9;
-		// Graphics.stage.addChild(Graphics.bloomSprite);
-
-		window.addEventListener("resize", Graphics.resize, false);
 	},
 
 	/**
@@ -106,7 +101,7 @@ var Graphics = {
 		Graphics.score.scale = new PIXI.Point(Graphics.scoreScale,Graphics.scoreScale);
 
 		//Graphics.bloomTexture.render(Graphics.stage);
-		Graphics.renderer.render(Graphics.stage);
+		Graphics.renderer.render(Graphics.activeStage);
 
 		requestAnimationFrame(Graphics.frame);
 	},

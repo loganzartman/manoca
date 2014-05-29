@@ -115,6 +115,9 @@ var Player = Entity.extend(function(props){
 		this.updateSprite();
 	},
 	kill: function() {
-
+		if (!this.dead) {
+			this.dead = true;
+			Game.end();
+		}
 	}
 });

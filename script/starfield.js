@@ -15,7 +15,6 @@ var Starfield = {
 	init: function() {
 		Starfield.g = new PIXI.Graphics();
 		Starfield.g.depth = 10;
-		Graphics.stage.addChild(Starfield.g);
 		
 		for (var i=0; i<1; i++) {
 			Starfield.nebulae.push(PIXI.Texture.fromImage("img/nebula"+i+".png"));
@@ -23,10 +22,9 @@ var Starfield = {
 		Starfield.nebula = new PIXI.Sprite(Starfield.nebulae[0]);
 		Starfield.nebula.position = new PIXI.Point(0,0);
 		Starfield.nebula.depth = 0;
-		Graphics.stage.addChildAt(Starfield.nebula,0);
 
 		var rand = new Random();
-		var nstars = (Graphics.width*Graphics.height)/5000;
+		var nstars = (Graphics.width*Graphics.height)/3000;
 		for (var i=0; i<nstars; i++) {
 			Starfield.stars.push({
 				"x": ~~rand.next(0,Graphics.width),
@@ -34,33 +32,41 @@ var Starfield = {
 				"xs": rand.next(-30,-40),
 				"ys": 0,
 				"z": rand.next(2,7),
-				"a": rand.next(0,0.5)
+				"a": 0.7
 			});
 		}
+
+		Starfield.addToContainer(Graphics.stage);
+		Starfield.addToContainer(MainMenu.stage);
+	},
+
+	addToContainer: function(stage) {
+		stage.addChild(Starfield.g);
+		stage.addChildAt(Starfield.nebula,0);
 	},
 
 	frame: function() {
 		Starfield.g.clear();
 
 		Starfield.nebula.position = new PIXI.Point(
-			-(Starfield.nebula.width-Graphics.width)*0.5+Starfield.offset.x*0.05,
-			-(Starfield.nebula.height-Graphics.height)*0.5+Starfield.offset.y*0.05
+			-(Starfield.nebula.width-Graphics.width)*0.5+Starfield.offset.x*0.5,
+			-(Starfield.nebula.height-Graphics.height)*0.5+Starfield.offset.y*0.5
 		);
 		
 		for (var i = Starfield.stars.length - 1; i >= 0; i--) {
 			var s = Starfield.stars[i];
-			s.x += (s.xs*Starfield.speed)/s.z;
-			s.y += (s.ys*Starfield.speed)/s.z;
-			if (s.x < 0-s.xs) {
-				s.x = Graphics.width+s.x;
+			s.x += (s.xs*Starfield.speed)/(8-s.z);
+			s.y += (s.ys*Starfield.speed)/(8-s.z);
+			if (s.x < s.xs/(8-s.z)) {
+				//s.y = Random.next(Graphics.height)
 			}
 			Starfield.g.beginFill(0xFFFFFF);
-			Starfield.g.fillAlpha = s.a;
+			Starfield.g.fillAlpha = s.a/(8-s.z);
 			Starfield.g.drawRect(
-				Util.xmod((s.x+(Starfield.offset.x/s.z)),Graphics.width),
+				Util.xmod((s.x+(Starfield.offset.x/s.z)),Graphics.width-s.xs/(8-s.z)),
 				Util.xmod((s.y+(Starfield.offset.y/s.z)),Graphics.height),
-				s.xs/s.z,
-				1
+				s.xs/(8-s.z),
+				Math.max(1,1/(8-s.z))
 			);
 			Starfield.g.endFill();
 		};

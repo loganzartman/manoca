@@ -103,9 +103,9 @@ var HostileFactory = {
 	 */
 	getGenerator: function(name, params) {
 	    var gen = {};
-	    for (var prop in generators[name]) {
-	        if (generators[name].hasOwnProperty(prop)) {
-	            gen[prop] = generators[name][prop];
+	    for (var prop in HostileFactory.generators[name]) {
+	        if (HostileFactory.generators[name].hasOwnProperty(prop)) {
+	            gen[prop] = HostileFactory.generators[name][prop];
 	        }
 	    }
 	    for (var repl in params) {

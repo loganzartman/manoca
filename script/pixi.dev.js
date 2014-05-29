@@ -1244,6 +1244,7 @@ Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'height', {
  */
 PIXI.DisplayObjectContainer.prototype.addChild = function(child)
 {
+    if (typeof child.depth !== "number") {child.depth = 0;}
 	var i = this.findLocationFor(child);
     this.addChildAt(child, i, true);
 };

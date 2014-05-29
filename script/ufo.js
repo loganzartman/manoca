@@ -17,7 +17,7 @@ var Ufo = Hostile.extend(function(props){
 	step: function() {
 		this.supr();
 
-		if (this.collidesCircles(Game.player)) {
+		if (this.collidesCircles(Game.player) && !this.dead) {
 			this.kill();
 			Game.player.kill();
 		}
