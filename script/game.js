@@ -41,7 +41,9 @@ var Game = {
 
 		Starfield.addToContainer(Graphics.stage);
 		Starfield.speed = 1;
-		Graphics.activeStage = Graphics.stage;
+
+		Game.setStage(Graphics.stage);
+
 		Game.level = Level;
 		Game.playing = true;
 	},
@@ -53,7 +55,13 @@ var Game = {
 		Starfield.speed = 0.1;
 		MainMenu.init(); //todo: fix this (why do we need to reinit to fix interactivity?)
 		Starfield.addToContainer(MainMenu.stage);
-		Graphics.activeStage = MainMenu.stage;
+		Game.setStage(MainMenu.stage);
+	},
+
+	setStage: function(stage) {
+		Graphics.activeStage.visible = false;
+		Graphics.activeStage = stage;
+		stage.visible = true;
 	},
 
 	step: function() {

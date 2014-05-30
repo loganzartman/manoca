@@ -125,7 +125,11 @@ var Particle = Entity.extend(function(params){
 	 * Must not be called more than once.
 	 */
 	destroy: function() {
-		Game.particles.splice(Game.particles.indexOf(this),1);
-		Graphics.stage.removeChild(this.sprite);
+		var ind = Game.particles.indexOf(this);
+		var cin = Graphics.stage.children.indexOf(this.sprite);
+		if (ind >= 0 && cin >= 0) {
+			Game.particles.splice(ind,1);
+			Graphics.stage.removeChild(this.sprite);
+		}
 	}
 });

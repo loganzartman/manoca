@@ -58,6 +58,14 @@ var UIFactory = {
 		return btn;
 	},
 
+	makeTooltip: function(params) {
+		var tt = new PIXI.Text(params.text, {
+			"font": "24pt Oxygen",
+			"fill": "white"
+
+		});
+	},
+
 	textures: {
 		buttonDown: null,
 		buttonNormal: null,

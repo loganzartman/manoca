@@ -58,10 +58,26 @@ var Input = {
 		document.addEventListener("keyup", function(event){
 			Input.keys[event.keyCode] = false;
 		}, false);
+
 		document.addEventListener("mousemove", function(event){
 			Input.mouseX = event.pageX - Graphics.canvas.offsetLeft;
 			Input.mouseY = event.pageY - Graphics.canvas.offsetTop;
 		}, false);
+		
+		document.addEventListener("touchmove", function(event) {
+			event.preventDefault();
+			Input.mouseX = event.targetTouches[0].pageX - Graphics.canvas.offsetLeft;
+			Input.mouseY = event.targetTouches[0].pageY - Graphics.canvas.offsetTop;
+		}, false);
+
+		Graphics.canvas.addEventListener("touchstart", function(event){
+			event.preventDefault();
+			Input.mouseLeft = true;
+		});
+		Graphics.canvas.addEventListener("touchend", function(event){
+			event.preventDefault();
+			Input.mouseLeft = false;
+		});
 		Graphics.canvas.addEventListener("mousedown", function(event) {
 			event.preventDefault();
 			if ((event.button || event.which) > 1) {

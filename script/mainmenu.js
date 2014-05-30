@@ -25,6 +25,14 @@ var MainMenu = {
 		startButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
 		startButton.tint = 0x11AA11;
 
+		var testButton = UIFactory.makeButton({
+			text: "test",
+			action: function() {
+				console.log(testButton.count++);
+			}
+		});
+		testButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
+
 		MainMenu.titleTexture = PIXI.Texture.fromImage("img/title.png");
 		var title = new PIXI.Sprite(MainMenu.titleTexture);
 		title.position = new PIXI.Point(
@@ -35,6 +43,7 @@ var MainMenu = {
 
 		MainMenu.stage.addChild(startButton);
 		MainMenu.stage.addChild(settingsButton);
+		MainMenu.stage.addChild(testButton);
 		MainMenu.stage.addChild(title);
 		Starfield.speed = 0.1;
 	}

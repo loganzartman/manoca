@@ -112,7 +112,8 @@ var Entity = klass(function(props){
 	 */ 
 	destroy: function() {
 		var ind = Game.entities.indexOf(this);
-		if (ind >= 0) {
+		var cin = Graphics.stage.children.indexOf(this.sprite);
+		if (ind >= 0 && cin >= 0) {
 			Game.entities.splice(ind,1);
 			Graphics.stage.removeChild(this.sprite);
 		}
