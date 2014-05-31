@@ -44,6 +44,8 @@ var Game = {
 
 		Game.setStage(Graphics.stage);
 
+		Graphics.canvas.style.cursor = "none";
+
 		Game.level = Level;
 		Game.playing = true;
 	},
@@ -53,6 +55,9 @@ var Game = {
 		Game.level = Level.none;
 		Game.playing = false;
 		Starfield.speed = 0.1;
+
+		Graphics.canvas.style.cursor = "default";
+
 		MainMenu.init(); //todo: fix this (why do we need to reinit to fix interactivity?)
 		Starfield.addToContainer(MainMenu.stage);
 		Game.setStage(MainMenu.stage);
@@ -135,6 +140,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/gunmounts.js");
 		ResourceLoader.queue("script/hostile.js");
 		ResourceLoader.queue("script/ufo.js");
+		ResourceLoader.queue("script/worm.js");
 		ResourceLoader.queue("script/hostileFactory.js");
 		ResourceLoader.queue("script/level.js");
 	},

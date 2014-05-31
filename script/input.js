@@ -54,6 +54,9 @@ var Input = {
 	init: function() {
 		document.addEventListener("keydown", function(event){
 			Input.keys[event.keyCode] = true;
+			if (event.keyCode===Input.VK_SPACE && !Game.playing) {
+				Game.restart();
+			}
 		}, false);
 		document.addEventListener("keyup", function(event){
 			Input.keys[event.keyCode] = false;

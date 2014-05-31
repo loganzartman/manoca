@@ -13,6 +13,17 @@ var HostileFactory = {
 		Game.entities.push(ufo);
 	},
 
+	makeWorm: function(params) {
+		var worm = new Worm({
+			"x": either(params.x, Graphics.width+Ufo.texture.width/2),
+			"y": either(params.y, Random.next(Graphics.height)),
+			"xs": either(params.xs, -3),
+			"ys": either(params.ys, 0),
+			"texture": Worm.texture
+		});
+		Game.entities.push(worm);
+	},
+
 	/**
 	 * Creates hostiles automagically.
 	 * generator should contain the following:
@@ -122,6 +133,14 @@ var HostileFactory = {
 			"count": 1,
 			"type": "Ufo",
 			"delay": 60,
+			"params": {}
+		},
+
+		wormRandom: {
+			"pattern": "random",
+			"count": 1,
+			"type": "Worm",
+			"delay": 200,
 			"params": {}
 		},
 		

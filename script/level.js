@@ -7,7 +7,8 @@ var Level = {
 	},
 
 	currentGenerators: [HostileFactory.getGenerator("ufoRandom",{}),
-	                    HostileFactory.getGenerator("ufoLine",{})],
+	                    HostileFactory.getGenerator("ufoLine",{}),
+	                    HostileFactory.getGenerator("wormRandom",{})],
 	generateHostiles: function() {
 	    for (var i=0; i<Level.currentGenerators.length; i++) {
 	        HostileFactory.make(Level.currentGenerators[i]);

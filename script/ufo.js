@@ -3,7 +3,7 @@
 var Ufo = Hostile.extend(function(props){
 	this.sprite.depth = 1000;
 	Graphics.stage.addChild(this.sprite);
-	this.health = 20;
+	this.health = 13;
 	this.xs = either(props.xs, Random.next(-2,-6));
 	this.ys = either(props.ys, Random.next(-1,1));
 })
@@ -16,11 +16,6 @@ var Ufo = Hostile.extend(function(props){
 	},
 	step: function() {
 		this.supr();
-
-		if (this.collidesCircles(Game.player) && !this.dead) {
-			this.kill();
-			Game.player.kill();
-		}
 
 		this.updateSprite();
 	}

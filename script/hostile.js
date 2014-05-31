@@ -22,6 +22,11 @@ var Hostile = Entity.extend(function(props){
 					}
 				}
 			}
+
+			if (this.collidesCircles(Game.player) && !this.dead) {
+				this.kill();
+				Game.player.kill();
+			}
 		}
 		else {
 			Game.particles.push(new Explosion({
