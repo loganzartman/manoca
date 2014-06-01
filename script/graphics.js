@@ -89,12 +89,6 @@ var Graphics = {
 		Game.step();
 		Starfield.frame();
 
-		/*Graphics.stage.children.sort(function(a,b){
-			if (!a.depth) {a.depth = 0;}
-			if (!b.depth) {b.depth = 0;}
-			return a.depth<b.depth ? -1 : a.depth>b.depth ? 1 : 0;
-		});*/
-
 		//update score
 		Graphics.score.setText("Score: "+Game.score);
 		Graphics.scoreScale = Math.max(1,Graphics.scoreScale/1.05);
@@ -122,26 +116,33 @@ var Graphics = {
 		};
 	},
 
-	addEngineFire: function(ship, textureName) {
+	addEngineFire: function(ship, textureName, offset, tint) {
+		offset = either(offset, new PIXI.Point(0,0));
+
 		ship.engineFire = {
 			sprite: new PIXI.Sprite(Graphics.texture[textureName]),
 			light: new PIXI.Sprite(Graphics.texture[textureName+"Light"]),
 			scale: 1,
 			updateSprite: function() {
 				var rv = new Random().next(0.8,1.1);
-				ship.engineFire.sprite.scale = new PIXI.Point(1,ship.engineFire.scale*rv);
+				ship.engineFire.sprite.scale = new PIXI.Point(ship.engineFire.scale*rv,1);
 				ship.engineFire.light.scale = new PIXI.Point(ship.engineFire.scale*rv,ship.engineFire.scale*rv);
 			}
 		};
 
-		ship.engineFire.sprite.anchor = new PIXI.Point(0.5,0);
-		ship.engineFire.sprite.position = new PIXI.Point(0,ship.sprite.height/2);
+		ship.engineFire.sprite.anchor = new PIXI.Point(1,0.5);
+		ship.engineFire.sprite.position = new PIXI.Point(-ship.sprite.width/2 + offset.x, 0 + offset.y);
 		ship.engineFire.sprite.blendMode = PIXI.blendModes.ADD;
 
-		ship.engineFire.light.anchor = new PIXI.Point(0.5,0.2);
-		ship.engineFire.light.position = new PIXI.Point(0,ship.sprite.height/2);
+		ship.engineFire.light.anchor = new PIXI.Point(0.8,0.5);
+		ship.engineFire.light.position = new PIXI.Point(-ship.sprite.width/2 + offset.x, 0 + offset.y);
 		ship.engineFire.light.alpha = 0.5;
 		ship.engineFire.light.blendMode = PIXI.blendModes.ADD;
+
+		if (typeof tint === "number") {
+			ship.engineFire.sprite.tint = tint;
+			ship.engineFire.light.tint = tint;
+		}
 
 		ship.sprite.addChild(ship.engineFire.sprite);
 		ship.sprite.addChild(ship.engineFire.light);

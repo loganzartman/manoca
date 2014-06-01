@@ -156,9 +156,9 @@ var HostileFactory = {
 			},
 			"xs": -3,
 			"ys": 0,
-			"count": 6,
+			"count": 4,
 			"type": "Ufo",
-			"delay": 360,
+			"delay": 500,
 			"params": {}
 		}
 	}

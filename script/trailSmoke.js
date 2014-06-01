@@ -15,7 +15,7 @@ var TrailSmoke = Smoke.extend(function(params){
 	this.easeOut = false;
 
 	this.friction = 0.1;
-	var val = Random.next(0x99,0xBB);
+	var val = Random.next(0x55,0xBB);
 	this.sprite.tint = (val<<16) + (val<<8) + val;
 })
 .methods({

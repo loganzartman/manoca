@@ -8,10 +8,18 @@ var BasicLaser = Bullet.extend(function(props){
 	this.updateSprite();
 	Graphics.stage.addChild(this.sprite);
 
+	this.glow = new PIXI.Sprite(BasicLaser.glowtexture);
+	this.glow.tint = 0x3322FF;
+	this.glow.position = new PIXI.Point(0,0);
+	this.glow.anchor = new PIXI.Point(0.5,0.5);
+	this.glow.blendMode = PIXI.blendModes.ADD;
+	this.sprite.addChild(this.glow);
+
 	this.damage = 7;
 })
 .statics({
-	texture: PIXI.Texture.fromImage("img/laserRed01.png"),
+	texture: PIXI.Texture.fromImage("img/lasercore.png"),
+	glowtexture: PIXI.Texture.fromImage("img/laserglow2.png"),
 	delay: Time.sec(0.2),
 	speed: 40,
 	recoil: 1

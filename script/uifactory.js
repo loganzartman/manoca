@@ -12,18 +12,22 @@ var UIFactory = {
 		btn.setInteractive(true);
 		console.log(btn);
 
+		var texNormal = either(params.buttonNormal,UIFactory.textures.buttonNormal),
+			texDown   = either(params.buttonDown,UIFactory.textures.buttonDown),
+			texHover  = either(params.buttonHover,UIFactory.textures.buttonHover);
+
 		function btnUp() {
 			btn.isdown = false;
-			btn.setTexture(either(params.buttonNormal,UIFactory.textures.buttonNormal));
-			btn.label.position = new PIXI.Point(8,4);
+			btn.setTexture(texNormal);
+			btn.label.position = new PIXI.Point(8,6);
 		}
 		function btnDown() {
 			btn.isdown = true;
-			btn.setTexture(either(params.buttonDown,UIFactory.textures.buttonDown));
-			btn.label.position = new PIXI.Point(8,8);
+			btn.setTexture(texDown);
+			btn.label.position = new PIXI.Point(8,10);
 		}
 		function btnHover() {
-			btn.setTexture(either(params.buttonHover,UIFactory.textures.buttonHover));
+			btn.setTexture(texHover);
 		}
 
 		btn.mousedown = btn.touchstart = function(data){
@@ -44,7 +48,7 @@ var UIFactory = {
 
 		if (typeof params.text === "string") {
 			var label = new PIXI.Text(params.text,{
-				"font": "24pt PT Sans",
+				"font": "18pt PT Sans",
 				"fill": "black"
 			});
 			btn.label = label;
@@ -54,6 +58,15 @@ var UIFactory = {
 		btnUp();
 
 		btn.depth = 1000;
+
+		btn.setText = function(str) {
+			btn.label.setText(str);
+		}
+		btn.setSize = function(sz) {
+			btn.scale = new PIXI.Point(sz,1);
+			btn.label.scale = new PIXI.Point(1/sz,1);
+		}
+		console.log(btn.scale);
 
 		return btn;
 	},

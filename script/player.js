@@ -93,7 +93,7 @@ var Player = Entity.extend(function(props){
 		this.xs /= Player.friction;
 		this.ys /= Player.friction;
 
-		this.angle = Math.PI/2+(this.ys/Player.top)*Math.PI/7;
+		this.angle = (this.ys/Player.top)*Math.PI/7;
 
 		//guns
 		if (Input.key(Input.VK_SPACE) || Input.mouseLeft) {

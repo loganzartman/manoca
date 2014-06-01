@@ -8,30 +8,40 @@ var MainMenu = {
 	init: function() {
 		MainMenu.stage = new PIXI.Stage(0x000000, false);
 
-		var settingsButton = UIFactory.makeButton({
+		MainMenu.settingsButton = UIFactory.makeButton({
 			text: "input",
 			action: function() {
 				Game.settings();
 			}
 		});
-		settingsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-188);
+		MainMenu.settingsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-188);
 
-		var startButton = UIFactory.makeButton({
+		MainMenu.startButton = UIFactory.makeButton({
 			text: "start",
 			action: function() {
 				Game.restart();
 			}
 		});
-		startButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
-		startButton.tint = 0x11AA11;
+		MainMenu.startButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
+		MainMenu.startButton.tint = 0x11AA11;
 
-		var testButton = UIFactory.makeButton({
+
+		MainMenu.testButton = UIFactory.makeButton({
 			text: "test",
 			action: function() {
-				console.log(testButton.count++);
+				console.log(MainMenu.testButton.count++);
+				var sayings = [
+					"turn down for what",
+					"space race",
+					"sup",
+					"#manoca",
+					"01001000 01001001"
+				];
+				MainMenu.testButton.setText(sayings.random());
 			}
 		});
-		testButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
+		MainMenu.testButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
+		MainMenu.testButton.setSize(1.5);
 
 		MainMenu.titleTexture = PIXI.Texture.fromImage("img/title.png");
 		var title = new PIXI.Sprite(MainMenu.titleTexture);
@@ -41,9 +51,9 @@ var MainMenu = {
 		);
 		title.depth = 2000;
 
-		MainMenu.stage.addChild(startButton);
-		MainMenu.stage.addChild(settingsButton);
-		MainMenu.stage.addChild(testButton);
+		MainMenu.stage.addChild(MainMenu.startButton);
+		MainMenu.stage.addChild(MainMenu.settingsButton);
+		MainMenu.stage.addChild(MainMenu.testButton);
 		MainMenu.stage.addChild(title);
 		Starfield.speed = 0.1;
 	}
