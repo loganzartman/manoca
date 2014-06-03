@@ -25,7 +25,9 @@ var Cruiser = Hostile.extend(function(props){
 	},
 	step: function() {
 		this.supr();
-		this.guns.fire(CruiserLaser);
+		if (!this.dead) {
+			this.guns.fire(CruiserLaser);
+		}
 		this.updateSprite();
 	}
 });

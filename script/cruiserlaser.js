@@ -9,7 +9,7 @@ var CruiserLaser = BasicLaser.extend(function(props){
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),
 	glowtexture: PIXI.Texture.fromImage("img/laserglow2.png"),
-	delay: Time.sec(1.5),
+	delay: Time.sec(2),
 	speed: 15,
 	recoil: 4
 })

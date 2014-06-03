@@ -38,7 +38,7 @@ var Hostile = Entity.extend(function(props){
 	},
 
 	damagedBy: function(obj) {
-		if (obj instanceof Bullet && !(obj.shooter instanceof Hostile)) {
+		if (!this.dead && obj instanceof Bullet && !(obj.shooter instanceof Hostile)) {
 			this.sprite.tint = 0xFF2222;
 			Game.particles.push(new Explosion({
 				"x": obj.x||this.x,

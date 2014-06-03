@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: 19,
+	VERSION: 20,
 	player: null,
 	entities: [],
 	particles: [],
