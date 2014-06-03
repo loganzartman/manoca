@@ -13,6 +13,10 @@ var Entity = klass(function(props){
 	this.sprite.anchor = new PIXI.Point(0.5,0.5);
 	this.angle = 0;
 	this.health = 100;
+	this.collisionMask = {
+		width: this.sprite.width,
+		height: this.sprite.height
+	};
 })
 .methods({
 	/**
@@ -98,11 +102,11 @@ var Entity = klass(function(props){
 	 */
 	collidesCircles: function(ent) {
 		var dist = this.distanceTo(ent);
-		if (typeof ent.sprite !== "undefined") {
-			return dist < this.sprite.width/2 + ent.sprite.width/2;
+		if (typeof ent.collisionMask !== "undefined") {
+			return dist < this.collisionMask.width/2 + ent.collisionMask.width/2;
 		}
 		else {
-			throw new Error("collidesCircles error: Object must have a sprite!");
+			throw new Error("collidesCircles error: Object must have property collisionMask!");
 		}
 	},
 

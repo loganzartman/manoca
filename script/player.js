@@ -9,6 +9,11 @@ var Player = Entity.extend(function(props){
 	this.rightGun = new GunMount(this, new PIXI.Point(0.5,0.9));
 	this.guns = new GunCycler([this.leftGun, this.rightGun], BasicLaser.delay/2);
 
+	this.accel = either(props.accel, 3);
+	this.top = either(props.top, 30);
+	this.fric = either(props.friction, 8/7); //note this is not entity friction!
+	this.texture = either(props.texture, Player.texture);
+
 	this.sprite.depth = 1000;
 
 	Graphics.addEngineFire(this, "engineFire");
@@ -16,9 +21,6 @@ var Player = Entity.extend(function(props){
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/playerShip2_red.png"),
-	accel: 3,
-	top: 30,
-	friction: 8/7
 })
 .methods({
 	updateSprite: function() {
@@ -31,17 +33,17 @@ var Player = Entity.extend(function(props){
 		//movement
 		if (Input.movementMode === Input.modes.KEYBOARD) {
 			if (Input.key(Input.VK_UP)) {
-				this.ys-=Player.accel;
+				this.ys-=this.accel;
 			}
 			else if (Input.key(Input.VK_DOWN)) {
-				this.ys+=Player.accel;
+				this.ys+=this.accel;
 			}
 			if (Input.key(Input.VK_LEFT)) {
-				this.xs-=Player.accel;
+				this.xs-=this.accel;
 				this.engineFire.scale = 0.7;
 			}
 			else if (Input.key(Input.VK_RIGHT)) {
-				this.xs+=Player.accel;
+				this.xs+=this.accel;
 				this.engineFire.scale = 1.5;
 			}
 			else {
@@ -61,18 +63,18 @@ var Player = Entity.extend(function(props){
 			    dy = Math.sin(dir);
 
 			var md = 100;
-		 	this.xs += dx*Math.min(dist/md,md)*Player.accel;
-		 	this.ys += dy*Math.min(dist/md,md)*Player.accel;
+		 	this.xs += dx*Math.min(dist/md,md)*this.accel;
+		 	this.ys += dy*Math.min(dist/md,md)*this.accel;
 		}
 
-		this.engineFire.scale = 1+(this.xs/Player.top)
+		this.engineFire.scale = 1+(this.xs/this.top)
 
 		//speed limiter
-		if (Math.abs(this.ys)>Player.top) {
-			this.ys = sign(this.ys)*Player.top;
+		if (Math.abs(this.ys)>this.top) {
+			this.ys = sign(this.ys)*this.top;
 		}
-		if (Math.abs(this.xs)>Player.top) {
-			this.xs = sign(this.xs)*Player.top;
+		if (Math.abs(this.xs)>this.top) {
+			this.xs = sign(this.xs)*this.top;
 		}
 
 		//soft boundaries
@@ -90,10 +92,10 @@ var Player = Entity.extend(function(props){
 		}
 
 		//friction
-		this.xs /= Player.friction;
-		this.ys /= Player.friction;
+		this.xs /= this.fric;
+		this.ys /= this.fric;
 
-		this.angle = (this.ys/Player.top)*Math.PI/7;
+		this.angle = (this.ys/this.top)*Math.PI/7;
 
 		//guns
 		if (Input.key(Input.VK_SPACE) || Input.mouseLeft) {

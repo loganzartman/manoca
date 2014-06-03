@@ -35,7 +35,8 @@ var HostileFactory = {
 	 *         - "delta": a triangular arrangement (TODO)
 	 *   - count: the number of hostiles to generate
 	 *   - type: a string representing the hostile type (eg. "Ufo")
-	 *   - delay: cooldown between generations
+	 *   - delay: delay before start of generation
+	 *   - cooldown: delay between generations
 	 *   - params: any other parameters to pass to the entity constructors
 	 * @param generator a map of parameters
 	 */
@@ -48,7 +49,7 @@ var HostileFactory = {
 			return;
 		}
 
-		generator._timer_ = generator.delay;
+		generator._timer_ = generator.cooldown;
 
 		function getCoords(i) {
 			switch (either(generator.pattern, "random")) {
@@ -62,14 +63,16 @@ var HostileFactory = {
 				break;
 				case "random":
 					return {
-						"x": Graphics.width+Ufo.texture.width/2,
+						"x": Graphics.width+window[generator.type].texture.width/2,
 						"y": Random.next(Graphics.height)
 					};
 				break;
 				case "linear":
+					var offsetX = (generator.point1.x-generator.point2.x)-(~~((generator.point1.x-generator.point2.x)/4))*4;
+			    	var offsetY = (generator.point1.y-generator.point2.y)-(~~((generator.point1.y-generator.point2.y)/4))*4;
 				    return {
-			            "x": Util.lerp(generator.point1.x, generator.point2.x, i/generator.count),
-			            "y": Util.lerp(generator.point1.y, generator.point2.y, i/generator.count),
+			            "x": Util.lerp(generator.point1.x, generator.point2.x, i/generator.count)+offsetX/2,
+			            "y": Util.lerp(generator.point1.y, generator.point2.y, i/generator.count)+offsetY/2,
 			            "xs": generator.xs,
 			            "ys": generator.ys
 				    };
@@ -132,7 +135,8 @@ var HostileFactory = {
 			"pattern": "random",
 			"count": 1,
 			"type": "Ufo",
-			"delay": 60,
+			"cooldown": 60,
+			"delay": 120,
 			"params": {}
 		},
 
@@ -140,7 +144,8 @@ var HostileFactory = {
 			"pattern": "random",
 			"count": 1,
 			"type": "Worm",
-			"delay": 200,
+			"cooldown": 200,
+			"delay": 400,
 			"params": {}
 		},
 		
@@ -158,7 +163,17 @@ var HostileFactory = {
 			"ys": 0,
 			"count": 4,
 			"type": "Ufo",
+			"cooldown": 500,
 			"delay": 500,
+			"params": {}
+		},
+
+		cruiserRandom: {
+			"pattern": "random",
+			"count": 1,
+			"type": "Cruiser",
+			"cooldown": 500,
+			"delay": 800,
 			"params": {}
 		}
 	}

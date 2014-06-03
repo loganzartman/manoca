@@ -16,6 +16,10 @@ var BasicLaser = Bullet.extend(function(props){
 	this.sprite.addChild(this.glow);
 
 	this.damage = 7;
+	this.collisionMask = {
+		width: 16,
+		height: 16
+	};
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),

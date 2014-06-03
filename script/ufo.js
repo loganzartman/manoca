@@ -8,7 +8,7 @@ var Ufo = Hostile.extend(function(props){
 	this.ys = either(props.ys, Random.next(-1,1));
 })
 .statics({
-	texture: PIXI.Texture.fromImage("img/ufoGreen.png"),
+	texture: PIXI.Texture.fromImage("img/ufoGreen.png")
 })
 .methods({
 	updateSprite: function() {

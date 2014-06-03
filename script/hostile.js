@@ -7,6 +7,14 @@ var Hostile = Entity.extend(function(props){
 .methods({
 	step: function() {
 		this.supr();
+
+		if (typeof this.tint === "undefined") {
+			this.tint = this.sprite.tint;
+		}
+		if (this.tint !== this.sprite.tint) {
+			this.sprite.tint = this.tint;
+		}
+
 		if (!this.dead) {
 			if (!this.inBounds({"x1": 0})) {
 				this.destroy();
@@ -32,7 +40,8 @@ var Hostile = Entity.extend(function(props){
 			Game.particles.push(new Explosion({
 				"x": this.x+Random.next(-this.sprite.width/3,this.sprite.width/3),
 				"y": this.y+Random.next(-this.sprite.height/3,this.sprite.height/3),
-				"scale": 0.05
+				"scale": 0.01,
+				"maxAlpha": 0.7
 			}));
 			this.xs*=1.02;
 			this.ys*=1.02;
@@ -40,6 +49,7 @@ var Hostile = Entity.extend(function(props){
 	},
 
 	damagedBy: function(obj) {
+		this.sprite.tint = 0xFF2222;
 		Game.particles.push(new Explosion({
 			"x": obj.x||this.x,
 			"y": obj.y||this.y,

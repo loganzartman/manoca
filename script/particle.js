@@ -54,7 +54,7 @@ var Particle = Entity.extend(function(params){
 			}));			
 		}
 
-		for (var i=n*4; i>=0; i--) {
+		for (var i=n; i>=0; i--) {
 			Game.particles.push(new Smoke({
 				"x": x+r.next(-50,50),
 				"y": y+r.next(-50,50),

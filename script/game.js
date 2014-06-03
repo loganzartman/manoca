@@ -1,6 +1,7 @@
 "use strict";
 
 var Game = {
+	VERSION: 19,
 	player: null,
 	entities: [],
 	particles: [],
@@ -105,12 +106,12 @@ var Game = {
 	settings: function() {
 		console.log("Settings fired");
 		if (Input.movementMode === Input.modes.KEYBOARD) {
-			alert("Switched to MOUSE input!");
+			MainMenu.settingsButton.setText("input: mouse");
 			Input.movementMode = Input.modes.MOUSE;
 			return;
 		}
 		if (Input.movementMode === Input.modes.MOUSE) {
-			alert("Switched to KEYBOARD input!");
+			MainMenu.settingsButton.setText("input: keyboard");
 			Input.movementMode = Input.modes.KEYBOARD;
 			return;
 		}
@@ -141,6 +142,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/hostile.js");
 		ResourceLoader.queue("script/ufo.js");
 		ResourceLoader.queue("script/worm.js");
+		ResourceLoader.queue("script/cruiser.js");
 		ResourceLoader.queue("script/hostileFactory.js");
 		ResourceLoader.queue("script/level.js");
 	},

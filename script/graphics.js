@@ -68,7 +68,7 @@ var Graphics = {
 		Graphics.stage.addChild(Graphics.particles);
 
 		//score thingy
-		Graphics.score = new PIXI.Text("Score: fag", {
+		Graphics.score = new PIXI.Text("Score: -1", {
 			font: "bold 20px monospace",
 			fill: "white",
 			stroke: "black",

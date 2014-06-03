@@ -10,7 +10,7 @@ var Explosion = Smoke.extend(function(params){
 	this.friction = 0.1;
 	this.sprite.depth = 1002;
 	this.sprite.tint = 0xFFFFFF;
-	this.maxAlpha = 1;
+	this.maxAlpha = params.maxAlpha||1;
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/explosion.png")

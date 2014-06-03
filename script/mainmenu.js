@@ -9,7 +9,7 @@ var MainMenu = {
 		MainMenu.stage = new PIXI.Stage(0x000000, false);
 
 		MainMenu.settingsButton = UIFactory.makeButton({
-			text: "input",
+			text: "input: mouse",
 			action: function() {
 				Game.settings();
 			}
@@ -25,24 +25,6 @@ var MainMenu = {
 		MainMenu.startButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
 		MainMenu.startButton.tint = 0x11AA11;
 
-
-		MainMenu.testButton = UIFactory.makeButton({
-			text: "test",
-			action: function() {
-				console.log(MainMenu.testButton.count++);
-				var sayings = [
-					"turn down for what",
-					"space race",
-					"sup",
-					"#manoca",
-					"01001000 01001001"
-				];
-				MainMenu.testButton.setText(sayings.random());
-			}
-		});
-		MainMenu.testButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
-		MainMenu.testButton.setSize(1.5);
-
 		MainMenu.titleTexture = PIXI.Texture.fromImage("img/title.png");
 		var title = new PIXI.Sprite(MainMenu.titleTexture);
 		title.position = new PIXI.Point(
@@ -51,9 +33,29 @@ var MainMenu = {
 		);
 		title.depth = 2000;
 
+		MainMenu.infotext = new PIXI.Text("manoca beta\nv."+Game.VERSION+"\nnondefault.net", {
+			font: "bold 12px monospace",
+			fill: "white",
+			stroke: "black",
+			align: "right",
+			strokeThickness: 3
+		});
+		MainMenu.infotext.position = new PIXI.Point(Graphics.width-128,Graphics.height-88);
+		MainMenu.infotext.depth = 20000;
+		MainMenu.infotext.setInteractive(true);
+		MainMenu.infotext.mouseover = function(data) {
+			Graphics.canvas.style.cursor = "pointer";
+		}
+		MainMenu.infotext.mouseout = function(data) {
+			Graphics.canvas.style.cursor = "default";
+		}
+		MainMenu.infotext.mouseup = MainMenu.infotext.touchend = function(data){
+			window.open("http://nondefault.net/");
+		}
+
+		MainMenu.stage.addChild(MainMenu.infotext);
 		MainMenu.stage.addChild(MainMenu.startButton);
 		MainMenu.stage.addChild(MainMenu.settingsButton);
-		MainMenu.stage.addChild(MainMenu.testButton);
 		MainMenu.stage.addChild(title);
 		Starfield.speed = 0.1;
 	}
