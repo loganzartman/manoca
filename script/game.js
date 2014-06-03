@@ -138,6 +138,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/player.js");
 		ResourceLoader.queue("script/bullet.js");
 		ResourceLoader.queue("script/basiclaser.js");
+		ResourceLoader.queue("script/cruiserlaser.js");
 		ResourceLoader.queue("script/gunmounts.js");
 		ResourceLoader.queue("script/hostile.js");
 		ResourceLoader.queue("script/ufo.js");

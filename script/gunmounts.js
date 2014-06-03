@@ -19,7 +19,8 @@ var GunMount = klass(function(ship,anchorPoint){
 				"y": this.ship.y + (this.anchorPoint.y-this.ship.sprite.anchor.y)*this.ship.sprite.width,
 				"xs": xs,
 				"ys": ys,
-				"texture": LaserType.texture
+				"texture": LaserType.texture,
+				"shooter": this.ship
 			});
 
 			Game.entities.push(laser);

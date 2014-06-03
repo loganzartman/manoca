@@ -7,7 +7,7 @@
 var Player = Entity.extend(function(props){
 	this.leftGun = new GunMount(this, new PIXI.Point(0.5,0.1));
 	this.rightGun = new GunMount(this, new PIXI.Point(0.5,0.9));
-	this.guns = new GunCycler([this.leftGun, this.rightGun], BasicLaser.delay/2);
+	this.guns = new GunCycler([this.leftGun, this.rightGun], BasicLaser.delay/2, this);
 
 	this.accel = either(props.accel, 3);
 	this.top = either(props.top, 30);
@@ -121,5 +121,13 @@ var Player = Entity.extend(function(props){
 			this.dead = true;
 			Game.end();
 		}
+	},
+	damagedBy: function(obj) {
+		if (obj instanceof Bullet && !(obj.shooter instanceof Player)) {
+			//todo: actually use player health
+			this.kill();
+			return true;
+		}
+		return false;
 	}
 });

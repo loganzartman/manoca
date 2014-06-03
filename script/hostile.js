@@ -20,17 +20,6 @@ var Hostile = Entity.extend(function(props){
 				this.destroy();
 			}
 
-			for (var i = Game.entities.length - 1; i >= 0; i--) {
-				var e = Game.entities[i];
-				if (e instanceof Bullet) {
-					if (this.collidesCircles(e)) {
-						this.damagedBy(e);
-						e.destroy();
-						break;
-					}
-				}
-			}
-
 			if (this.collidesCircles(Game.player) && !this.dead) {
 				this.kill();
 				Game.player.kill();
@@ -49,13 +38,17 @@ var Hostile = Entity.extend(function(props){
 	},
 
 	damagedBy: function(obj) {
-		this.sprite.tint = 0xFF2222;
-		Game.particles.push(new Explosion({
-			"x": obj.x||this.x,
-			"y": obj.y||this.y,
-			"scale": 0.2
-		}));
-		this.health -= obj.damage||1;
+		if (obj instanceof Bullet && !(obj.shooter instanceof Hostile)) {
+			this.sprite.tint = 0xFF2222;
+			Game.particles.push(new Explosion({
+				"x": obj.x||this.x,
+				"y": obj.y||this.y,
+				"scale": 0.2
+			}));
+			this.health -= obj.damage||1;
+			return true;
+		}
+		return false;
 	},
 
 	kill: function() {

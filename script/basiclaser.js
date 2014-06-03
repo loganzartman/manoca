@@ -1,10 +1,13 @@
 "use strict";
 
 var BasicLaser = Bullet.extend(function(props){
+	this.shooter = either(props.shooter, null);
+
 	this.sprite.scale = new PIXI.Point(1,2);
 	this.sprite.blendMode = PIXI.blendModes.ADD;
 	this.sprite.depth = 50;
 	this.angle = Math.atan2(this.xs,-this.ys);
+	this.sprite.depth = 1001;
 	this.updateSprite();
 	Graphics.stage.addChild(this.sprite);
 
@@ -38,17 +41,7 @@ var BasicLaser = Bullet.extend(function(props){
 	},
 
 	step: function() {
-		this.x += this.xs;
-		this.y += this.ys;
-
-		if (this.x<-this.sprite.width/2 || 
-			this.y<-this.sprite.height/2 ||
-			this.x>Graphics.width+this.sprite.width/2 ||
-			this.y>Graphics.height+this.sprite.height/2) 
-		{
-			Game.entities.splice(Game.entities.indexOf(this),1);
-			Graphics.stage.removeChild(this.sprite);
-		}
+		this.supr();
 
 		this.angle = Math.atan2(this.xs,-this.ys);
 		
