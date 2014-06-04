@@ -133,6 +133,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("webfont/Play");
 		ResourceLoader.queue("webfont/Titillium Web");
 		ResourceLoader.queue("script/pixi.dev.js");
+		ResourceLoader.queue("script/pixiMods.js");
 		ResourceLoader.queue("script/klass.js");
 		ResourceLoader.queue("script/util.js");
 		ResourceLoader.queue("script/graphics.js");
