@@ -33,14 +33,14 @@ var ScoreScreen = {
 			align: "center",
 			strokeThickness: 20
 		});
-		ScoreScreen.score = new PIXI.Text("high score: ", {
+		ScoreScreen.highScoreText = new PIXI.Text("high score: ", {
 			font: "bold 12.5px 'Titillium Web'",
 			fill: "white",
 			stroke: "black",
 			align: "center",
 			strokeThickness: 3
 		});
-		ScoreScreen.score = new PIXI.Text(Game.highScore, {
+		ScoreScreen.highScore = new PIXI.Text(Game.highScore, {
 			font: "bold 90px 'Titillium Web'",
 			fill: "yellow",
 			stroke: "black",
@@ -49,7 +49,7 @@ var ScoreScreen = {
 		});
 
 		if(Game.score >= Game.highScore){
-			ScoreScreen.score = new PIXI.Text(insultBank[Math.floor(Math.random()*insultBank.length)], {
+			ScoreScreen.response = new PIXI.Text(insultBank[Math.floor(Math.random()*insultBank.length)], {
 			font: "bold 90px 'Titillium Web'",
 			fill: "yellow",
 			stroke: "black",
@@ -57,7 +57,7 @@ var ScoreScreen = {
 			strokeThickness: 20
 		});
 		}else{
-			ScoreScreen.score = new PIXI.Text(complimentBank[Math.floor(Math.random()*complimentBank.length)], {
+			ScoreScreen.response = new PIXI.Text(complimentBank[Math.floor(Math.random()*complimentBank.length)], {
 			font: "bold 90px 'Titillium Web'",
 			fill: "yellow",
 			stroke: "black",
