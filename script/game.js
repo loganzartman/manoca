@@ -6,6 +6,7 @@ var Game = {
 	entities: [],
 	particles: [],
 	score: 0,
+	highScore: 0,
 	level: null,
 	playing: false,
 	time: 0,
@@ -30,6 +31,7 @@ var Game = {
 	},
 
 	restart: function() {
+		if(Game.score >= Game.highScore) Game.highScore = Game.score;
 		Game.score = 0;
 		Game.entities = [];
 		Game.particles = [];
