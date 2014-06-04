@@ -5,22 +5,56 @@
  * @param props props
  */
 var Player = Entity.extend(function(props){
-	this.leftGun = new GunMount(this, new PIXI.Point(0.5,0.1));
-	this.rightGun = new GunMount(this, new PIXI.Point(0.5,0.9));
-	this.guns = new GunCycler([this.leftGun, this.rightGun], BasicLaser.delay/2, this);
+	this.guns = new GunCycler(this, props.mounts, BoraLaser.delay/2);
 
 	this.accel = either(props.accel, 3);
 	this.top = either(props.top, 30);
 	this.fric = either(props.friction, 8/7); //note this is not entity friction!
 	this.texture = either(props.texture, Player.texture);
 
-	this.sprite.depth = 1000;
+	this.sprite.depth = 1000.1;
 
 	Graphics.addEngineFire(this, "engineFire");
 	Graphics.stage.addChild(this.sprite);
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/playerShip2_red.png"),
+	ships: [
+		{
+			"name": "Avenger",
+			"texture": PIXI.Texture.fromImage("img/playerShip2_blue.png"),
+			"accel": 3,
+			"top": 30,
+			"fric": 8/7,
+			"mounts": [
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
+			]
+		},
+		{
+			"name": "Intruder",
+			"texture": PIXI.Texture.fromImage("img/playerShip1_orange.png"),
+			"accel": 4,
+			"top": 25,
+			"fric": 8/7,
+			"mounts": [
+				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.1)),
+				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.9))
+			]
+		},
+		{
+			"name": "Constellation",
+			"texture": PIXI.Texture.fromImage("img/playerShip3_red.png"),
+			"accel": 1,
+			"top": 25,
+			"fric": 9/7,
+			"mounts": [
+				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.5)),
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
+			]
+		}
+	]
 })
 .methods({
 	updateSprite: function() {
@@ -95,11 +129,11 @@ var Player = Entity.extend(function(props){
 		this.xs /= this.fric;
 		this.ys /= this.fric;
 
-		this.angle = (this.ys/this.top)*Math.PI/7;
+		this.angle = (this.ys/this.top)*Math.PI/5;
 
 		//guns
 		if (Input.key(Input.VK_SPACE) || Input.mouseLeft) {
-			this.guns.fire(BasicLaser);
+			this.guns.fire();
 		}
 
 		var rand = new Random();
@@ -123,7 +157,7 @@ var Player = Entity.extend(function(props){
 		}
 	},
 	damagedBy: function(obj) {
-		if (obj instanceof Bullet && !(obj.shooter instanceof Player)) {
+		if (obj instanceof Bullet && !(obj.shooter instanceof Player) && !Game.debugMode) {
 			//todo: actually use player health
 			this.kill();
 			return true;

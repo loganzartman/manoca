@@ -27,7 +27,7 @@ var BasicLaser = Bullet.extend(function(props){
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),
 	glowtexture: PIXI.Texture.fromImage("img/laserglow2.png"),
-	delay: Time.sec(0.2),
+	delay: 12,
 	speed: 40,
 	recoil: 1
 })

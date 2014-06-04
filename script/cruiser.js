@@ -11,9 +11,9 @@ var Cruiser = Hostile.extend(function(props){
 
 	this.angle = Math.PI;
 
-	this.leftGun = new GunMount(this, new PIXI.Point(0.5,0.1));
-	this.rightGun = new GunMount(this, new PIXI.Point(0.5,0.9));
-	this.guns = new GunCycler([this.leftGun, this.rightGun], CruiserLaser.delay/2);
+	this.leftGun = new GunMount(CruiserLaser, new PIXI.Point(0.5,0.1));
+	this.rightGun = new GunMount(CruiserLaser, new PIXI.Point(0.5,0.9));
+	this.guns = new GunCycler(this, [this.leftGun, this.rightGun], CruiserLaser.delay/2);
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/enemyRed4.png")
@@ -26,7 +26,7 @@ var Cruiser = Hostile.extend(function(props){
 	step: function() {
 		this.supr();
 		if (!this.dead) {
-			this.guns.fire(CruiserLaser);
+			this.guns.fire();
 		}
 		this.updateSprite();
 	}

@@ -20,7 +20,7 @@ var Hostile = Entity.extend(function(props){
 				this.destroy();
 			}
 
-			if (this.collidesCircles(Game.player) && !this.dead) {
+			if (this.collidesCircles(Game.player) && !this.dead && !Game.debugMode) {
 				this.kill();
 				Game.player.kill();
 			}

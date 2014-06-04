@@ -8,6 +8,16 @@ var MainMenu = {
 	init: function() {
 		MainMenu.stage = new PIXI.Stage(0x000000, false);
 
+		MainMenu.shipIndex = 0;
+		MainMenu.shipButton = UIFactory.makeButton({
+			text: "ship: Avenger",
+			action: function() {
+				MainMenu.shipIndex = (MainMenu.shipIndex+1)%Player.ships.length;
+				MainMenu.shipButton.setText("ship: "+Player.ships[MainMenu.shipIndex].name);
+			}
+		});
+		MainMenu.shipButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
+
 		MainMenu.settingsButton = UIFactory.makeButton({
 			text: "input: mouse",
 			action: function() {
@@ -56,6 +66,7 @@ var MainMenu = {
 		MainMenu.stage.addChild(MainMenu.infotext);
 		MainMenu.stage.addChild(MainMenu.startButton);
 		MainMenu.stage.addChild(MainMenu.settingsButton);
+		MainMenu.stage.addChild(MainMenu.shipButton);
 		MainMenu.stage.addChild(title);
 		Starfield.speed = 0.1;
 	}

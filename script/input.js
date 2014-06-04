@@ -45,6 +45,7 @@ var Input = {
 	VK_LEFT: [37,65],
 	VK_RIGHT: [39,68],
 	VK_SPACE: 32,
+	VK_G: 71,
 
 	/**
 	 * Initializes input system.
@@ -56,6 +57,9 @@ var Input = {
 			Input.keys[event.keyCode] = true;
 			if (event.keyCode===Input.VK_SPACE && !Game.playing) {
 				Game.restart();
+			}
+			if (event.keyCode===Input.VK_G) {
+				Game.debugMode = !Game.debugMode;
 			}
 		}, false);
 		document.addEventListener("keyup", function(event){

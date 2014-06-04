@@ -59,6 +59,18 @@ function sign(x) {
 Array.prototype.random = function() {
 	return this[~~(Math.random()*this.length)];
 };
+Object.collect = function() {
+  var ret = {};
+  var len = arguments.length;
+  for (var i=0; i<len; i++) {
+    for (var p in arguments[i]) {
+      if (arguments[i].hasOwnProperty(p)) {
+        ret[p] = arguments[i][p];
+      }
+    }
+  }
+  return ret;
+};
 
 var Util = {
 	//time, beginning value, change in value, duration

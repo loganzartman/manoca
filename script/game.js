@@ -1,13 +1,16 @@
 "use strict";
 
 var Game = {
-	VERSION: 20,
+	VERSION: 21,
 	player: null,
 	entities: [],
 	particles: [],
 	score: 0,
 	level: null,
 	playing: false,
+	time: 0,
+	debugMode: false,
+	frameTimer: null,
 
 	init: function() {
 		ResourceLoader.queueScripts();
@@ -23,7 +26,7 @@ var Game = {
 		Input.init();
 		Game.level = Level.none; //todo: modularize
 
-		Graphics.frame();
+		Game.frameTimer = setInterval(Graphics.frame, 16);
 	},
 
 	restart: function() {
@@ -33,11 +36,10 @@ var Game = {
 
 		Graphics.initStage();
 
-		Game.player = new Player({
+		Game.player = new Player(Object.collect({
 			"x": -128,
 			"y": Graphics.height/2,
-			"texture": Player.texture
-		});
+		},Player.ships[MainMenu.shipIndex]));
 		Game.entities.push(Game.player);
 
 		Starfield.addToContainer(Graphics.stage);
@@ -72,6 +74,7 @@ var Game = {
 
 	step: function() {
 		if (Game.playing) {
+			Game.time++;
 			Game.level.step();
 
 			for (var i = Game.entities.length - 1; i >= 0; i--) {
@@ -135,11 +138,13 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/smoke.js");
 		ResourceLoader.queue("script/trailSmoke.js");
 		ResourceLoader.queue("script/explosion.js");
-		ResourceLoader.queue("script/player.js");
 		ResourceLoader.queue("script/bullet.js");
 		ResourceLoader.queue("script/basiclaser.js");
+		ResourceLoader.queue("script/deimoslaser.js");
+		ResourceLoader.queue("script/boralaser.js");
 		ResourceLoader.queue("script/cruiserlaser.js");
 		ResourceLoader.queue("script/gunmounts.js");
+		ResourceLoader.queue("script/player.js");
 		ResourceLoader.queue("script/hostile.js");
 		ResourceLoader.queue("script/ufo.js");
 		ResourceLoader.queue("script/worm.js");
