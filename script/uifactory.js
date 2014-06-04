@@ -48,7 +48,7 @@ var UIFactory = {
 
 		if (typeof params.text === "string") {
 			var label = new PIXI.Text(params.text,{
-				"font": "18pt PT Sans",
+				"font": "18pt 'Titillium Web'",
 				"fill": "black"
 			});
 			btn.label = label;

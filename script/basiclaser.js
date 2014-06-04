@@ -7,7 +7,7 @@ var BasicLaser = Bullet.extend(function(props){
 	this.sprite.blendMode = PIXI.blendModes.ADD;
 	this.sprite.depth = 50;
 	this.angle = Math.atan2(this.xs,-this.ys);
-	this.sprite.depth = 1001;
+	this.sprite.depth = 1000;
 	this.updateSprite();
 	Graphics.stage.addChild(this.sprite);
 

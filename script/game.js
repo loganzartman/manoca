@@ -54,14 +54,19 @@ var Game = {
 	},
 
 	end: function() {
-		alert("Todo: Add score screen.\nYou scored "+Game.score+"!");
 		Game.level = Level.none;
 		Game.playing = false;
 		Starfield.speed = 0.1;
 
 		Graphics.canvas.style.cursor = "default";
 
-		MainMenu.init(); //todo: fix this (why do we need to reinit to fix interactivity?)
+		ScoreScreen.init(); //todo: fix this (why do we need to reinit to fix interactivity?)
+		Starfield.addToContainer(ScoreScreen.stage);
+		Game.setStage(ScoreScreen.stage);
+	},
+
+	mainMenu: function() {
+		MainMenu.init();
 		Starfield.addToContainer(MainMenu.stage);
 		Game.setStage(MainMenu.stage);
 	},
@@ -125,6 +130,8 @@ var ResourceLoader = {
 	queueScripts: function() {
 		ResourceLoader.queue("http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
 		ResourceLoader.queue("webfont/PT Sans");
+		ResourceLoader.queue("webfont/Play");
+		ResourceLoader.queue("webfont/Titillium Web");
 		ResourceLoader.queue("script/pixi.dev.js");
 		ResourceLoader.queue("script/klass.js");
 		ResourceLoader.queue("script/util.js");
@@ -133,6 +140,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/starfield.js");
 		ResourceLoader.queue("script/uifactory.js");
 		ResourceLoader.queue("script/mainmenu.js");
+		ResourceLoader.queue("script/scorescreen.js");
 		ResourceLoader.queue("script/entity.js");
 		ResourceLoader.queue("script/particle.js");
 		ResourceLoader.queue("script/smoke.js");

@@ -44,7 +44,7 @@ var Player = Entity.extend(function(props){
 		},
 		{
 			"name": "Constellation",
-			"texture": PIXI.Texture.fromImage("img/playerShip3_red.png"),
+			"texture": PIXI.Texture.fromImage("img/constellation.png"),
 			"accel": 1,
 			"top": 25,
 			"fric": 9/7,
