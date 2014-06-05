@@ -61,5 +61,5 @@ Things that need to be determined
 	* Score -> cash?
 	* Etc.
 * Game mechanics
-        * Slide? (https://www.youtube.com/watch?v=azCnpbj9Wl4#t=206)
-        * add more
+	* Slide? (<a href="https://www.youtube.com/watch?v=azCnpbj9Wl4#t=206">this</a>)
+	* add more
