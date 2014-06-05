@@ -25,3 +25,38 @@ To-do list
 	* Randomly generated
 	* Pre-defined enemy patterns
 	* Different backgrounds
+
+
+
+Things that need to be determined
+------
+* Level progression
+	* Pre-designed levels?
+	* Semi-random levels?
+		* Waves?
+		* Continuous?
+* Ship-owning mechanics
+	* Unlockable?
+	* Purchasable?
+	* Pre-unlocked?
+* Upgrade mechanics
+	* Purchased items?
+		* Eg. buy better laser
+	* Upgrade existing items?
+		* Eg. buy laser upgrade IV
+	* Upgrade ship
+		* Eg. increase laser fire rate/damage/etc
+* Weapons
+	* Missiles? (probably)
+		* Targeting mechanic?
+	* Other types of cannons/lasers?
+	* Spec. weapons?
+* Player
+	* Instant-death?
+	* Shields?
+	* Hull/shields?
+	* Lives?
+* Economy
+	* Cash collected?
+	* Score -> cash?
+	* Etc.
