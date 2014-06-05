@@ -60,3 +60,6 @@ Things that need to be determined
 	* Cash collected?
 	* Score -> cash?
 	* Etc.
+* Game mechanics
+        * Slide? (https://www.youtube.com/watch?v=azCnpbj9Wl4#t=206)
+        * add more
