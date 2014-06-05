@@ -67,7 +67,14 @@ var ScoreScreen = {
 			align: "center",
 			strokeThickness: 20
 		});
-			
+			ScoreScreen.highScore = new PIXI.Text(Game.score, {
+			font: "bold 90px 'Titillium Web'",
+			fill: "yellow",
+			stroke: "black",
+			align: "center",
+			strokeThickness: 20
+		});
+
 		}
 		ScoreScreen.score.position = new PIXI.Point(Graphics.width/2-ScoreScreen.score.width/2,418);
 		ScoreScreen.score.depth = 20000;
