@@ -29,7 +29,8 @@ var Graphics = {
 	texture: {
 		engineFire: PIXI.Texture.fromImage("img/fire10.png"),
 		engineFireLight: PIXI.Texture.fromImage("img/fire10light.png"),
-		displacement1: PIXI.Texture.fromImage("img/disp1.png")
+		displacement1: PIXI.Texture.fromImage("img/disp1.png"),
+		cursor: PIXI.Texture.fromImage("img/cur.png")
 	},
 
 	/**
@@ -56,6 +57,15 @@ var Graphics = {
 		);
 
 		window.addEventListener("resize", Graphics.resize, false);
+	},
+
+	addCursor: function() {
+		Graphics.cursor = new PIXI.Sprite(Graphics.texture.cursor);
+		Graphics.cursor.anchor = new PIXI.Point(0.5,0.5);
+		Graphics.cursor.blendMode = PIXI.blendModes.ADD;
+		Graphics.cursor.depth = 100000;
+		Graphics.activeStage.addChild(Graphics.cursor);
+
 	},
 
 	initStage: function() {
@@ -103,6 +113,18 @@ var Graphics = {
 		Game.step();
 		Starfield.frame();
 
+		if (Graphics.activeStage !== Graphics.stage || Input.key(Input.VK_Q)) {
+			Graphics.cursor.position = new PIXI.Point(
+				Input.mouseX,
+				Input.mouseY
+			);
+			Graphics.cursor.rotation += 0.05;
+			Graphics.cursor.visible = true;
+		}
+		else {
+			Graphics.cursor.visible = false;
+		}
+
 		//update score
 		Graphics.score.setText("Score: "+Game.score);
 		Graphics.scoreScale = Math.max(1,Graphics.scoreScale/1.05);
@@ -117,13 +139,6 @@ var Graphics = {
 		Graphics.renderer.render(Graphics.activeStage);
 
 		//requestAnimationFrame(Graphics.frame); //was delivering sub-par fps with plenty of idle time
-	},
-
-	resize: function(event) {
-		/*Graphics.width = window.innerWidth;
-		Graphics.height = window.innerHeight;
-		Graphics.renderer.view.width = Graphics.width;
-		Graphics.renderer.view.height = Graphics.height;*/
 	},
 
 	getBounds: function() {

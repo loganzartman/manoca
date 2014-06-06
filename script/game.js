@@ -22,6 +22,7 @@ var Game = {
 		UIFactory.init();
 		MainMenu.init();
 		Graphics.init();
+		Graphics.addCursor();
 		Starfield.init();
 		Input.init();
 		Game.level = Level.none; //todo: modularize
@@ -47,7 +48,7 @@ var Game = {
 
 		Game.setStage(Graphics.stage);
 
-		Graphics.canvas.style.cursor = "none";
+		document.body.style.cursor = "none";
 
 		Game.level = Level;
 		Game.playing = true;
@@ -57,8 +58,6 @@ var Game = {
 		Game.level = Level.none;
 		Game.playing = false;
 		Starfield.speed = 0.1;
-
-		Graphics.canvas.style.cursor = "default";
 
 		ScoreScreen.init(); //todo: fix this (why do we need to reinit to fix interactivity?)
 		Starfield.addToContainer(ScoreScreen.stage);
@@ -74,6 +73,7 @@ var Game = {
 	setStage: function(stage) {
 		Graphics.activeStage.visible = false;
 		Graphics.activeStage = stage;
+		Graphics.addCursor();
 		stage.visible = true;
 	},
 
