@@ -172,5 +172,22 @@ var Util = {
 	 */
 	lerp: function(a,b,f) {
 	    return a+f*(b-a);
+	},
+
+	/**
+	 * Rotate a Pixi point around an origin
+	 * @param point to rotate
+	 * @param origin pixi point to rotate around
+	 * @param rotation rotation in radians
+	 */
+	rotatePoint: function(point, origin, rotation) {
+		var dx = point.x - origin.x;
+		var dy = point.y - origin.y;
+		var len = Math.sqrt(dx*dx + dy*dy);
+		var dir = Math.atan2(dy, dx) + rotation;
+		return new PIXI.Point(
+			origin.x + Math.cos(dir)*len,
+			origin.y + Math.sin(dir)*len
+		);
 	}
 };
