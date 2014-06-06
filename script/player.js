@@ -128,8 +128,9 @@ var Player = Entity.extend(function(props){
 		}
 
 		//friction
-		this.xs /= this.fric;
-		this.ys /= this.fric;
+		var slidePhysicsFriction = Input.key(Input.VK_Q)?0.5:1;
+		this.xs /= (this.fric-1)*slidePhysicsFriction+1;
+		this.ys /= (this.fric-1)*slidePhysicsFriction+1;
 
 		if (!Input.key(Input.VK_Q)) {
 			this.angle = (this.ys/this.top)*Math.PI/5;
