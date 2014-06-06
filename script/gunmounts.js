@@ -14,9 +14,11 @@ var GunMount = klass(function(type,anchorPoint){
 			var xs = Math.cos(ship.angle+rnd.next(-rc,rc))*this.type.speed,
 				ys = Math.sin(ship.angle+rnd.next(-rc,rc))*this.type.speed;
 
+			var laserPoint = Util.rotatePoint(this.anchorPoint, ship.sprite.anchor, ship.angle);
+
 			var laser = new this.type({
-				"x": ship.x + (this.anchorPoint.x-ship.sprite.anchor.x)*ship.sprite.height,
-				"y": ship.y + (this.anchorPoint.y-ship.sprite.anchor.y)*ship.sprite.width,
+				"x": ship.x + (laserPoint.x-ship.sprite.anchor.x)*ship.sprite.height,
+				"y": ship.y + (laserPoint.y-ship.sprite.anchor.y)*ship.sprite.width,
 				"xs": xs,
 				"ys": ys,
 				"texture": this.type.texture,

@@ -46,6 +46,7 @@ var Input = {
 	VK_RIGHT: [39,68],
 	VK_SPACE: 32,
 	VK_G: 71,
+	VK_Q: 81,
 
 	/**
 	 * Initializes input system.
