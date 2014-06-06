@@ -9,8 +9,9 @@ var Player = Entity.extend(function(props){
 
 	this.accel = either(props.accel, 3);
 	this.top = either(props.top, 30);
-	this.fric = either(props.friction, 8/7); //note this is not entity friction!
+	this.fric = either(props.fric, 8/7); //note this is not entity friction!
 	this.texture = either(props.texture, Player.texture);
+	this.srot = either(props.srot, 3/8);
 
 	this.sprite.depth = 1000.1;
 
@@ -26,6 +27,7 @@ var Player = Entity.extend(function(props){
 			"accel": 3,
 			"top": 30,
 			"fric": 8/7,
+			"srot": 3/8,
 			"mounts": [
 				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
 				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
@@ -37,6 +39,7 @@ var Player = Entity.extend(function(props){
 			"accel": 4,
 			"top": 25,
 			"fric": 8/7,
+			"srot": 1/2,
 			"mounts": [
 				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.1)),
 				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.9))
@@ -48,6 +51,7 @@ var Player = Entity.extend(function(props){
 			"accel": 1,
 			"top": 25,
 			"fric": 9/7,
+			"srot": 1/8,
 			"mounts": [
 				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.5)),
 				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
@@ -132,12 +136,21 @@ var Player = Entity.extend(function(props){
 		this.xs /= (this.fric-1)*slidePhysicsFriction+1;
 		this.ys /= (this.fric-1)*slidePhysicsFriction+1;
 
+		var targetAngle;
 		if (!Input.key(Input.VK_Q)) {
-			this.angle = (this.ys/this.top)*Math.PI/5;
+			targetAngle = (this.ys/this.top)*Math.PI/5;
 		}
 		else {
-			this.angle = this.directionTo({x: Input.mouseX, y: Input.mouseY});
+			targetAngle = this.directionTo({x: Input.mouseX, y: Input.mouseY});
 		}
+
+		//angle smoothing
+		var acx = Math.cos(this.angle);
+		var acy = Math.sin(this.angle);
+		var atx = Math.cos(targetAngle)*this.srot;
+		var aty = Math.sin(targetAngle)*this.srot;
+		var newangle = Math.atan2(acy+aty, acx+atx);
+		this.angle = newangle;
 
 		//guns
 		if (Input.key(Input.VK_SPACE) || Input.mouseLeft) {
