@@ -1,0 +1,4 @@
+[major].[minor].[build]
+where major is 0,
+minor is incremented upon feature completion,
+build is commit number
