@@ -43,7 +43,7 @@ var ScoreScreen = {
 
 		
 
-		ScoreScreen.highScore = new PIXI.Text(localStorage.highScore, {
+		ScoreScreen.highScore = new PIXI.Text(Game.dataStorage.highScore, {
 			font: "bold 90px 'Titillium Web'",
 			fill: "yellow",
 			stroke: "black",
@@ -51,7 +51,7 @@ var ScoreScreen = {
 			strokeThickness: 20
 		});
 
-		if(Game.score <= localStorage.highScore){
+		if(Game.score <= Game.dataStorage.highScore){
 			ScoreScreen.response = new PIXI.Text(insultBank[Math.floor(Math.random()*insultBank.length)], {
 			font: "bold 90px 'Titillium Web'",
 			fill: "yellow",

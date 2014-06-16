@@ -12,7 +12,7 @@ var BasicLaser = Bullet.extend(function(props){
 	Graphics.stage.addChild(this.sprite);
 
 	this.glow = new PIXI.Sprite(BasicLaser.glowtexture);
-	this.glow.tint = 0x3322FF;
+	this.glow.tint = 0x4477FF;
 	this.glow.position = new PIXI.Point(0,0);
 	this.glow.anchor = new PIXI.Point(0.5,0.5);
 	this.glow.blendMode = PIXI.blendModes.ADD;

@@ -12,6 +12,7 @@ var Game = {
 	time: 0,
 	debugMode: false,
 	frameTimer: null,
+	dataStorage: localStorage||{}, //player doesn't deserve saved state if their browser doesn't support web storage
 
 	init: function() {
 		ResourceLoader.queueScripts();
@@ -27,12 +28,12 @@ var Game = {
 		Starfield.init();
 		Input.init();
 		Game.level = Level.none; //todo: modularize
-		if(typeof localStorage.highScore === "undefined") localStorage.highScore = 0;
+		if(typeof Game.dataStorage.highScore === "undefined") Game.dataStorage.highScore = 0;
 		Game.frameTimer = setInterval(Graphics.frame, 16);
 	},
 
 	restart: function() {
-		if(Game.score >= localStorage.highScore) localStorage.highScore = Game.score;
+		if(Game.score >= Game.dataStorage.highScore) Game.dataStorage.highScore = Game.score;
 		Game.score = 0;
 		Game.entities = [];
 		Game.particles = [];
