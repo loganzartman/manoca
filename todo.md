@@ -1,8 +1,7 @@
 To-do list
 ----------
 
-_In progress_
-
+**In progress**<br>
 <s>Completed</s>
 
 * Gameplay
@@ -14,16 +13,16 @@ _In progress_
 	* Moar laser
 * <span style="background: yellow">Enemies</span>
 	* Randomized (+color?)
-	* _Higher tiers_
-	* _Patterns/waves_
+	* **Higher tiers**
+	* **Patterns/waves**
 * Player
 	* <s>Multiple base ships</s> ✔
 	* Upgrades on per-ship basis
 	* Purchasable weapons
 	* Customizable weapon mounts
 * Levels
-	* _Randomly generated_
-	* _Pre-defined enemy patterns_
+	* **Randomly generated**
+	* **Pre-defined enemy patterns**
 	* Different backgrounds
 * Online
 	* Multiplayer is unlikely
