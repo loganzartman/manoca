@@ -1,31 +1,34 @@
 To-do list
 ----------
 
-<span style="background: yellow">In progress</span><br>
-<s><span style="background: lime">Complete</span></s>
-
+*In progress*
+<s>Completed</s>
 
 * Gameplay
-	* <s><span style="background: lime">Score</span></s>
-	* <s><span style="background: lime">Player death</span></s>
+	* <s>Score</s> ✔
+	* <s>Player death</s> ✔
 * Weapons
 	* Autoturrets
 	* Missiles
 	* Moar laser
 * <span style="background: yellow">Enemies</span>
 	* Randomized (+color?)
-	* <span style="background: yellow">Higher tiers</span>
-	* <span style="background: yellow">Patterns/waves</span>
+	* *Higher tiers*
+	* *Patterns/waves*
 * Player
-	* Multiple base ships
+	* <s>Multiple base ships</s> ✔
 	* Upgrades on per-ship basis
 	* Purchasable weapons
 	* Customizable weapon mounts
 * Levels
-	* Randomly generated
-	* Pre-defined enemy patterns
+	* *Randomly generated*
+	* *Pre-defined enemy patterns*
 	* Different backgrounds
-
+* Online
+	* Multiplayer is unlikely
+	* Online login through OpenID Connect
+		* Save game progress, etc.
+		* Highscores? (too hackable?  vs. friends?)
 
 
 Things that need to be determined
@@ -41,25 +44,25 @@ Things that need to be determined
 	* Pre-unlocked?
 * Upgrade mechanics
 	* Purchased items?
-		* Eg. buy better laser
+		* Eg. buy better laser (ideal) ✗
 	* Upgrade existing items?
-		* Eg. buy laser upgrade IV
+		* Eg. buy laser upgrade IV (good) ✔
 	* Upgrade ship
-		* Eg. increase laser fire rate/damage/etc
+		* Eg. increase laser fire rate/damage/etc (fastest) ✗
 * Weapons
-	* Missiles? (probably)
-		* Targeting mechanic?
+	* Missiles? (probably) ✔
+		* Targeting mechanic? ✔
 	* Other types of cannons/lasers?
 	* Spec. weapons?
 * Player
-	* Instant-death?
-	* Shields?
-	* Hull/shields?
-	* Lives?
+	* Instant-death? ✗
+	* Shields?  ✔
+	* Hull/shields? ✔
+	* Lives? ✗
 * Economy
-	* Cash collected?
-	* Score -> cash?
+	* Cash collected? ✔
+	* Score -> cash? ✗
 	* Etc.
 * Game mechanics
-	* Slide? (<a href="https://www.youtube.com/watch?v=azCnpbj9Wl4#t=206">this</a>)
+	* Slide? (<a href="https://www.youtube.com/watch?v=azCnpbj9Wl4#t=206">this</a>) ✔ (implemented experimentally)
 	* add more
