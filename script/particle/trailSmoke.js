@@ -1,6 +1,7 @@
 "use strict";
 
 var TrailSmoke = Smoke.extend(function(params){
+	this.type = "TrailSmoke"
 	var rand = new Random();
 	this.deltaAngle = rand.next(-0.1,0.1);
 	this.angle = rand.next(0,Math.PI*2);

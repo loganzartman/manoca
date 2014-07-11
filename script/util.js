@@ -97,25 +97,25 @@ Array.prototype.random = function() {
 	return this[~~(Math.random()*this.length)];
 };
 
-/**
- * Concatenates the properties of all arguments into a single object.
- * @param arguments two or more objects to concatenate.
- * @return new object with concatenated properties
- */
-Object.collect = function() {
-  var ret = {};
-  var len = arguments.length;
-  for (var i=0; i<len; i++) {
-    for (var p in arguments[i]) {
-      if (arguments[i].hasOwnProperty(p)) {
-        ret[p] = arguments[i][p];
-      }
-    }
-  }
-  return ret;
-};
-
 var Util = {
+	/**
+	* Concatenates the properties of all arguments into a single object.
+	* @param arguments two or more objects to concatenate.
+	* @return new object with concatenated properties
+	*/
+	collect: function() {
+		var ret = {};
+		var len = arguments.length;
+		for (var i=0; i<len; i++) {
+			for (var p in arguments[i]) {
+				if (arguments[i].hasOwnProperty(p)) {
+					ret[p] = arguments[i][p];
+				}
+			}
+		}
+		return ret;
+	},
+
 	/**
 	 * A cubic easing function.
 	 * @param t time (0 to d)
@@ -189,5 +189,50 @@ var Util = {
 			origin.x + Math.cos(dir)*len,
 			origin.y + Math.sin(dir)*len
 		);
+	},
+
+	hsl2rgb: function(h, s, l) {
+	    function hue2rgb(p, q, t){
+            if(t < 0) t += 1;
+            if(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+	    var r, g, b;
+
+	    if(s == 0){
+	        r = g = b = l; // achromatic
+	    }else{
+	        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+	        var p = 2 * l - q;
+	        r = hue2rgb(p, q, h + 1/3);
+	        g = hue2rgb(p, q, h);
+	        b = hue2rgb(p, q, h - 1/3);
+	    }
+
+	    return (Math.round(r * 255)<<16) + (Math.round(g * 255)<<8) + (Math.round(b * 255));
+	},
+
+	List: function() {
+		var l = {};
+		l.length = 0;
+		l.push = function(item) {
+			l[l.length++] = item;
+		};
+		l.indexOf = function(item) {
+			for (var i in l) {
+				if (l[i] === item) {
+					return i;
+				}
+			}
+			return -1;
+		};
+		l.remove = function(index) {
+			delete l[index];
+		};
+		return l;
 	}
 };

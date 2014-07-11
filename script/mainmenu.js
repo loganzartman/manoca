@@ -10,7 +10,7 @@ var MainMenu = {
 
 		MainMenu.shipIndex = 0;
 		MainMenu.shipButton = UIFactory.makeButton({
-			text: "ship: Avenger",
+			text: "ship: "+Player.ships[0].name,
 			action: function() {
 				MainMenu.shipIndex = (MainMenu.shipIndex+1)%Player.ships.length;
 				MainMenu.shipButton.setText("ship: "+Player.ships[MainMenu.shipIndex].name);

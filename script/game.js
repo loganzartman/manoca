@@ -1,10 +1,11 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.37",
+	VERSION: "0.1.42",
 	player: null,
 	entities: [],
-	particles: [],
+	particles: null,
+	particleSystem: null,
 	score: 0,
 	highScore: 0,
 	level: null,
@@ -15,6 +16,21 @@ var Game = {
 	dataStorage: localStorage||{}, //player doesn't deserve saved state if their browser doesn't support web storage
 
 	init: function() {
+		console.log("%c %c MANOCA v"+Game.VERSION+" %c ",
+			"background: black",
+			"background: #222222; color: orange",
+			"background: black"
+		);
+
+		setTimeout(function(){
+			Game.removeSplash = function(){
+				var el = document.getElementById("splash");
+				if (el) document.body.removeChild(el);
+			}
+			if (Game.level!==null) {
+				Game.removeSplash();
+			}
+		},3000);
 		ResourceLoader.queueScripts();
 		ResourceLoader.addCallback(Game.start);
 		ResourceLoader.load();
@@ -24,23 +40,29 @@ var Game = {
 		UIFactory.init();
 		MainMenu.init();
 		Graphics.init();
-		Graphics.addCursor();
 		Starfield.init();
 		Input.init();
 		Game.level = Level.none; //todo: modularize
 		if(typeof Game.dataStorage.highScore === "undefined") Game.dataStorage.highScore = 0;
 		Game.frameTimer = setInterval(Graphics.frame, 16);
+		Game.removeSplash();
+		console.log("%c %c All systems go! %c ",
+			"background: #777777",
+			"background: #BBBBBB; color: green",
+			"background: #777777"
+		);
 	},
 
 	restart: function() {
 		if(Game.score >= Game.dataStorage.highScore) Game.dataStorage.highScore = Game.score;
 		Game.score = 0;
 		Game.entities = [];
-		Game.particles = [];
+		Game.particles = null;
 
 		Graphics.initStage();
+		Game.particleSystem = new ParticleSystem({"container": Graphics.particles});
 
-		Game.player = new Player(Object.collect({
+		Game.player = new Player(Util.collect({
 			"x": -128,
 			"y": Graphics.height/2,
 		},Player.ships[MainMenu.shipIndex]));
@@ -77,6 +99,7 @@ var Game = {
 		Graphics.activeStage.visible = false;
 		Graphics.activeStage = stage;
 		Graphics.addCursor();
+		Graphics.addOverlay();
 		stage.visible = true;
 	},
 
@@ -92,12 +115,7 @@ var Game = {
 				}
 			}
 
-			for (var i = Game.particles.length - 1; i >= 0; i--) {
-				var p = Game.particles[i];
-				if (typeof p === "object") {
-					p.step();
-				}
-			}
+			Game.particleSystem.step();
 
 			//starfield 3d-ness
 			var xo = Game.player.x - Graphics.width/2,
@@ -115,7 +133,6 @@ var Game = {
 	},
 
 	settings: function() {
-		console.log("Settings fired");
 		if (Input.movementMode === Input.modes.KEYBOARD) {
 			MainMenu.settingsButton.setText("input: mouse");
 			Input.movementMode = Input.modes.MOUSE;
@@ -126,15 +143,22 @@ var Game = {
 			Input.movementMode = Input.modes.KEYBOARD;
 			return;
 		}
+	},
+
+	removeSplash: function() {
+		//this space intentionally left blank
 	}
 };
 
 var ResourceLoader = {
 	queueScripts: function() {
+		//Fonts
 		ResourceLoader.queue("http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
 		ResourceLoader.queue("webfont/PT Sans");
 		ResourceLoader.queue("webfont/Play");
 		ResourceLoader.queue("webfont/Titillium Web");
+
+		//Core
 		ResourceLoader.queue("script/pixi.dev.js");
 		ResourceLoader.queue("script/pixiMods.js");
 		ResourceLoader.queue("script/klass.js");
@@ -146,21 +170,30 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/mainmenu.js");
 		ResourceLoader.queue("script/scorescreen.js");
 		ResourceLoader.queue("script/entity.js");
-		ResourceLoader.queue("script/particle.js");
-		ResourceLoader.queue("script/smoke.js");
-		ResourceLoader.queue("script/trailSmoke.js");
-		ResourceLoader.queue("script/explosion.js");
-		ResourceLoader.queue("script/bullet.js");
-		ResourceLoader.queue("script/basiclaser.js");
-		ResourceLoader.queue("script/deimoslaser.js");
-		ResourceLoader.queue("script/boralaser.js");
-		ResourceLoader.queue("script/cruiserlaser.js");
-		ResourceLoader.queue("script/gunmounts.js");
-		ResourceLoader.queue("script/player.js");
-		ResourceLoader.queue("script/hostile.js");
-		ResourceLoader.queue("script/ufo.js");
-		ResourceLoader.queue("script/worm.js");
-		ResourceLoader.queue("script/cruiser.js");
+
+		//Particles
+		ResourceLoader.queue("script/particle/particle.js");
+		ResourceLoader.queue("script/particle/particleSystem.js");
+		ResourceLoader.queue("script/particle/smoke.js");
+		ResourceLoader.queue("script/particle/trailSmoke.js");
+		ResourceLoader.queue("script/particle/engineFlare.js");
+		ResourceLoader.queue("script/particle/explosion.js");
+		
+		//Weapons
+		ResourceLoader.queue("script/weapon/bullet.js");
+		ResourceLoader.queue("script/weapon/basiclaser.js");
+		ResourceLoader.queue("script/weapon/deimoslaser.js");
+		ResourceLoader.queue("script/weapon/boralaser.js");
+		ResourceLoader.queue("script/weapon/cruiserlaser.js");
+		ResourceLoader.queue("script/weapon/gunmounts.js");
+
+		//Ships
+		ResourceLoader.queue("script/ship/player.js");
+		ResourceLoader.queue("script/ship/hostile.js");
+		ResourceLoader.queue("script/ship/ufo.js");
+		ResourceLoader.queue("script/ship/worm.js");
+		ResourceLoader.queue("script/ship/cruiser.js");
+
 		ResourceLoader.queue("script/hostileFactory.js");
 		ResourceLoader.queue("script/level.js");
 	},

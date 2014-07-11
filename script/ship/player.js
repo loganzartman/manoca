@@ -12,18 +12,22 @@ var Player = Entity.extend(function(props){
 	this.fric = either(props.fric, 8/7); //note this is not entity friction!
 	this.texture = either(props.texture, Player.texture);
 	this.srot = either(props.srot, 3/8);
+	this.flameColor = either(props.flameColor, 0xFF6510);
 
 	this.sprite.depth = 1000.1;
 
 	Graphics.addEngineFire(this, "engineFire");
+	//this.engineFire.sprite.tint = this.flameColor;
+	this.engineFire.light.tint = this.flameColor;
 	Graphics.stage.addChild(this.sprite);
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/playerShip2_red.png"),
 	ships: [
 		{
-			"name": "Avenger",
+			"name": "Pegasus",
 			"texture": PIXI.Texture.fromImage("img/playerShip2_blue.png"),
+			"flameColor": 0x2244FF,
 			"accel": 3,
 			"top": 30,
 			"fric": 8/7,
@@ -34,8 +38,9 @@ var Player = Entity.extend(function(props){
 			]
 		},
 		{
-			"name": "Intruder",
+			"name": "Javelin",
 			"texture": PIXI.Texture.fromImage("img/playerShip1_orange.png"),
+			"flameColor": 0x30FF10,
 			"accel": 4,
 			"top": 25,
 			"fric": 8/7,
@@ -46,12 +51,13 @@ var Player = Entity.extend(function(props){
 			]
 		},
 		{
-			"name": "Constellation",
+			"name": "Myrmidon",
 			"texture": PIXI.Texture.fromImage("img/constellation.png"),
+			"flameColor": 0xFF6510,
 			"accel": 1,
 			"top": 25,
-			"fric": 9/7,
-			"srot": 1/8,
+			"fric": 17/14,
+			"srot": 1/7,
 			"mounts": [
 				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.5)),
 				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
@@ -118,17 +124,26 @@ var Player = Entity.extend(function(props){
 		}
 
 		//soft boundaries
+		var boundEffects = new PIXI.Point(0,0);
 		if (this.x>Graphics.width/(3/2)) {
-			this.x -= (this.x-Graphics.width/(3/2))/10;
+			var val = (this.x-Graphics.width/(3/2))/10;
+			boundEffects = new PIXI.Point(boundEffects.x-val,boundEffects.y);
+			this.x -= val;
 		}
 		else if (this.x<this.sprite.width) {
-			this.x += (this.sprite.width-this.x)/5;
+			var val = (this.sprite.width-this.x)/5;
+			boundEffects = new PIXI.Point(boundEffects.x+val,boundEffects.y);
+			this.x += val;
 		}
 		if (this.y>Graphics.height-this.sprite.height) {
-			this.y -= (this.y-(Graphics.height-this.sprite.height))/5;
+			var val = (this.y-(Graphics.height-this.sprite.height))/5;
+			boundEffects = new PIXI.Point(boundEffects.x,boundEffects.y-val);
+			this.y -= val;
 		}
 		else if (this.y<this.sprite.height) {
-			this.y += (this.sprite.height-this.y)/5;
+			var val = (this.sprite.height-this.y)/5;
+			boundEffects = new PIXI.Point(boundEffects.x,boundEffects.y+val);
+			this.y += val;
 		}
 
 		//friction
@@ -160,13 +175,27 @@ var Player = Entity.extend(function(props){
 		if (!Input.key(Input.VK_Q)) {
 			var rand = new Random();
 			for (var i=0; i<3; i++) {
-				Game.particles.push(new TrailSmoke({
-					x: this.x-(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-10,10),
-					y: this.y+rand.next(-10,10),
-					xs: rand.next(-5,-4.5),
-					ys: rand.next(-1,1),
-					texture: Particle.textureSmoke
-				}));
+				Game.particleSystem.emit({
+					"type": "TrailSmoke",
+					"x": this.x-(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-10,10),
+					"y": this.y+rand.next(-10,10),
+					"xs": rand.next(-5,-4.5),
+					"ys": rand.next(-1,1),
+					"texture": Particle.textureSmoke
+				});
+
+				var flarePoint = Util.rotatePoint(new PIXI.Point(
+					(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-5*(this.xs/this.top),5*(this.xs/this.top)),
+					rand.next(-2,2)
+				), this.sprite.anchor, this.angle);
+				Game.particleSystem.emit({
+					"type": "EngineFlare",
+					"x": this.x-flarePoint.x,
+					"y": this.y-flarePoint.y,
+					"xs": rand.next(-20,-10)+this.xs+boundEffects.x,
+					"ys": rand.next(-1,1),
+					"tint": this.flameColor
+				});
 			}
 		}
 		

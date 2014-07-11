@@ -1,6 +1,7 @@
 "use strict";
 
 var Explosion = Smoke.extend(function(params){
+	this.type = "Explosion";
 	this.sprite.setTexture(Explosion.texture);
 	this.sprite.blendMode = PIXI.blendModes.ADD;
 	this.scale = params.scale||1;
