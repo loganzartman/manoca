@@ -61,7 +61,7 @@ var GunCycler = klass(function(ship, gunMounts){
 		for (var delay in this.groups) {
 			if (this.groups.hasOwnProperty(delay)) {
 				var group = this.groups[delay];
-				if (Game.time - group.lastFire >= delay/2) {
+				if (Game.time - group.lastFire >= delay/group.length) {
 					group.lastFire = Game.time;
 					group[group.ind].fire(this.ship);
 					group.ind = (group.ind+1)%group.length;

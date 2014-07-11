@@ -30,7 +30,8 @@ var Graphics = {
 		engineFire: PIXI.Texture.fromImage("img/fire10.png"),
 		engineFireLight: PIXI.Texture.fromImage("img/fire10light.png"),
 		displacement1: PIXI.Texture.fromImage("img/disp1.png"),
-		cursor: PIXI.Texture.fromImage("img/cur.png")
+		cursor: PIXI.Texture.fromImage("img/cur.png"),
+		overlay: PIXI.Texture.fromImage("img/overlay2.png")
 	},
 
 	/**
@@ -38,7 +39,8 @@ var Graphics = {
 	 * This method sizes and positions the canvas.
 	 */
 	init: function() {
-		Graphics.activeStage = MainMenu.stage;
+		Graphics.activeStage = MainMenu.stage; //because
+		Game.setStage(MainMenu.stage);
 
 		var rand = new Random();
 		Graphics.canvas = document.getElementById("display");
@@ -65,11 +67,20 @@ var Graphics = {
 		Graphics.cursor.blendMode = PIXI.blendModes.ADD;
 		Graphics.cursor.depth = 100000;
 		Graphics.activeStage.addChild(Graphics.cursor);
+	},
 
+	addOverlay: function() {
+		Graphics.overlay = new PIXI.Sprite(Graphics.texture.overlay);
+		Graphics.overlay.position = new PIXI.Point(0,0);
+		Graphics.overlay.scale = new PIXI.Point(Graphics.width/Graphics.texture.overlay.width, Graphics.height/Graphics.texture.overlay.height);
+		Graphics.overlay.alpha = 0.5;
+		Graphics.overlay.depth = 10000;
+		Graphics.activeStage.addChild(Graphics.overlay);
 	},
 
 	initStage: function() {
 		Graphics.stage = new PIXI.Stage(0x000000);
+
 
 		//particle batch
 		Graphics.particles = new PIXI.DisplayObjectContainer();
@@ -94,10 +105,10 @@ var Graphics = {
 			font: "bold 12px monospace",
 			fill: "white",
 			stroke: "black",
-			align: "right",
+			align: "left",
 			strokeThickness: 3
 		});
-		Graphics.debugText.position = new PIXI.Point(Graphics.width-100,16);
+		Graphics.debugText.position = new PIXI.Point(32,48);
 		Graphics.debugText.scale = new PIXI.Point(1,1);
 		Graphics.debugText.depth = 20000;
 		Graphics.debugText.visible = false;
@@ -129,6 +140,14 @@ var Graphics = {
 		Graphics.score.setText("Score: "+Game.score);
 		Graphics.scoreScale = Math.max(1,Graphics.scoreScale/1.05);
 		Graphics.score.scale = new PIXI.Point(Graphics.scoreScale,Graphics.scoreScale);
+
+		if (Game.debugMode) {
+			Graphics.debugText.setText("DEBUG MODE\n"+
+				"[invincibile]\n"+
+				"entities: "+Game.entities.length+"\n"+
+				"particles: "+Game.particleSystem.count+"\n"
+			);
+		}
 
 		//enable/disable debug text
 		if (Game.debugMode ^ Graphics.debugText.visible) {
@@ -170,7 +189,7 @@ var Graphics = {
 
 		ship.engineFire.light.anchor = new PIXI.Point(0.8,0.5);
 		ship.engineFire.light.position = new PIXI.Point(-ship.sprite.width/2 + offset.x, 0 + offset.y);
-		ship.engineFire.light.alpha = 0.5;
+		ship.engineFire.light.alpha = 0.75;
 		ship.engineFire.light.blendMode = PIXI.blendModes.ADD;
 
 		if (typeof tint === "number") {

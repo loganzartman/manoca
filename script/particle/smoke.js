@@ -1,6 +1,7 @@
 "use strict";
 
 var Smoke = Particle.extend(function(params){
+	this.type = "Smoke";
 	var rand = new Random();
 	this.deltaAngle = rand.next(-0.1,0.1);
 	this.angle = rand.next(0,Math.PI*2);
@@ -15,12 +16,12 @@ var Smoke = Particle.extend(function(params){
 	this.easeOut = true;
 
 	this.sprite.setTexture(Smoke.texture);
-	var val = Random.next(0x22,0x77);
-	this.sprite.tint = (val<<16) + (val<<8) + val;
+	//var val = Random.next(0x22,0x77);
+	//this.sprite.tint = (val<<16) + (val<<8) + val;
 	this.sprite.depth = 999;
 })
 .statics({
-	texture: PIXI.Texture.fromImage("img/part2.png")
+	texture: PIXI.Texture.fromImage("img/part3.png")
 })
 .methods({
 	step: function() {

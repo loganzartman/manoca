@@ -1,7 +1,7 @@
 "use strict";
 
 var Cruiser = Hostile.extend(function(props){
-	this.sprite.depth = 1000.5;
+	this.sprite.depth = 1000;
 	Graphics.stage.addChild(this.sprite);
 	this.health = 100;
 	this.pointValue = 2500;

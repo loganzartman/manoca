@@ -120,6 +120,7 @@ var Entity = klass(function(props){
 		if (ind >= 0 && cin >= 0) {
 			Game.entities.splice(ind,1);
 			Graphics.stage.removeChild(this.sprite);
+			delete this;
 		}
 	}
 });

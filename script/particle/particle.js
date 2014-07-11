@@ -1,6 +1,8 @@
 "use strict";
 
 var Particle = Entity.extend(function(params){
+	this.type = "Particle";
+	this.system = params.system||null; //this should be passed by the particle system
 	this.x = params.x||0;
 	this.y = params.y||0;
 	this.xs = params.xs||0;
@@ -10,6 +12,7 @@ var Particle = Entity.extend(function(params){
 	this.t = 0;
 	this.life = params.life||200;
 	this.scale = params.scale||1;
+	this.scaleRate = params.scaleRate||0;
 	this.friction = params.friction||0;
 
 	this.minAlpha = params.minAlpha||0;
@@ -44,28 +47,30 @@ var Particle = Entity.extend(function(params){
 
 		var r = new Random();
 		for (var i=n; i>=0; i--) {
-			Game.particles.push(new Explosion({
+			Game.particleSystem.emit({
+				"type": "Explosion",
 				"x": x,
 				"y": y,
 				"xs": r.next(-10,10)*s,
 				"ys": r.next(-10,10)*s,
 				"life": r.next(10,40),
 				"scale": r.next(0.2,0.5)*s
-			}));			
+			});		
 		}
 
-		for (var i=n; i>=0; i--) {
-			Game.particles.push(new Smoke({
+		for (var i=n/2; i>=0; i--) {
+			Game.particleSystem.emit({
+				"type": "Smoke",
 				"x": x+r.next(-50,50),
 				"y": y+r.next(-50,50),
 				"xs": r.next(-3,3)*s,
 				"ys": r.next(-3,3)*s,
 				"life": r.next(40,80),
-				"scale": r.next(1,10)*s,
+				"scale": r.next(8,15)*s,
 				"tint": 0x333333,
 				"friction": r.next(0.01,0.06),
 				"easeIn": false
-			}));
+			});
 		}
 	}
 })
@@ -81,6 +86,7 @@ var Particle = Entity.extend(function(params){
 			this.y
 		);
 		this.sprite.scale = new PIXI.Point(this.scale,this.scale);
+		this.scale+=this.scaleRate;
 		this.sprite.rotation = this.angle;
 
 		//transparency easing
@@ -108,7 +114,7 @@ var Particle = Entity.extend(function(params){
 	/**
 	 * Step the particle.
 	 * Includes physics, sprite updates, etc.
-	 * Called once per frame by game loop.
+	 * Called once per frame by particle system.
 	 */
 	step: function() {
 		this.updateSprite();
@@ -125,11 +131,6 @@ var Particle = Entity.extend(function(params){
 	 * Must not be called more than once.
 	 */
 	destroy: function() {
-		var ind = Game.particles.indexOf(this);
-		var cin = Graphics.stage.children.indexOf(this.sprite);
-		if (ind >= 0 && cin >= 0) {
-			Game.particles.splice(ind,1);
-			Graphics.stage.removeChild(this.sprite);
-		}
+		this.system.destroy(this);
 	}
 });

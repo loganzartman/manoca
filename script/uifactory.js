@@ -10,7 +10,6 @@ var UIFactory = {
 	makeButton: function(params) {
 		var btn = new PIXI.Sprite(either(params.buttonNormal,UIFactory.textures.buttonNormal));
 		btn.setInteractive(true);
-		console.log(btn);
 
 		var texNormal = either(params.buttonNormal,UIFactory.textures.buttonNormal),
 			texDown   = either(params.buttonDown,UIFactory.textures.buttonDown),
@@ -66,7 +65,6 @@ var UIFactory = {
 			btn.scale = new PIXI.Point(sz,1);
 			btn.label.scale = new PIXI.Point(1/sz,1);
 		}
-		console.log(btn.scale);
 
 		return btn;
 	},
