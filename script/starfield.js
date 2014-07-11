@@ -44,7 +44,11 @@ var Starfield = {
 		Starfield.addToContainer(MainMenu.stage);
 	},
 
-	addToContainer: function(stage) {
+	addToContainer: function(stage, texture) {
+		if (texture) {
+			Starfield.nebula.setTexture(texture);
+		}
+
 		stage.addChild(Starfield.g);
 		stage.addChildAt(Starfield.nebula,0);
 	},

@@ -29,9 +29,9 @@ var HostileFactory = {
 	 * generator should contain the following:
 	 *   - pattern: in which pattern hostiles should be positioned.
 	 *       may be any of the following:
-	 *         - "point": a single point. Define with generator.point {x,y} and generator.vel {x,y}
+	 *         - "point": a single point. Define with generator.point {x,y}
 	 *         - "random": random positions at the edge of the screen
-	 *         - "linear": a linear arrangement (TODO)
+	 *         - "linear": a linear arrangement
 	 *         - "delta": a triangular arrangement (TODO)
 	 *   - count: the number of hostiles to generate
 	 *   - type: a string representing the hostile type (eg. "Ufo")
@@ -57,8 +57,8 @@ var HostileFactory = {
 					return {
 						"x": generator.point.x,
 						"y": generator.point.y,
-						"xs": generator.vel.x,
-						"ys": generator.vel.y
+						"xs": generator.xs,
+						"ys": generator.ys
 					};
 				break;
 				case "random":
@@ -146,6 +146,23 @@ var HostileFactory = {
 			"type": "Worm",
 			"cooldown": 200,
 			"delay": 400,
+			"params": {}
+		},
+
+		wormLine: {
+			"pattern": "linear",
+			"point1": {
+			    "x": Graphics.width+64,
+			    "y": 128
+			},
+			"point2": {
+			    "x": Graphics.width+64,
+			    "y": Graphics.height-128
+			},
+			"count": 4,
+			"type": "Worm",
+			"cooldown": 200,
+			"delay": 500,
 			"params": {}
 		},
 		

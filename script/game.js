@@ -2,6 +2,7 @@
 
 var Game = {
 	VERSION: "0.1.42",
+	loaded: false,
 	player: null,
 	entities: [],
 	particles: null,
@@ -15,6 +16,10 @@ var Game = {
 	frameTimer: null,
 	dataStorage: localStorage||{}, //player doesn't deserve saved state if their browser doesn't support web storage
 
+	/**
+	 * Called on page load.
+	 * Scripts are NOT loaded at this point.
+	 */
 	init: function() {
 		console.log("%c %c MANOCA v"+Game.VERSION+" %c ",
 			"background: black",
@@ -27,7 +32,7 @@ var Game = {
 				var el = document.getElementById("splash");
 				if (el) document.body.removeChild(el);
 			}
-			if (Game.level!==null) {
+			if (Game.loaded) {
 				Game.removeSplash();
 			}
 		},3000);
@@ -36,16 +41,24 @@ var Game = {
 		ResourceLoader.load();
 	},
 
+	/**
+	 * Called once all scripts are loaded.
+	 * Calls initialization methods. (order is often important!)
+	 */
 	start: function() {
+		Game.loaded = true;
 		UIFactory.init();
+		Level.init();
 		MainMenu.init();
 		Graphics.init();
 		Starfield.init();
 		Input.init();
-		Game.level = Level.none; //todo: modularize
+
 		if(typeof Game.dataStorage.highScore === "undefined") Game.dataStorage.highScore = 0;
+		
 		Game.frameTimer = setInterval(Graphics.frame, 16);
 		Game.removeSplash();
+		
 		console.log("%c %c All systems go! %c ",
 			"background: #777777",
 			"background: #BBBBBB; color: green",
@@ -53,12 +66,17 @@ var Game = {
 		);
 	},
 
-	restart: function() {
+	/**
+	 * Starts gameplay once it has been stopped (eg. a menu stage is active).
+	 * @param level {Object} the level that should be loaded.  See Level class.
+	 */
+	restart: function(level) {
 		if(Game.score >= Game.dataStorage.highScore) Game.dataStorage.highScore = Game.score;
 		Game.score = 0;
 		Game.entities = [];
 		Game.particles = null;
 
+		Level.setLevel(level);
 		Graphics.initStage();
 		Game.particleSystem = new ParticleSystem({"container": Graphics.particles});
 
@@ -68,19 +86,20 @@ var Game = {
 		},Player.ships[MainMenu.shipIndex]));
 		Game.entities.push(Game.player);
 
-		Starfield.addToContainer(Graphics.stage);
+		Starfield.addToContainer(Graphics.stage, Level.background);
 		Starfield.speed = 1;
 
 		Game.setStage(Graphics.stage);
 
 		document.body.style.cursor = "none";
-
-		Game.level = Level;
 		Game.playing = true;
 	},
 
+	/**
+	 * Stops the game immediately and returns to the score screen.
+	 */
 	end: function() {
-		Game.level = Level.none;
+		Level.setLevel(Levels[0]);
 		Game.playing = false;
 		Starfield.speed = 0.1;
 
@@ -89,12 +108,19 @@ var Game = {
 		Game.setStage(ScoreScreen.stage);
 	},
 
+	/**
+	 * Switches to the Main Menu.
+	 */
 	mainMenu: function() {
 		MainMenu.init();
 		Starfield.addToContainer(MainMenu.stage);
 		Game.setStage(MainMenu.stage);
 	},
 
+	/**
+	 * Sets the active stage.  This could be the main menu stage, the score screen stage, etc.
+	 * @param stage {PIXI.Stage} the stage to switch to
+	 */
 	setStage: function(stage) {
 		Graphics.activeStage.visible = false;
 		Graphics.activeStage = stage;
@@ -103,10 +129,13 @@ var Game = {
 		stage.visible = true;
 	},
 
+	/**
+	 * Performs a single game step.  This is called by an interval.
+	 */
 	step: function() {
 		if (Game.playing) {
 			Game.time++;
-			Game.level.step();
+			Level.step();
 
 			for (var i = Game.entities.length - 1; i >= 0; i--) {
 				var e = Game.entities[i];
@@ -127,11 +156,19 @@ var Game = {
 		}
 	},
 
+	/**
+	 * Adds points to the player's score.
+	 * @param points {Number} number of score points to add
+	 */
 	addScore: function(points) {
 		Graphics.scoreScale *= 1.5;
 		Game.score += points;
 	},
 
+	/**
+	 * Shows the settings screen.
+	 * NOTE: Currently toggles between input modes; there is no settings screen.
+	 */
 	settings: function() {
 		if (Input.movementMode === Input.modes.KEYBOARD) {
 			MainMenu.settingsButton.setText("input: mouse");
@@ -145,12 +182,20 @@ var Game = {
 		}
 	},
 
+	/**
+	 * Hide the loading splash.
+	 * You probably shouldn't be calling this.
+	 */
 	removeSplash: function() {
 		//this space intentionally left blank
 	}
 };
 
 var ResourceLoader = {
+	/**
+	 * Any scripts that need to be loaded at game start are queued here.
+	 * Called by Game.init.
+	 */
 	queueScripts: function() {
 		//Fonts
 		ResourceLoader.queue("http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
@@ -201,14 +246,27 @@ var ResourceLoader = {
 	resourceQueue: [],
 	completedCallbacks: [],
 
+	/**
+	 * Queue a resource.
+	 * The resource loader currently handles only JavaScript files and webfonts.
+	 * To load a font, queue "webfont/Name", where Name is the name of a font available via Google Fonts.
+	 * @param source {String} the path to the file to queue
+	 */
 	queue: function(source) {
 		ResourceLoader.resourceQueue.push(source);
 	},
 
+	/**
+	 * Adds a callback to be called once loading completes.
+	 * @param f {Function} the callback function
+	 */
 	addCallback: function(f) {
 		ResourceLoader.completedCallbacks.push(f);
 	},
 
+	/**
+	 * Asynchronously loads all queued resources and then performs callbacks.
+	 */
 	load: function() {
 		var source = ResourceLoader.resourceQueue.shift();
 		var ext = source.substring(source.lastIndexOf(".")+1);

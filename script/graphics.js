@@ -78,7 +78,7 @@ var Graphics = {
 		Graphics.activeStage.addChild(Graphics.overlay);
 	},
 
-	initStage: function() {
+	initStage: function(backTexture) {
 		Graphics.stage = new PIXI.Stage(0x000000);
 
 
