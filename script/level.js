@@ -3,6 +3,7 @@
 var Levels = [];
 var Level = {
 	none: null, //set to an empty level on init
+	completed: false,
 
 	init: function() {
 		Levels = [
@@ -64,6 +65,11 @@ var Level = {
 	},
 
 	step: function() {
+		//completion check
+		if (!Level.completed && Level.name==="Test") {
+			Level.completed = true;
+			UIFactory.showStatus({"text": "Level Complete.  Press H to activate hyperdrive."});
+		}
 		Level.generateHostiles();
 	},
 

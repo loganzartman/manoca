@@ -75,7 +75,7 @@ var Player = Entity.extend(function(props){
 		this.supr();
 		
 		//movement
-		if (!Input.key(Input.VK_Q)) { //slide
+		if (!Input.key(Input.VK_Q) && !Starfield.isWarping) { //slide
 			if (Input.movementMode === Input.modes.KEYBOARD) {
 				if (Input.key(Input.VK_UP)) {
 					this.ys-=this.accel;
@@ -112,8 +112,21 @@ var Player = Entity.extend(function(props){
 			 	this.ys += dy*Math.min(dist/md,md)*this.accel;
 			}
 		}
+		else if (Starfield.isWarping) {
+			var dx = (Graphics.width/2 - this.x),
+				dy = (Graphics.height/2 - this.y);
+			this.x += dx/20;
+			this.y += dy/20;
+		}
+		if (Level.completed && !Starfield.isWarping && Input.key(Input.VK_H)) {
+			Starfield.beginWarp();
+			UIFactory.hideStatus();
+			setTimeout(function(){
+				Game.end();
+			},8000);
+		}
 
-		this.engineFire.scale = Input.key(Input.VK_Q)?0:1+(this.xs/this.top);
+		this.engineFire.scale = Starfield.warpTime>1?3:Input.key(Input.VK_Q)?0:1+(this.xs/this.top);
 
 		//speed limiter
 		if (Math.abs(this.ys)>this.top) {
@@ -168,13 +181,15 @@ var Player = Entity.extend(function(props){
 		this.angle = newangle;
 
 		//guns
-		if (Input.key(Input.VK_SPACE) || Input.mouseLeft) {
+		if (!Starfield.isWarping && (Input.key(Input.VK_SPACE) || Input.mouseLeft)) {
 			this.guns.fire();
 		}
 
 		if (!Input.key(Input.VK_Q)) {
 			var rand = new Random();
 			for (var i=0; i<3; i++) {
+				
+				if (!Starfield.isWarping)
 				Game.particleSystem.emit({
 					"type": "TrailSmoke",
 					"x": this.x-(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-10,10),
@@ -192,7 +207,7 @@ var Player = Entity.extend(function(props){
 					"type": "EngineFlare",
 					"x": this.x-flarePoint.x,
 					"y": this.y-flarePoint.y,
-					"xs": rand.next(-20,-10)+this.xs+boundEffects.x,
+					"xs": rand.next(-20,-10)*(Starfield.warpTime>1?3:1)+this.xs+boundEffects.x,
 					"ys": rand.next(-1,1),
 					"tint": this.flameColor
 				});

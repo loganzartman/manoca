@@ -7,6 +7,11 @@ var Starfield = {
 	nebula: null,
 	starTexture: null,
 	speed: 1,
+	dispFilter: null,
+	isWarping: false,
+	warpTime: 0,
+	hypSprite: null,
+	hypFlash: null,
 
 	offset: {
 		x: 0,
@@ -17,6 +22,17 @@ var Starfield = {
 		Starfield.g = new PIXI.SpriteBatch();
 		Starfield.g.depth = 10;
 		
+		Starfield.dispFilter = new PIXI.DisplacementFilter(Graphics.texture.displacement1);
+		Starfield.hypSprite = new PIXI.TilingSprite(Graphics.texture.hyperspace,1920,1080);
+		Starfield.hypSprite.generateTilingTexture(true);
+		Starfield.hypSprite.depth = 1;
+
+		Starfield.hypFlash = new PIXI.Graphics();
+		Starfield.hypFlash.beginFill(0xFFFFFF);
+		Starfield.hypFlash.drawRect(0,0,Graphics.width,Graphics.height);
+		Starfield.hypFlash.endFill();
+		Starfield.hypFlash.depth = 2;
+
 		Starfield.starTexture = PIXI.Texture.fromImage("img/star.png");
 
 		for (var i=0; i<1; i++) {
@@ -44,6 +60,32 @@ var Starfield = {
 		Starfield.addToContainer(MainMenu.stage);
 	},
 
+	beginWarp: function() {
+		Starfield.nebula.filters = [Starfield.dispFilter];
+		Starfield.dispFilter.scale = new PIXI.Point(0,0);
+		Starfield.dispFilter.offset = new PIXI.Point(0,0);
+		Starfield.warpTime = 0;
+		Starfield.hypSprite.alpha = 0;
+		Starfield.hypFlash.alpha = 0;
+		Starfield.hypSprite.position = new PIXI.Point(0,0);
+		Starfield.hypSprite.filters = [Starfield.dispFilter];
+		Graphics.activeStage.addChild(Starfield.hypSprite);
+		Graphics.activeStage.addChild(Starfield.hypFlash);
+		Starfield.isWarping = true;
+	},
+
+	resetWarp: function() {
+		Starfield.nebula.filters = undefined;
+		Starfield.dispFilter.scale = new PIXI.Point(0,0);
+		Starfield.dispFilter.offset = new PIXI.Point(0,0);
+		Starfield.hypSprite.alpha = 0;
+		Starfield.warpTime = 0;
+		Starfield.speed = 1;
+		Starfield.hypSprite.filters = undefined;
+		//Graphics.activeStage.removeChild(Starfield.hypSprite);
+		Starfield.isWarping = false;
+	},
+
 	addToContainer: function(stage, texture) {
 		if (texture) {
 			Starfield.nebula.setTexture(texture);
@@ -58,6 +100,23 @@ var Starfield = {
 			-(Starfield.nebula.width-Graphics.width)*0.5+Starfield.offset.x*0.5,
 			-(Starfield.nebula.height-Graphics.height)*0.5+Starfield.offset.y*0.5
 		);
+
+		if (Starfield.isWarping) {
+			Starfield.warpTime += 0.005;
+			var cubic = Util.easeInCubic(Math.min(1,Starfield.warpTime), 0, 1, 1);
+
+			if (Starfield.warpTime<1) {
+				Starfield.dispFilter.scale = new PIXI.Point(cubic*200, cubic*200);
+			}
+			else {
+				Starfield.speed = 2;
+				Starfield.hypSprite.alpha = 1;
+				Starfield.hypSprite.tilePosition.x -= 60;
+				Starfield.hypFlash.alpha = Math.max(0,1-(Starfield.warpTime*2-2));
+			}
+
+			Starfield.dispFilter.offset.x += cubic*30;
+		}
 		
 		for (var i = Starfield.stars.length - 1; i >= 0; i--) {
 			var s = Starfield.stars[i];

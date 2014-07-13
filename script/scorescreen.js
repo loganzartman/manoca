@@ -42,9 +42,9 @@ var ScoreScreen = {
 		});
 
 		var text = Game.score<=Game.dataStorage.highScore?
-			 insultBank[Math.floor(Math.random()*insultBank.length)]
+			 Level.completed?"Level complete.":insultBank[Math.floor(Math.random()*insultBank.length)]
 			:complimentBank[Math.floor(Math.random()*complimentBank.length)] + "New high score.";
-		var col = Game.score<=Game.dataStorage.highScore?"red":"lime"
+		var col = Game.score<=Game.dataStorage.highScore?"orange":"lime"
 
 		ScoreScreen.response = new PIXI.Text(text, {
 			font: "bold 90px 'Titillium Web'",

@@ -9,6 +9,7 @@ var UIFactory = {
 
 	makeButton: function(params) {
 		var btn = new PIXI.Sprite(either(params.buttonNormal,UIFactory.textures.buttonNormal));
+		btn.anchor = new PIXI.Point(30/220/2,30/79/2);
 		btn.setInteractive(true);
 
 		var texNormal = either(params.buttonNormal,UIFactory.textures.buttonNormal),
@@ -17,7 +18,7 @@ var UIFactory = {
 
 		function btnUp() {
 			btn.isdown = false;
-			btn.setTexture(texNormal);
+			btn.setTexture(texHover);
 			btn.label.position = new PIXI.Point(8,6);
 		}
 		function btnDown() {
@@ -27,6 +28,10 @@ var UIFactory = {
 		}
 		function btnHover() {
 			btn.setTexture(texHover);
+		}
+		function btnOut() {
+			btn.setTexture(texNormal);
+			btn.label.position = new PIXI.Point(8,6);
 		}
 
 		btn.mousedown = btn.touchstart = function(data){
@@ -39,7 +44,7 @@ var UIFactory = {
 			}
 		}
 		btn.mouseout = function(data){
-			btnUp();
+			btnOut();
 		}
 		btn.mouseover = function(data){
 			btnHover();
@@ -48,13 +53,14 @@ var UIFactory = {
 		if (typeof params.text === "string") {
 			var label = new PIXI.Text(params.text,{
 				"font": "18pt 'Titillium Web'",
-				"fill": "black"
+				"fill": "white"
 			});
 			btn.label = label;
 			btn.addChild(label);
 		}
 
-		btnUp();
+		btnOut();
+		btn.isdown = false;
 
 		btn.depth = 1000;
 
@@ -67,6 +73,25 @@ var UIFactory = {
 		}
 
 		return btn;
+	},
+
+	showStatus: function(params) {
+		UIFactory.statustext = new PIXI.Text(params.text,{
+			"font": "18pt 'Titillium Web'",
+			"fill": "white",
+			"stroke": "black",
+			"strokeThickness": 2
+		});
+		UIFactory.statustext.position = new PIXI.Point(32,Graphics.height-64);
+		UIFactory.statustext.depth = 20000;
+		Graphics.activeStage.addChild(UIFactory.statustext);
+	},
+
+	hideStatus: function() {
+		var ind = Graphics.activeStage.children.indexOf(UIFactory.statustext);
+		if (ind>=0) {
+			Graphics.activeStage.removeChild(UIFactory.statustext);
+		}
 	},
 
 	makeTooltip: function(params) {

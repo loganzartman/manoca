@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.42",
+	VERSION: "0.1.43",
 	loaded: false,
 	player: null,
 	entities: [],
@@ -64,6 +64,8 @@ var Game = {
 			"background: #BBBBBB; color: green",
 			"background: #777777"
 		);
+
+		Game.mainMenu();
 	},
 
 	/**
@@ -101,9 +103,11 @@ var Game = {
 	end: function() {
 		Level.setLevel(Levels[0]);
 		Game.playing = false;
+		Starfield.resetWarp();
 		Starfield.speed = 0.1;
 
 		ScoreScreen.init(); //todo: fix this (why do we need to reinit to fix interactivity?)
+		Level.completed = false;
 		Starfield.addToContainer(ScoreScreen.stage);
 		Game.setStage(ScoreScreen.stage);
 	},

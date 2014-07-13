@@ -30,6 +30,7 @@ var Graphics = {
 		engineFire: PIXI.Texture.fromImage("img/fire10.png"),
 		engineFireLight: PIXI.Texture.fromImage("img/fire10light.png"),
 		displacement1: PIXI.Texture.fromImage("img/disp1.png"),
+		hyperspace: PIXI.Texture.fromImage("img/hyperspace.png"),
 		cursor: PIXI.Texture.fromImage("img/cur.png"),
 		overlay: PIXI.Texture.fromImage("img/overlay2.png")
 	},
@@ -90,7 +91,7 @@ var Graphics = {
 
 		//score thingy
 		Graphics.score = new PIXI.Text("Score: -1", {
-			font: "bold 20px monospace",
+			font: "bold 20px 'Titillium Web'",
 			fill: "white",
 			stroke: "black",
 			strokeThickness: 4
