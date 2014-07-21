@@ -3,6 +3,7 @@
 var Hostile = Entity.extend(function(props){
 	this.dead = false;
 	this.pointValue = 100;
+	this.damage = 30;
 })
 .methods({
 	step: function() {
@@ -15,7 +16,7 @@ var Hostile = Entity.extend(function(props){
 
 			if (this.collidesCircles(Game.player) && !this.dead && !Game.debugMode) {
 				this.kill();
-				Game.player.kill();
+				Game.player.damagedBy(this);
 			}
 		}
 		else {

@@ -6,6 +6,7 @@ var Ufo = Hostile.extend(function(props){
 	this.health = 13;
 	this.xs = either(props.xs, Random.next(-2,-6));
 	this.ys = either(props.ys, Random.next(-1,1));
+	this.damage = 30;
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/ufoGreen.png")

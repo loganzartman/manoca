@@ -14,6 +14,8 @@ var Cruiser = Hostile.extend(function(props){
 	this.leftGun = new GunMount(CruiserLaser, new PIXI.Point(0.5,0.1));
 	this.rightGun = new GunMount(CruiserLaser, new PIXI.Point(0.5,0.9));
 	this.guns = new GunCycler(this, [this.leftGun, this.rightGun], CruiserLaser.delay/2);
+
+	this.damage = 300;
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/enemyRed4.png")

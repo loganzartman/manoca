@@ -13,6 +13,7 @@ var Player = Entity.extend(function(props){
 	this.texture = either(props.texture, Player.texture);
 	this.srot = either(props.srot, 3/8);
 	this.flameColor = either(props.flameColor, 0xFF6510);
+	this.health = this.maxHealth = either(props.health, 100);
 
 	this.sprite.depth = 1000.1;
 
@@ -35,7 +36,8 @@ var Player = Entity.extend(function(props){
 			"mounts": [
 				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
 				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
-			]
+			],
+			"health": 130
 		},
 		{
 			"name": "Javelin",
@@ -48,7 +50,8 @@ var Player = Entity.extend(function(props){
 			"mounts": [
 				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.1)),
 				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.9))
-			]
+			],
+			"health": 105
 		},
 		{
 			"name": "Myrmidon",
@@ -62,7 +65,22 @@ var Player = Entity.extend(function(props){
 				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.5)),
 				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
 				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
-			]
+			],
+			"health": 200
+		},
+		{
+			"name": "RS-400",
+			"texture": PIXI.Texture.fromImage("img/rs400.png"),
+			"flameColor": 0xA96420,
+			"accel": 1.5,
+			"top": 35,
+			"fric": 8/7,
+			"srot": 3/7,
+			"mounts": [
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.85))
+			],
+			"health": 90
 		}
 	]
 })
@@ -228,9 +246,17 @@ var Player = Entity.extend(function(props){
 		}
 	},
 	damagedBy: function(obj) {
-		if (obj instanceof Bullet && !(obj.shooter instanceof Player) && !Game.debugMode) {
-			//todo: actually use player health
-			this.kill();
+		if (typeof obj.damage !== "undefined" && !(obj.shooter instanceof Player) && !Game.debugMode) {
+			this.health -= obj.damage;
+			Game.particleSystem.emit({
+				"type": "Explosion",
+				"x": obj.x||this.x,
+				"y": obj.y||this.y,
+				"scale": 0.2
+			});
+			if (this.health<=0) {
+				this.kill();
+			}
 			return true;
 		}
 		return false;

@@ -4,7 +4,7 @@ var CruiserLaser = BasicLaser.extend(function(props){
 	this.glow.tint = 0xFF2210;
 
 	//todo: player health
-	this.damage = 5;
+	this.damage = 15;
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),

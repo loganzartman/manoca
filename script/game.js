@@ -234,6 +234,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/weapon/deimoslaser.js");
 		ResourceLoader.queue("script/weapon/boralaser.js");
 		ResourceLoader.queue("script/weapon/cruiserlaser.js");
+		ResourceLoader.queue("script/weapon/basiccannon.js");
 		ResourceLoader.queue("script/weapon/gunmounts.js");
 
 		//Ships

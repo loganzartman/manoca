@@ -104,6 +104,18 @@ var Graphics = {
 		Graphics.score.depth = 20000;
 		Graphics.stage.addChild(Graphics.score);
 
+		//health thingy
+		Graphics.hull = new PIXI.Text("Hull Integrity: -1", {
+			font: "bold 20px 'Titillium Web'",
+			fill: "red",
+			stroke: "black",
+			strokeThickness: 2
+		});
+		Graphics.hull.position = new PIXI.Point(32,48);
+		Graphics.hull.scale = new PIXI.Point(1,1);
+		Graphics.hull.depth = 20000;
+		Graphics.stage.addChild(Graphics.hull);
+
 		//mouse force thing
 		Graphics.mouseforce = new PIXI.Sprite(Graphics.texture.mouseforce);
 		Graphics.mouseforce.anchor = new PIXI.Point(0.5,0.5);
@@ -114,12 +126,12 @@ var Graphics = {
 		//debug text
 		Graphics.debugText = new PIXI.Text("DEBUG MODE\n[invincibile]", {
 			font: "bold 12px monospace",
-			fill: "white",
 			stroke: "black",
 			align: "left",
-			strokeThickness: 2
+			strokeThickness: 2,
+			fill: "white"
 		});
-		Graphics.debugText.position = new PIXI.Point(32,48);
+		Graphics.debugText.position = new PIXI.Point(32,88);
 		Graphics.debugText.scale = new PIXI.Point(1,1);
 		Graphics.debugText.depth = 20000;
 		Graphics.debugText.visible = false;
@@ -167,6 +179,17 @@ var Graphics = {
 		Graphics.score.setText("Score: "+Game.score);
 		Graphics.scoreScale = Math.max(1,Graphics.scoreScale/1.05);
 		Graphics.score.scale = new PIXI.Point(Graphics.scoreScale,Graphics.scoreScale);
+		if (Game.player) {
+			Graphics.hull.setText("Hull: "+Game.player.health);
+			var hv = (Game.player.health/Game.player.maxHealth)*255;
+			Graphics.hull.setStyle({
+				font: "bold 20px 'Titillium Web'",
+				stroke: "black",
+				align: "left",
+				strokeThickness: 2,
+				fill: "rgb("+(255-hv)+","+hv+",0)"
+			});
+		}
 
 		if (Game.debugMode) {
 			var debstr = "DEBUG MODE\n"+
