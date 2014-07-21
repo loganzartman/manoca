@@ -27,6 +27,14 @@ var Input = {
 	mouseY: 0,
 
 	/**
+	 * For mouse movement
+	 */
+	mouseDx: 0,
+	mouseDy: 0,
+	mouseDt: 1,
+	_mouseDlt: Date.now(),
+
+	/**
 	 * Boolean representing mouse left button pressed state
 	 */
 	mouseLeft: false,
@@ -68,15 +76,38 @@ var Input = {
 			Input.keys[event.keyCode] = false;
 		}, false);
 
+		function setMousePosition(x,y) {
+			var mx = Input.mouseX,
+				my = Input.mouseY;
+			Input.mouseX = x;
+			Input.mouseY = y;
+			Input.mouseDx = Input.mouseX - mx;
+			Input.mouseDy = Input.mouseY - mx;
+			Input.mouseDt = Date.now() - Input._mouseDlt;
+			Input._mouseDlt = Date.now();
+		}
+
+		Graphics.debugWatch.push({
+			"obj": Input,
+			"prop": "mouseDx"
+		});
+		Graphics.debugWatch.push({
+			"obj": Input,
+			"prop": "mouseDy"
+		});
+
 		document.addEventListener("mousemove", function(event){
-			Input.mouseX = event.pageX - Graphics.canvas.offsetLeft;
-			Input.mouseY = event.pageY - Graphics.canvas.offsetTop;
+			setMousePosition(
+				event.pageX - Graphics.canvas.offsetLeft,
+				event.pageY - Graphics.canvas.offsetTop
+			);
 		}, false);
 		
 		document.addEventListener("touchmove", function(event) {
-			event.preventDefault();
-			Input.mouseX = event.targetTouches[0].pageX - Graphics.canvas.offsetLeft;
-			Input.mouseY = event.targetTouches[0].pageY - Graphics.canvas.offsetTop;
+			setMousePosition(
+				event.targetTouches[0].pageX - Graphics.canvas.offsetLeft,
+				event.targetTouches[0].pageY - Graphics.canvas.offsetTop
+			);
 		}, false);
 
 		Graphics.canvas.addEventListener("touchstart", function(event){

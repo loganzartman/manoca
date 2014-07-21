@@ -25,6 +25,8 @@ var Graphics = {
 	//Scale of score text
 	scoreScale: 1,
 
+	debugWatch: [],
+
 	//Pixi Textures stored for re-use
 	texture: {
 		engineFire: PIXI.Texture.fromImage("img/fire10.png"),
@@ -32,6 +34,7 @@ var Graphics = {
 		displacement1: PIXI.Texture.fromImage("img/disp1.png"),
 		hyperspace: PIXI.Texture.fromImage("img/hyperspace.png"),
 		cursor: PIXI.Texture.fromImage("img/cur.png"),
+		mouseforce: PIXI.Texture.fromImage("img/mouseforce.png"),
 		overlay: PIXI.Texture.fromImage("img/overlay2.png")
 	},
 
@@ -94,12 +97,19 @@ var Graphics = {
 			font: "bold 20px 'Titillium Web'",
 			fill: "white",
 			stroke: "black",
-			strokeThickness: 4
+			strokeThickness: 2
 		});
 		Graphics.score.position = new PIXI.Point(32,16);
 		Graphics.score.scale = new PIXI.Point(1,1);
 		Graphics.score.depth = 20000;
 		Graphics.stage.addChild(Graphics.score);
+
+		//mouse force thing
+		Graphics.mouseforce = new PIXI.Sprite(Graphics.texture.mouseforce);
+		Graphics.mouseforce.anchor = new PIXI.Point(0.5,0.5);
+		Graphics.mouseforce.blendMode = PIXI.blendModes.ADD;
+		Graphics.mouseforce.depth = 100001;
+		Graphics.stage.addChild(Graphics.mouseforce);
 
 		//debug text
 		Graphics.debugText = new PIXI.Text("DEBUG MODE\n[invincibile]", {
@@ -107,7 +117,7 @@ var Graphics = {
 			fill: "white",
 			stroke: "black",
 			align: "left",
-			strokeThickness: 3
+			strokeThickness: 2
 		});
 		Graphics.debugText.position = new PIXI.Point(32,48);
 		Graphics.debugText.scale = new PIXI.Point(1,1);
@@ -137,17 +147,36 @@ var Graphics = {
 			Graphics.cursor.visible = false;
 		}
 
+		if (Game.player && !Input.key(Input.VK_Q) && !Starfield.isWarping) {
+			Graphics.mouseforce.visible = true;
+			Graphics.mouseforce.position = new PIXI.Point(
+					(Input.mouseX+Graphics.mouseforce.x)/2,
+					(Input.mouseY+Graphics.mouseforce.y)/2
+			);
+			var mfdx = Input.mouseX-Game.player.x, mfdy = Input.mouseY-Game.player.y;
+			Graphics.mouseforce.rotation = Math.atan2(mfdy, mfdx);
+			var mfdist = Math.sqrt(mfdx*mfdx+mfdy*mfdy);
+			Graphics.mouseforce.alpha = Math.max(0,Math.min(1,(mfdist-40)/150));
+			Graphics.mouseforce.tint = Game.player.flameColor;
+		}
+		else {
+			Graphics.mouseforce.visible = false;
+		}
+
 		//update score
 		Graphics.score.setText("Score: "+Game.score);
 		Graphics.scoreScale = Math.max(1,Graphics.scoreScale/1.05);
 		Graphics.score.scale = new PIXI.Point(Graphics.scoreScale,Graphics.scoreScale);
 
 		if (Game.debugMode) {
-			Graphics.debugText.setText("DEBUG MODE\n"+
+			var debstr = "DEBUG MODE\n"+
 				"[invincibile]\n"+
 				"entities: "+Game.entities.length+"\n"+
-				"particles: "+Game.particleSystem.count+"\n"
-			);
+				"particles: "+Game.particleSystem.count+"\n";
+			for (var i = Graphics.debugWatch.length - 1; i >= 0; i--) {
+				debstr += Graphics.debugWatch[i].prop + ": " + Graphics.debugWatch[i].obj[Graphics.debugWatch[i].prop] + "\n";
+			};
+			Graphics.debugText.setText(debstr);
 		}
 
 		//enable/disable debug text

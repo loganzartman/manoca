@@ -55,12 +55,12 @@ var MainMenu = {
 		);
 		title.depth = 2000;
 
-		MainMenu.infotext = new PIXI.Text("manoca beta\nv."+Game.VERSION+"\nnondefault.net", {
+		MainMenu.infotext = new PIXI.Text("manoca beta\nv."+Game.VERSION+"\npixi: "+PIXI.VERSION+"\nnondefault.net", {
 			font: "bold 12px monospace",
 			fill: "white",
 			stroke: "black",
 			align: "right",
-			strokeThickness: 3
+			strokeThickness: 2
 		});
 		MainMenu.infotext.position = new PIXI.Point(Graphics.width-128,Graphics.height-88);
 		MainMenu.infotext.depth = 20000;

@@ -31,7 +31,7 @@ var ScoreScreen = {
 			fill: "yellow",
 			stroke: "black",
 			align: "center",
-			strokeThickness: 20
+			strokeThickness: 10
 		});
 		ScoreScreen.highScoreText = new PIXI.Text("high score: ", {
 			font: "bold 25px 'Titillium Web'",
@@ -51,14 +51,14 @@ var ScoreScreen = {
 			fill: col,
 			stroke: "black",
 			align: "center",
-			strokeThickness: 20
+			strokeThickness: 10
 		});
 		ScoreScreen.highScore = new PIXI.Text(Game.dataStorage.highScore, {
 			font: "bold 60px 'Titillium Web'",
 			fill: "white",
 			stroke: "black",
 			align: "center",
-			strokeThickness: 20
+			strokeThickness: 10
 		});
 
 		ScoreScreen.score.position = new PIXI.Point(Graphics.width/2-ScoreScreen.score.width/2,418);

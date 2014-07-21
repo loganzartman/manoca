@@ -104,12 +104,17 @@ var Player = Entity.extend(function(props){
 					"x": Input.mouseX,
 					"y": Input.mouseY
 				});
-				var dx = Math.cos(dir),
-				    dy = Math.sin(dir);
-
 				var md = 100;
-			 	this.xs += dx*Math.min(dist/md,md)*this.accel;
-			 	this.ys += dy*Math.min(dist/md,md)*this.accel;
+				var acc = Math.min(dist/md,md)*this.accel;
+				
+				var fx = this.xs + Math.cos(dir)*acc,
+					fy = this.ys + Math.sin(dir)*acc;
+
+				var fdir = Math.atan2(fy,fx);
+				var fspd = Math.min(this.top,Math.sqrt(fx*fx+fy*fy));
+
+			 	this.xs = Math.cos(fdir)*fspd;
+			 	this.ys = Math.sin(fdir)*fspd;
 			}
 		}
 		else if (Starfield.isWarping) {
