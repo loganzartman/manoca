@@ -47,15 +47,16 @@ var Game = {
 	 */
 	start: function() {
 		Game.loaded = true;
+
+		if(typeof Game.dataStorage.highScore === "undefined") {Game.dataStorage.highScore = 0;}
+		if(typeof Game.dataStorage.scrap === "undefined") {Game.dataStorage.scrap = 0;}
+
 		UIFactory.init();
 		Level.init();
 		MainMenu.init();
 		Graphics.init();
 		Starfield.init();
 		Input.init();
-
-		if(typeof Game.dataStorage.highScore === "undefined") {Game.dataStorage.highScore = 0;}
-		if(typeof Game.dataStorage.scrap === "undefined") {Game.dataStorage.scrap = 0;}
 		
 		Game.frameTimer = setInterval(Graphics.frame, 16);
 		Game.removeSplash();
