@@ -55,6 +55,26 @@ var MainMenu = {
 		);
 		title.depth = 2000;
 
+		MainMenu.scraptext = new PIXI.Text("Scrap: "+Util.formatNumberCommas(Game.dataStorage.scrap), {
+			font: "bold 30px 'Titillium Web'",
+			fill: "white",
+			stroke: "black",
+			align: "left",
+			strokeThickness: 2
+		});
+		MainMenu.scraptext.position = new PIXI.Point(Graphics.width-Graphics.width*0.1-MainMenu.scraptext.width,Graphics.height-308);
+		MainMenu.scraptext.depth = 20000;
+
+		MainMenu.highscore = new PIXI.Text("Highscore: "+Util.formatNumberCommas(Game.dataStorage.highScore), {
+			font: "bold 30px 'Titillium Web'",
+			fill: "white",
+			stroke: "black",
+			align: "left",
+			strokeThickness: 2
+		});
+		MainMenu.highscore.position = new PIXI.Point(Graphics.width-Graphics.width*0.1-MainMenu.highscore.width,Graphics.height-268);
+		MainMenu.highscore.depth = 20000;
+
 		MainMenu.infotext = new PIXI.Text("manoca beta\nv."+Game.VERSION+"\npixi: "+PIXI.VERSION+"\nnondefault.net", {
 			font: "bold 12px monospace",
 			fill: "white",
@@ -75,6 +95,8 @@ var MainMenu = {
 			window.open("http://nondefault.net/");
 		}
 
+		MainMenu.stage.addChild(MainMenu.scraptext);
+		MainMenu.stage.addChild(MainMenu.highscore);
 		MainMenu.stage.addChild(MainMenu.infotext);
 		MainMenu.stage.addChild(MainMenu.startButton);
 		MainMenu.stage.addChild(MainMenu.settingsButton);

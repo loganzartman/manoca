@@ -98,6 +98,10 @@ Array.prototype.random = function() {
 };
 
 var Util = {
+	formatNumberCommas: function(n) {
+		return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	},
+
 	/**
 	* Concatenates the properties of all arguments into a single object.
 	* @param arguments two or more objects to concatenate.
@@ -234,5 +238,10 @@ var Util = {
 			delete l[index];
 		};
 		return l;
+	},
+
+	logcolor: function(col) {
+		if (!(col instanceof Array)) col = PIXI.hex2rgb(col);
+		console.log("%c  ", "background: rgb("+(~~(col[0]*255))+","+(~~(col[1]*255))+","+(~~(col[2]*255))+"); font-size: 30px;");
 	}
 };

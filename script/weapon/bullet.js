@@ -23,7 +23,7 @@ var Bullet = Entity.extend(function(props){
 
 		for (var i = Game.entities.length - 1; i >= 0; i--) {
 			var e = Game.entities[i];
-			if (!(e instanceof Bullet)) {
+			if (e.damagedBy) {
 				if (this.collidesCircles(e)) {
 					if (e.damagedBy(this)) {
 						this.destroy();

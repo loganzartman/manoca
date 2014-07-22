@@ -51,10 +51,10 @@ var Particle = Entity.extend(function(params){
 				"type": "Explosion",
 				"x": x,
 				"y": y,
-				"xs": r.next(-10,10)*s,
-				"ys": r.next(-10,10)*s,
-				"life": r.next(10,40),
-				"scale": r.next(0.2,0.5)*s
+				"xs": r.next(-8,8)*s,
+				"ys": r.next(-8,8)*s,
+				"life": r.next(10,20),
+				"scale": r.next(0.005,0.05)*s
 			});		
 		}
 

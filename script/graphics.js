@@ -105,7 +105,7 @@ var Graphics = {
 		Graphics.stage.addChild(Graphics.score);
 
 		//health thingy
-		Graphics.hull = new PIXI.Text("Hull Integrity: -1", {
+		Graphics.hull = new PIXI.Text("Hull: -1", {
 			font: "bold 20px 'Titillium Web'",
 			fill: "red",
 			stroke: "black",
@@ -115,6 +115,18 @@ var Graphics = {
 		Graphics.hull.scale = new PIXI.Point(1,1);
 		Graphics.hull.depth = 20000;
 		Graphics.stage.addChild(Graphics.hull);
+
+		//scrap thingy
+		Graphics.scrap = new PIXI.Text("Scrap: -1", {
+			font: "bold 20px 'Titillium Web'",
+			fill: "red",
+			stroke: "black",
+			strokeThickness: 2
+		});
+		Graphics.scrap.position = new PIXI.Point(32,80);
+		Graphics.scrap.scale = new PIXI.Point(1,1);
+		Graphics.scrap.depth = 20000;
+		Graphics.stage.addChild(Graphics.scrap);
 
 		//mouse force thing
 		Graphics.mouseforce = new PIXI.Sprite(Graphics.texture.mouseforce);
@@ -131,7 +143,7 @@ var Graphics = {
 			strokeThickness: 2,
 			fill: "white"
 		});
-		Graphics.debugText.position = new PIXI.Point(32,88);
+		Graphics.debugText.position = new PIXI.Point(32,108);
 		Graphics.debugText.scale = new PIXI.Point(1,1);
 		Graphics.debugText.depth = 20000;
 		Graphics.debugText.visible = false;
@@ -176,18 +188,50 @@ var Graphics = {
 		}
 
 		//update score
-		Graphics.score.setText("Score: "+Game.score);
+		Graphics.score.setText("Score: "+Util.formatNumberCommas(Game.score));
 		Graphics.scoreScale = Math.max(1,Graphics.scoreScale/1.05);
 		Graphics.score.scale = new PIXI.Point(Graphics.scoreScale,Graphics.scoreScale);
 		if (Game.player) {
 			Graphics.hull.setText("Hull: "+Game.player.health);
-			var hv = (Game.player.health/Game.player.maxHealth)*255;
+			var hv = ~~((Game.player.health/Game.player.maxHealth)*255);
 			Graphics.hull.setStyle({
 				font: "bold 20px 'Titillium Web'",
 				stroke: "black",
 				align: "left",
 				strokeThickness: 2,
 				fill: "rgb("+(255-hv)+","+hv+",0)"
+			});
+
+			Graphics.scrap.setText("Scrap: "+Util.formatNumberCommas(Game.player.scrap));
+			var sv = PIXI.hex2rgb(Util.hsl2rgb((Game.time*0.001)%1,1,0.7));
+			Graphics.scrap.setStyle({
+				font: "bold 20px 'Titillium Web'",
+				stroke: "black",
+				align: "left",
+				strokeThickness: 2,
+				fill: "rgb("+(~~(sv[0]*255))+","+(~~(sv[1]*255))+","+(~~(sv[2]*255))+")"
+			});
+		}
+
+		if (MainMenu.scraptext) {
+			var sv = PIXI.hex2rgb(Util.hsl2rgb((Game.time*0.001)%1,1,0.7));
+			MainMenu.scraptext.setStyle({
+				font: "bold 30px 'Titillium Web'",
+				stroke: "black",
+				align: "right",
+				strokeThickness: 2,
+				fill: "rgb("+(~~(sv[0]*255))+","+(~~(sv[1]*255))+","+(~~(sv[2]*255))+")"
+			});
+		}
+
+		if (ScoreScreen.scrap) {
+			var sv = PIXI.hex2rgb(Util.hsl2rgb((Game.time*0.001)%1,1,0.7));
+			ScoreScreen.scrap.setStyle({
+				font: "bold 90px 'Titillium Web'",
+				stroke: "black",
+				align: "center",
+				strokeThickness: 10,
+				fill: "rgb("+(~~(sv[0]*255))+","+(~~(sv[1]*255))+","+(~~(sv[2]*255))+")"
 			});
 		}
 

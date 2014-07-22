@@ -15,6 +15,11 @@ var Player = Entity.extend(function(props){
 	this.flameColor = either(props.flameColor, 0xFF6510);
 	this.health = this.maxHealth = either(props.health, 100);
 
+	this.attractorRange = 300;
+	this.attractorStrength = 2;
+
+	this.scrap = 0;
+
 	this.sprite.depth = 1000.1;
 
 	Graphics.addEngineFire(this, "engineFire");
@@ -44,7 +49,7 @@ var Player = Entity.extend(function(props){
 			"texture": PIXI.Texture.fromImage("img/playerShip1_orange.png"),
 			"flameColor": 0x30FF10,
 			"accel": 4,
-			"top": 25,
+			"top": 40,
 			"fric": 8/7,
 			"srot": 1/2,
 			"mounts": [
@@ -189,7 +194,8 @@ var Player = Entity.extend(function(props){
 
 		var targetAngle;
 		if (!Input.key(Input.VK_Q)) {
-			targetAngle = (this.ys/this.top)*Math.PI/5;
+			targetAngle = Math.atan2(this.ys,this.xs+this.top);
+			// targetAngle = (this.ys/this.top)*Math.PI/5;
 		}
 		else {
 			targetAngle = this.directionTo({x: Input.mouseX, y: Input.mouseY});

@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.43",
+	VERSION: "0.1.44",
 	loaded: false,
 	player: null,
 	entities: [],
@@ -22,9 +22,9 @@ var Game = {
 	 */
 	init: function() {
 		console.log("%c %c MANOCA v"+Game.VERSION+" %c ",
-			"background: black",
-			"background: #222222; color: orange",
-			"background: black"
+			"font-size: 24px; background: black",
+			"font-size: 24px; background: #222222; color: orange",
+			"font-size: 24px; background: black"
 		);
 
 		setTimeout(function(){
@@ -35,7 +35,7 @@ var Game = {
 			if (Game.loaded) {
 				Game.removeSplash();
 			}
-		},3000);
+		},window.location.href.indexOf("file")===0?0:3000);
 		ResourceLoader.queueScripts();
 		ResourceLoader.addCallback(Game.start);
 		ResourceLoader.load();
@@ -54,7 +54,8 @@ var Game = {
 		Starfield.init();
 		Input.init();
 
-		if(typeof Game.dataStorage.highScore === "undefined") Game.dataStorage.highScore = 0;
+		if(typeof Game.dataStorage.highScore === "undefined") {Game.dataStorage.highScore = 0;}
+		if(typeof Game.dataStorage.scrap === "undefined") {Game.dataStorage.scrap = 0;}
 		
 		Game.frameTimer = setInterval(Graphics.frame, 16);
 		Game.removeSplash();
@@ -106,6 +107,7 @@ var Game = {
 		Starfield.resetWarp();
 		Starfield.speed = 0.1;
 
+		Game.dataStorage.scrap = parseInt(Game.dataStorage.scrap)+Game.player.scrap;
 		ScoreScreen.init(); //todo: fix this (why do we need to reinit to fix interactivity?)
 		Level.completed = false;
 		Starfield.addToContainer(ScoreScreen.stage);
@@ -137,8 +139,8 @@ var Game = {
 	 * Performs a single game step.  This is called by an interval.
 	 */
 	step: function() {
+		Game.time++;
 		if (Game.playing) {
-			Game.time++;
 			Level.step();
 
 			for (var i = Game.entities.length - 1; i >= 0; i--) {
@@ -220,6 +222,9 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/scorescreen.js");
 		ResourceLoader.queue("script/entity.js");
 
+		//Etc
+		ResourceLoader.queue("script/scrap.js");
+
 		//Particles
 		ResourceLoader.queue("script/particle/particle.js");
 		ResourceLoader.queue("script/particle/particleSystem.js");
@@ -244,6 +249,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/ship/worm.js");
 		ResourceLoader.queue("script/ship/cruiser.js");
 
+		//Levels
 		ResourceLoader.queue("script/hostileFactory.js");
 		ResourceLoader.queue("script/level.js");
 	},

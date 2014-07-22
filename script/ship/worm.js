@@ -19,8 +19,9 @@ var Worm = Hostile.extend(function(props){
 
 	Graphics.addEngineFire(this, "engineFire", new PIXI.Point(14,0), 0xFF8844);
 
-	this.pointValue = 1000;
+	this.pointValue = 700;
 	this.damage = 60;
+	this.instantDestroy = true;
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/enemyBlack5.png")

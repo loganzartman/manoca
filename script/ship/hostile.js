@@ -4,6 +4,7 @@ var Hostile = Entity.extend(function(props){
 	this.dead = false;
 	this.pointValue = 100;
 	this.damage = 30;
+	this.instantDestroy = true;
 })
 .methods({
 	step: function() {
@@ -47,8 +48,14 @@ var Hostile = Entity.extend(function(props){
 	},
 
 	kill: function() {
+
+
 		if (!this.dead) {
 			Game.addScore(this.pointValue);
+			Scrap.make({
+				"entity": this,
+				"count": ~~Random.next(this.pointValue/40,this.pointValue/20)
+			});
 
 			Particle.emitExplosion({
 				"x": this.x,
@@ -61,17 +68,25 @@ var Hostile = Entity.extend(function(props){
 
 			this.dead = true;
 			var that = this;
-			setTimeout(function(){
-				that.destroy();
-				for (var i=0; i<15; i++) {
-					Particle.emitExplosion({
-						"x": that.x+Random.next(-that.sprite.width/2,that.sprite.width/2),
-						"y": that.y+Random.next(-that.sprite.height/2,that.sprite.height/2),
-						"n": 1,
-						"s": 0.2,
-					});
-				}
-			}, Random.next(500,1000));
+			
+			if (this.instantDestroy) {
+				this.finishKill(that);
+			}
+			else {
+				setTimeout(function(){that.finishKill(that);}, Random.next(500,1000));
+			}
+		}
+	},
+
+	finishKill: function(that) {
+		that.destroy();
+		for (var i=0; i<15; i++) {
+			Particle.emitExplosion({
+				"x": that.x+Random.next(-that.sprite.width/2,that.sprite.width/2),
+				"y": that.y+Random.next(-that.sprite.height/2,that.sprite.height/2),
+				"n": 1,
+				"s": 0.2,
+			});
 		}
 	}
 });
