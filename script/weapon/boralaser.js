@@ -8,7 +8,7 @@ var BoraLaser = BasicLaser.extend(function(props){
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),
 	glowtexture: PIXI.Texture.fromImage("img/laserglow2.png"),
 	delay: 7,
-	speed: 40,
+	speed: 57,
 	recoil: 5
 })
 .methods({

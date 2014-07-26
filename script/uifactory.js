@@ -84,6 +84,13 @@ var UIFactory = {
 		});
 		UIFactory.statustext.position = new PIXI.Point(32,Graphics.height-64);
 		UIFactory.statustext.depth = 20000;
+
+		Object.defineProperty(UIFactory.statustext, "alpha", {
+			get: function() {
+				return Math.sin(Game.time/10)*0.4+0.6;
+			}
+		});
+
 		Graphics.activeStage.addChild(UIFactory.statustext);
 	},
 

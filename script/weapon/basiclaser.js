@@ -3,7 +3,7 @@
 var BasicLaser = Bullet.extend(function(props){
 	this.shooter = either(props.shooter, null);
 
-	this.sprite.scale = new PIXI.Point(1,2);
+	this.sprite.scale = new PIXI.Point(0.7,1.5);
 	this.sprite.blendMode = PIXI.blendModes.ADD;
 	this.sprite.depth = 50;
 	this.angle = Math.atan2(this.xs,-this.ys);
@@ -18,6 +18,8 @@ var BasicLaser = Bullet.extend(function(props){
 	this.glow.blendMode = PIXI.blendModes.ADD;
 	this.sprite.addChild(this.glow);
 
+	this.t = 0;
+
 	this.damage = 7;
 	this.collisionMask = {
 		width: 16,
@@ -26,9 +28,9 @@ var BasicLaser = Bullet.extend(function(props){
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),
-	glowtexture: PIXI.Texture.fromImage("img/laserglow2.png"),
+	glowtexture: PIXI.Texture.fromImage("img/laserglow.png"),
 	delay: 12,
-	speed: 40,
+	speed: 50,
 	recoil: 1
 })
 .methods({
@@ -38,6 +40,10 @@ var BasicLaser = Bullet.extend(function(props){
 			this.y
 		);
 		this.sprite.rotation = this.angle;
+
+		this.t++;
+		var scale = Math.max(0,1-((this.t*this.t)/40))*0.5;
+		this.sprite.scale = new PIXI.Point(0.7+scale,1.5+scale);
 	},
 
 	step: function() {

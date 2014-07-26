@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.44",
+	VERSION: "0.1.45",
 	loaded: false,
 	player: null,
 	entities: [],
@@ -36,6 +36,9 @@ var Game = {
 				Game.removeSplash();
 			}
 		},window.location.href.indexOf("file")===0?0:3000);
+
+		document.body.style.cursor = "none";
+
 		ResourceLoader.queueScripts();
 		ResourceLoader.addCallback(Game.start);
 		ResourceLoader.load();
@@ -53,7 +56,7 @@ var Game = {
 
 		UIFactory.init();
 		Level.init();
-		MainMenu.init();
+		MainMenu.init(); //TEST: REMOVAL
 		Graphics.init();
 		Starfield.init();
 		Input.init();
@@ -71,11 +74,20 @@ var Game = {
 	},
 
 	/**
+	 * Opens the ship selection menu after a level has been selected.
+	 * @param level {Object} the level that should be loaded.  See Level class.
+	 */
+	shipSelect: function(level) {
+		ShipSelect.init(level);
+		Starfield.addToContainer(ShipSelect.stage);
+		Game.setStage(ShipSelect.stage);
+	},
+
+	/**
 	 * Starts gameplay once it has been stopped (eg. a menu stage is active).
 	 * @param level {Object} the level that should be loaded.  See Level class.
 	 */
 	restart: function(level) {
-		if(Game.score >= Game.dataStorage.highScore) Game.dataStorage.highScore = Game.score;
 		Game.score = 0;
 		Game.entities = [];
 		Game.particles = null;
@@ -87,7 +99,7 @@ var Game = {
 		Game.player = new Player(Util.collect({
 			"x": -128,
 			"y": Graphics.height/2,
-		},Player.ships[MainMenu.shipIndex]));
+		},ShipSelect.selected));
 		Game.entities.push(Game.player);
 
 		Starfield.addToContainer(Graphics.stage, Level.background);
@@ -103,6 +115,7 @@ var Game = {
 	 * Stops the game immediately and returns to the score screen.
 	 */
 	end: function() {
+		if(Game.score >= Game.dataStorage.highScore) Game.dataStorage.highScore = Game.score;
 		Level.setLevel(Levels[0]);
 		Game.playing = false;
 		Starfield.resetWarp();
@@ -219,11 +232,10 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/input.js");
 		ResourceLoader.queue("script/starfield.js");
 		ResourceLoader.queue("script/uifactory.js");
-		ResourceLoader.queue("script/mainmenu.js");
-		ResourceLoader.queue("script/scorescreen.js");
 		ResourceLoader.queue("script/entity.js");
 
 		//Etc
+		ResourceLoader.queue("script/profile.js");
 		ResourceLoader.queue("script/scrap.js");
 
 		//Particles
@@ -249,6 +261,11 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/ship/ufo.js");
 		ResourceLoader.queue("script/ship/worm.js");
 		ResourceLoader.queue("script/ship/cruiser.js");
+
+		//Stages (ie. menus)
+		ResourceLoader.queue("script/stage/mainmenu.js");
+		ResourceLoader.queue("script/stage/scorescreen.js");
+		ResourceLoader.queue("script/stage/shipselect.js");
 
 		//Levels
 		ResourceLoader.queue("script/hostileFactory.js");

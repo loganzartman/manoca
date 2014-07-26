@@ -31,6 +31,17 @@ var Player = Entity.extend(function(props){
 	texture: PIXI.Texture.fromImage("img/playerShip2_red.png"),
 	ships: [
 		{
+			"name": "none",
+			"texture": Graphics.texture.none,
+			"flameColor": 0xFFFFFF,
+			"accel": 0,
+			"top": 0,
+			"fric": 0,
+			"srot": 0,
+			"mounts": [],
+			"health": 0
+		},
+		{
 			"name": "Pegasus",
 			"texture": PIXI.Texture.fromImage("img/playerShip2_blue.png"),
 			"flameColor": 0x2244FF,

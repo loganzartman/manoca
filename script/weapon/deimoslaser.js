@@ -8,7 +8,7 @@ var DeimosLaser = BasicLaser.extend(function(props){
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),
 	glowtexture: PIXI.Texture.fromImage("img/laserglow2.png"),
 	delay: 30,
-	speed: 30,
+	speed: 45,
 	recoil: 2
 })
 .methods({

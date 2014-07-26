@@ -29,13 +29,14 @@ var Graphics = {
 
 	//Pixi Textures stored for re-use
 	texture: {
-		engineFire: PIXI.Texture.fromImage("img/fire10.png"),
-		engineFireLight: PIXI.Texture.fromImage("img/fire10light.png"),
-		displacement1: PIXI.Texture.fromImage("img/disp1.png"),
-		hyperspace: PIXI.Texture.fromImage("img/hyperspace.png"),
-		cursor: PIXI.Texture.fromImage("img/cur.png"),
-		mouseforce: PIXI.Texture.fromImage("img/mouseforce.png"),
-		overlay: PIXI.Texture.fromImage("img/overlay2.png")
+		"engineFire": PIXI.Texture.fromImage("img/fire10.png"),
+		"engineFireLight": PIXI.Texture.fromImage("img/fire10light.png"),
+		"displacement1": PIXI.Texture.fromImage("img/disp1.png"),
+		"hyperspace": PIXI.Texture.fromImage("img/hyperspace.png"),
+		"cursor": PIXI.Texture.fromImage("img/cur.png"),
+		"mouseforce": PIXI.Texture.fromImage("img/mouseforce.png"),
+		"overlay": PIXI.Texture.fromImage("img/overlay2.png"),
+		"none": PIXI.Texture.fromImage("img/none.png")
 	},
 
 	/**

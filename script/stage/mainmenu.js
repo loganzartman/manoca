@@ -9,7 +9,7 @@ var MainMenu = {
 		MainMenu.stage = new PIXI.Stage(0x000000, false);
 		if (Starfield.nebula) Starfield.nebula.setTexture(Starfield.nebulae[0]);
 
-		MainMenu.shipIndex = 0;
+		/*MainMenu.shipIndex = 0;
 		MainMenu.shipButton = UIFactory.makeButton({
 			text: "ship: "+Player.ships[0].name,
 			action: function() {
@@ -18,6 +18,7 @@ var MainMenu = {
 			}
 		});
 		MainMenu.shipButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
+		*/
 
 		MainMenu.levelIndex = 0;
 		MainMenu.levelButton = UIFactory.makeButton({
@@ -39,9 +40,9 @@ var MainMenu = {
 		MainMenu.settingsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-188);
 
 		MainMenu.startButton = UIFactory.makeButton({
-			text: "start",
+			text: "Select Ship",
 			action: function() {
-				Game.restart(Levels[MainMenu.levelIndex+1]);
+				Game.shipSelect(Levels[MainMenu.levelIndex+1]);
 			}
 		});
 		MainMenu.startButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
@@ -100,7 +101,7 @@ var MainMenu = {
 		MainMenu.stage.addChild(MainMenu.infotext);
 		MainMenu.stage.addChild(MainMenu.startButton);
 		MainMenu.stage.addChild(MainMenu.settingsButton);
-		MainMenu.stage.addChild(MainMenu.shipButton);
+		//MainMenu.stage.addChild(MainMenu.shipButton);
 		MainMenu.stage.addChild(MainMenu.levelButton);
 		MainMenu.stage.addChild(title);
 		Starfield.speed = 0.1;
