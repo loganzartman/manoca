@@ -2,12 +2,13 @@
 
 var BoraLaser = BasicLaser.extend(function(props){
 	this.glow.tint = 0x227704;
-	this.damage = 3;
+	this.damage = BoraLaser.damage;
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),
 	glowtexture: PIXI.Texture.fromImage("img/laserglow2.png"),
 	delay: 7,
+	damage: 3,
 	speed: 57,
 	recoil: 5
 })

@@ -11,7 +11,7 @@ var BasicCannon = Bullet.extend(function(props){
 	this.updateSprite();
 	Graphics.stage.addChild(this.sprite);
 
-	this.damage = 7;
+	this.damage = BasicCannon.damage;
 	this.collisionMask = {
 		width: 16,
 		height: 16
@@ -20,6 +20,7 @@ var BasicCannon = Bullet.extend(function(props){
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),
 	delay: 7,
+	damage: 7,
 	speed: 70,
 	recoil: 4
 })

@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.45",
+	VERSION: "0.1.46",
 	loaded: false,
 	player: null,
 	entities: [],
@@ -15,6 +15,7 @@ var Game = {
 	debugMode: false,
 	frameTimer: null,
 	dataStorage: localStorage||{}, //player doesn't deserve saved state if their browser doesn't support web storage
+	profile: null,
 
 	/**
 	 * Called on page load.
@@ -51,8 +52,21 @@ var Game = {
 	start: function() {
 		Game.loaded = true;
 
-		if(typeof Game.dataStorage.highScore === "undefined") {Game.dataStorage.highScore = 0;}
-		if(typeof Game.dataStorage.scrap === "undefined") {Game.dataStorage.scrap = 0;}
+		var profileLoaded = false;
+		for (var prop in Game.dataStorage) {
+			if (prop.indexOf("profile_") === 0) {
+				Game.profile = Profile.load(prop.substring(8));
+				profileLoaded = true;
+				break;
+			}
+		}
+		if (!profileLoaded) {
+			if (Game.dataStorage.scrap) {alert("Welcome back!  Your collected scrap has been reset, as the scrap system has been rebalanced.  However, your highscore has been imported.");}
+			Game.profile = Profile.create({
+				"name": "Pilot", //todo: allow customization
+				"highscore": either(Game.dataStorage.highScore, 0)
+			}); 
+		}
 
 		UIFactory.init();
 		Level.init();
@@ -115,14 +129,21 @@ var Game = {
 	 * Stops the game immediately and returns to the score screen.
 	 */
 	end: function() {
-		if(Game.score >= Game.dataStorage.highScore) Game.dataStorage.highScore = Game.score;
+		//Write score and scrap to profile
+		if(Game.score >= Game.profile.highscore) {
+			Game.profile.highscore = Game.score;
+		}
+		Game.profile.scrap += Game.player.scrap;
+		Profile.save(Game.profile);
+
+		//"Unload" the level
 		Level.setLevel(Levels[0]);
 		Game.playing = false;
 		Starfield.resetWarp();
 		Starfield.speed = 0.1;
 
-		Game.dataStorage.scrap = parseInt(Game.dataStorage.scrap)+Game.player.scrap;
-		ScoreScreen.init(); //todo: fix this (why do we need to reinit to fix interactivity?)
+		//Launch score screen
+		ScoreScreen.init();
 		Level.completed = false;
 		Starfield.addToContainer(ScoreScreen.stage);
 		Game.setStage(ScoreScreen.stage);

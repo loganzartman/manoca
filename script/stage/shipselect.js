@@ -47,19 +47,51 @@ var ShipSelect = {
 		ShipSelect.shipSpecs.depth = 2001;
 		ShipSelect.stage.addChild(ShipSelect.shipSpecs);
 
-		ShipSelect.updateSelected(Player.ships[1]);
-
 		ShipSelect.startButton = UIFactory.makeButton({
 			text: "Launch",
 			action: function() {
-				Game.restart(level);
+				if (Profile.shipUnlocked(Game.profile, ShipSelect.selected)) {
+					Game.restart(level);
+				}
+				else {
+					if (Game.profile.scrap>=ShipSelect.selected.cost) {
+						if (confirm("Build "+ShipSelect.selected.name+" for "+ShipSelect.selected.cost+"?")) {
+							Game.profile.scrap -= ShipSelect.selected.cost;
+							Profile.addShip(Game.profile,ShipSelect.selected);
+							Profile.save(Game.profile);
+
+							Game.shipSelect();
+						}
+					}
+					else {
+						alert("Not enough scrap to build.");
+					}
+				}
 			}
 		});
 		ShipSelect.startButton.position = new PIXI.Point(
 			ShipSelect.margin*2,
-			Graphics.height - ShipSelect.margin*2 - ShipSelect.startButton.height
+			Graphics.height - ShipSelect.margin*2 - ShipSelect.startButton.height -8
 		);
+		ShipSelect.startButton.tint = 0x11AA11;
+		ShipSelect.startButton.depth = 2002;
 		ShipSelect.stage.addChild(ShipSelect.startButton);
+
+		ShipSelect.abortButton = UIFactory.makeButton({
+			text: "Abort",
+			action: function() {
+				Game.mainMenu();
+			}
+		});
+		ShipSelect.abortButton.position = new PIXI.Point(
+			ShipSelect.margin*2,
+			Graphics.height - ShipSelect.margin*1 - ShipSelect.abortButton.height + 16
+		);
+		ShipSelect.abortButton.tint = 0xFF1111;
+		ShipSelect.abortButton.depth = 2002;
+		ShipSelect.stage.addChild(ShipSelect.abortButton);
+
+		ShipSelect.updateSelected(ShipSelect.selected);
 
 		//Ship List
 		var x=Graphics.width/2+ShipSelect.margin,
@@ -77,6 +109,8 @@ var ShipSelect = {
 	},
 
 	addListItem: function(ship,x,y) {
+		var unlocked = Profile.shipUnlocked(Game.profile, ship);
+
 		var sprite = new PIXI.Sprite(ship.texture);
 		sprite.scale = new PIXI.Point(0.75,0.75);
 		sprite.position = new PIXI.Point(x+ShipSelect.margin/2,y+ShipSelect.margin/4);
@@ -94,10 +128,25 @@ var ShipSelect = {
 			sprite.position.y + sprite.height/2 - name.height/2
 		);
 
+		if (!unlocked) {
+			var cost = new PIXI.Text(Util.formatNumberCommas(ship.cost), {
+				"font": "18pt 'Titillium Web'",
+				"fill": Game.profile.scrap>=ship.cost?"lime":"red",
+				"stroke": "black",
+				"strokeThickness": 2
+			});
+			cost.depth = 2001;
+			cost.position = new PIXI.Point(
+				Graphics.width - ShipSelect.margin*2 - cost.width,
+				sprite.position.y + sprite.height/2 - name.height/2
+			);
+			ShipSelect.stage.addChild(cost);
+		}
+
 		var btn = new PIXI.Graphics();
-		btn.lineStyle(2,0xf7cf7b,1);
-		btn.alpha = 0.1;
-		btn.beginFill(0xf7cf7b);
+		btn.lineStyle(2,unlocked?0xf7cf7b:0xFF0505,1);
+		btn.tgtalpha = 0.1;
+		btn.beginFill(unlocked?0xf7cf7b:0x777777);
 		var bw = Graphics.width - ShipSelect.margin - x,
 			bh = sprite.height + ShipSelect.margin/2;
 		btn.drawRect(x, y, bw, bh);
@@ -107,13 +156,23 @@ var ShipSelect = {
 			ShipSelect.selected = ship;
 			ShipSelect.updateSelected(ship);
 		}
-
 		btn.mouseover = function() {
-			btn.alpha = 0.5;
+			btn.tgtalpha = btn._curalpha = 0.5;
 		}
 		btn.mouseout = function() {
-			btn.alpha = 0.1;
+			btn.tgtalpha = 0.1;
 		}
+
+		Object.defineProperty(btn, "alpha", {
+			get: function() {
+				var step = 0.02;
+				if (!this._curalpha) this._curalpha = this.tgtalpha||1;
+				if (this._curalpha+step<=this.tgtalpha) this._curalpha+=step;
+				else if (this._curalpha-step>=this.tgtalpha) this._curalpha-=step;
+				else this._curalpha = this.tgtalpha;
+				return this._curalpha;
+			}
+		});
 
 		ShipSelect.stage.addChild(btn);
 		ShipSelect.stage.addChild(sprite);
@@ -132,14 +191,27 @@ var ShipSelect = {
 
 		ShipSelect.shipSpecs.position = new PIXI.Point(
 			ShipSelect.margin*2,
-			ShipSelect.margin*3 + ShipSelect.shipSprite.height
+			ShipSelect.margin*3 + Math.max(ShipSelect.shipSprite.height,200)
 		);
 		var specs = "";
 		specs += "Acceleration: "+ship.accel + "\n";
 		specs += "Top speed: "+ship.top + "\n";
-		specs += "Drag: "+(~~(ship.fric*100)) + "\n";
-		specs += "Rotation speed: "+(~~(ship.srot*100)) + "\n";
+		specs += "Rotation speed: "+(Math.round(ship.srot*10)) + "\n";
 		specs += "Hull strength: "+ship.health + "\n";
+
+		var dps = 0;
+		for (var i = ship.mounts.length - 1; i >= 0; i--) {
+			dps += (ship.mounts[i].type.damage*60)/ship.mounts[i].type.delay;
+		};
+		specs += "Damage/second: "+dps.toFixed(2)+"\n";
+
 		ShipSelect.shipSpecs.setText(specs);
+
+		if (Profile.shipUnlocked(Game.profile, ship)) {
+			ShipSelect.startButton.setText("Launch");
+		}
+		else {
+			ShipSelect.startButton.setText("Build Ship");
+		}
 	}
 }

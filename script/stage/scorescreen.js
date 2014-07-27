@@ -18,10 +18,10 @@ var ScoreScreen = {
 		ScoreScreen.menuButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
 
 		//the big text at the top
-		var text = Game.score<=Game.dataStorage.highScore?
+		var text = Game.score<=Game.profile.highscore?
 			 Level.completed?"Level complete.":insultBank[Math.floor(Math.random()*insultBank.length)]
 			:complimentBank[Math.floor(Math.random()*complimentBank.length)] + "New high score.";
-		var col = Game.score<=Game.dataStorage.highScore?"orange":"lime"
+		var col = Game.score<=Game.profile.highscore?"orange":"lime"
 
 		ScoreScreen.response = new PIXI.Text(text, {
 			font: "bold 90px 'Titillium Web'",
@@ -89,7 +89,7 @@ var ScoreScreen = {
 		ScoreScreen.highScoreText.depth = 20000;
 
 		//the high score
-		ScoreScreen.highScore = new PIXI.Text(Util.formatNumberCommas(Game.dataStorage.highScore), {
+		ScoreScreen.highScore = new PIXI.Text(Util.formatNumberCommas(Game.profile.highscore), {
 			font: "bold 60px 'Titillium Web'",
 			fill: "white",
 			stroke: "black",

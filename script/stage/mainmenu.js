@@ -4,6 +4,7 @@ var MainMenu = {
 	stage: null,
 
 	titleTexture: null,
+	levelIndex: 1,
 
 	init: function() {
 		MainMenu.stage = new PIXI.Stage(0x000000, false);
@@ -20,9 +21,8 @@ var MainMenu = {
 		MainMenu.shipButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
 		*/
 
-		MainMenu.levelIndex = 0;
 		MainMenu.levelButton = UIFactory.makeButton({
-			text: "level: "+Levels[1].name,
+			text: "level: "+Levels[MainMenu.levelIndex+1].name,
 			action: function() {
 				MainMenu.levelIndex = (MainMenu.levelIndex+1)%(Levels.length-1);
 				MainMenu.levelButton.setText("level: "+Levels[MainMenu.levelIndex+1].name);
@@ -56,7 +56,7 @@ var MainMenu = {
 		);
 		title.depth = 2000;
 
-		MainMenu.scraptext = new PIXI.Text("Scrap: "+Util.formatNumberCommas(Game.dataStorage.scrap), {
+		MainMenu.scraptext = new PIXI.Text("Scrap: "+Util.formatNumberCommas(Game.profile.scrap), {
 			font: "bold 30px 'Titillium Web'",
 			fill: "white",
 			stroke: "black",
@@ -66,7 +66,7 @@ var MainMenu = {
 		MainMenu.scraptext.position = new PIXI.Point(Graphics.width-Graphics.width*0.1-MainMenu.scraptext.width,Graphics.height-308);
 		MainMenu.scraptext.depth = 20000;
 
-		MainMenu.highscore = new PIXI.Text("Highscore: "+Util.formatNumberCommas(Game.dataStorage.highScore), {
+		MainMenu.highscore = new PIXI.Text("Highscore: "+Util.formatNumberCommas(Game.profile.highscore), {
 			font: "bold 30px 'Titillium Web'",
 			fill: "white",
 			stroke: "black",

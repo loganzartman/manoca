@@ -1,12 +1,12 @@
 "use strict";
 
 var Scrap = Entity.extend(function(props){
-	this.value = either(props.value,~~Random.next(1,5));
+	this.value = either(props.value,~~Random.next(2,10));
 
 	this.friction = 0.1;
 	this.sprite = new PIXI.Sprite(Scrap.texture);
 	this.sprite.blendMode = PIXI.blendModes.ADD;
-	var scaleval = 0.3+(this.value/5)*0.8
+	var scaleval = 0.3+(this.value/10)*0.8
 	this.sprite.scale = new PIXI.Point(scaleval, scaleval);
 	Scrap.col = (Scrap.col+0.001)%1;
 	this.col = Scrap.col;

@@ -20,7 +20,7 @@ var BasicLaser = Bullet.extend(function(props){
 
 	this.t = 0;
 
-	this.damage = 7;
+	this.damage = BasicLaser.damage;
 	this.collisionMask = {
 		width: 16,
 		height: 16
@@ -30,6 +30,7 @@ var BasicLaser = Bullet.extend(function(props){
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),
 	glowtexture: PIXI.Texture.fromImage("img/laserglow.png"),
 	delay: 12,
+	damage: 7,
 	speed: 50,
 	recoil: 1
 })

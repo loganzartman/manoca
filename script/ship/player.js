@@ -31,7 +31,9 @@ var Player = Entity.extend(function(props){
 	texture: PIXI.Texture.fromImage("img/playerShip2_red.png"),
 	ships: [
 		{
+			"id": 0,
 			"name": "none",
+			"cost": 0,
 			"texture": Graphics.texture.none,
 			"flameColor": 0xFFFFFF,
 			"accel": 0,
@@ -42,21 +44,26 @@ var Player = Entity.extend(function(props){
 			"health": 0
 		},
 		{
-			"name": "Pegasus",
-			"texture": PIXI.Texture.fromImage("img/playerShip2_blue.png"),
-			"flameColor": 0x2244FF,
-			"accel": 3,
-			"top": 30,
+			"id": 1,
+			"name": "Icarus",
+			"cost": 0,
+			"unlockedDefault": false,
+			"texture": PIXI.Texture.fromImage("img/icarus.png"),
+			"flameColor": 0xA9A420,
+			"accel": 2,
+			"top": 20,
 			"fric": 8/7,
-			"srot": 3/8,
+			"srot": 1/4,
 			"mounts": [
-				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
-				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
+				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.2))
 			],
-			"health": 130
+			"health": 70
 		},
 		{
+			"id": 2,
 			"name": "Javelin",
+			"cost": 10000,
+			"unlockedDefault": false,
 			"texture": PIXI.Texture.fromImage("img/playerShip1_orange.png"),
 			"flameColor": 0x30FF10,
 			"accel": 4,
@@ -70,7 +77,27 @@ var Player = Entity.extend(function(props){
 			"health": 105
 		},
 		{
+			"id": 3,
+			"name": "Pegasus",
+			"cost": 24000,
+			"unlockedDefault": false,
+			"texture": PIXI.Texture.fromImage("img/playerShip2_blue.png"),
+			"flameColor": 0x2244FF,
+			"accel": 3.5,
+			"top": 35,
+			"fric": 8/7,
+			"srot": 3/8,
+			"mounts": [
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
+			],
+			"health": 150
+		},
+		{
+			"id": 4,
 			"name": "Myrmidon",
+			"cost": 42000,
+			"unlockedDefault": false,
 			"texture": PIXI.Texture.fromImage("img/constellation.png"),
 			"flameColor": 0xFF6510,
 			"accel": 1,
@@ -78,14 +105,17 @@ var Player = Entity.extend(function(props){
 			"fric": 17/14,
 			"srot": 1/7,
 			"mounts": [
-				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.5)),
-				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
-				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.5)),
+				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.1)),
+				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.9))
 			],
-			"health": 200
+			"health": 300
 		},
 		{
+			"id": 5,
 			"name": "RS-400",
+			"cost": 60000,
+			"unlockedDefault": false,
 			"texture": PIXI.Texture.fromImage("img/rs400.png"),
 			"flameColor": 0xA96420,
 			"accel": 1.5,
@@ -96,7 +126,7 @@ var Player = Entity.extend(function(props){
 				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
 				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.85))
 			],
-			"health": 90
+			"health": 245
 		}
 	]
 })
