@@ -280,7 +280,7 @@ var Player = Entity.extend(function(props){
 					"x": this.x-flarePoint.x,
 					"y": this.y-flarePoint.y,
 					"xs": Math.cos(this.angle)*flareSpd+this.xs+boundEffects.x,
-					"ys": Math.sin(this.angle)*flareSpd+this.ys,
+					"ys": Math.sin(this.angle)*flareSpd+this.ys+boundEffects.y,
 					"tint": this.flameColor
 				});
 			}

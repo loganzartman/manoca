@@ -60,7 +60,7 @@ var ShipSelect = {
 							Profile.addShip(Game.profile,ShipSelect.selected);
 							Profile.save(Game.profile);
 
-							Game.shipSelect();
+							Game.shipSelect(level);
 						}
 					}
 					else {

@@ -139,14 +139,14 @@ var Graphics = {
 		Graphics.stage.addChild(Graphics.mouseforce);
 
 		//debug text
-		Graphics.debugText = new PIXI.Text("DEBUG MODE\n[invincibile]", {
+		Graphics.debugText = new PIXI.Text("DEBUG MODE", {
 			font: "bold 12px monospace",
 			stroke: "black",
 			align: "left",
 			strokeThickness: 2,
 			fill: "white"
 		});
-		Graphics.debugText.position = new PIXI.Point(32,108);
+		Graphics.debugText.position = new PIXI.Point(32,118);
 		Graphics.debugText.scale = new PIXI.Point(1,1);
 		Graphics.debugText.depth = 20000;
 		Graphics.debugText.visible = false;
@@ -238,9 +238,9 @@ var Graphics = {
 			});
 		}
 
-		if (Game.debugMode) {
+		if (Game.debugMode && Game.playing) {
 			var debstr = "DEBUG MODE\n"+
-				"[invincibile]\n"+
+				"[invincible]\n"+
 				"entities: "+Game.entities.length+"\n"+
 				"particles: "+Game.particleSystem.count+"\n";
 			for (var i = Graphics.debugWatch.length - 1; i >= 0; i--) {
