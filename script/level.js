@@ -41,7 +41,14 @@ var Level = {
 	            	HostileFactory.getGenerator("wormRandom",{}),
 	            	HostileFactory.getGenerator("cruiserRandom",{})
 	            ]
-			}
+			}/*,
+			{
+				"name": "3manyUFOs",
+				"background": 5,
+				"generators": [
+					HostileFactory.getGenerator("ufoCrazy",{})
+	            ]
+			}*/
 		];
 
 		Level.setLevel(Levels[0]); //set to "none" level

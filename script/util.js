@@ -178,6 +178,17 @@ var Util = {
 	    return a+f*(b-a);
 	},
 
+	tween: function(percentage, midpoint, start, mid, end) {
+		if (percentage<midpoint) {
+			//return Util.easeOutCubic(percentage/midpoint,start,mid-start,1);
+			return Util.lerp(start, mid, percentage/midpoint);
+		}
+		else if (percentage>=midpoint) {
+			//return Util.easeInCubic((percentage-midpoint)/(1-midpoint),mid,end-mid,1);
+			return Util.lerp(mid, end, (percentage-midpoint)/(1-midpoint));
+		}
+	},
+
 	/**
 	 * Rotate a Pixi point around an origin
 	 * @param point to rotate

@@ -12,14 +12,25 @@ var Particle = Entity.extend(function(params){
 	this.t = 0;
 	this.life = params.life||200;
 	this.scale = params.scale||1;
-	this.scaleRate = params.scaleRate||0;
 	this.friction = params.friction||0;
 
-	this.minAlpha = params.minAlpha||0;
-	this.maxAlpha = params.maxAlpha||1;
-	this.easeTime = params.easeTime||1;
-	this.easeIn = params.easeIn||false;
-	this.easeOut = params.easeOut||true;
+	this.alpha = params.alpha||1;
+
+	this.tweenPoint = either(params.tweenPoint,0.5);
+	this.tweens = either(params.tweens,[
+		{ //begin (t<tweenPoint)
+			"alpha": 1,
+			"scale": 1
+		},
+		{ //mid (t==tweenPoint)
+			"alpha": 1,
+			"scale": 1
+		},
+		{ //end (t>tweenPoint)
+			"alpha": 0,
+			"scale": 0
+		}
+	]);
 
 	var texture = params.texture||Particle.textureSmoke;
 	this.sprite = new PIXI.Sprite(texture);
@@ -47,29 +58,34 @@ var Particle = Entity.extend(function(params){
 
 		var r = new Random();
 		for (var i=n; i>=0; i--) {
+			var dir = Random.next(Math.PI*2);
+			var len = Random.next(-8,8)*s;
 			Game.particleSystem.emit({
 				"type": "Explosion",
 				"x": x,
 				"y": y,
-				"xs": r.next(-8,8)*s,
-				"ys": r.next(-8,8)*s,
+				"xs": Math.cos(dir)*len,
+				"ys": Math.sin(dir)*len,
 				"life": r.next(10,20),
-				"scale": r.next(0.005,0.05)*s
+				"scale": r.next(0.8,1.2)*s,
+				"depth": Math.random()>0.5?1001:1002
 			});		
 		}
 
 		for (var i=n/2; i>=0; i--) {
+			var dir = Random.next(Math.PI*2);
+			var len = Random.next(-4,4)*s;
 			Game.particleSystem.emit({
 				"type": "Smoke",
 				"x": x+r.next(-50,50),
 				"y": y+r.next(-50,50),
-				"xs": r.next(-3,3)*s,
-				"ys": r.next(-3,3)*s,
+				"xs": Math.cos(dir)*len,
+				"ys": Math.sin(dir)*len,
 				"life": r.next(40,80),
-				"scale": r.next(8,15)*s,
+				"scale": r.next(1,1)*s,
 				"tint": 0x333333,
 				"friction": r.next(0.01,0.06),
-				"easeIn": false
+				"depth": Math.random()>0.5?1001:1002
 			});
 		}
 	}
@@ -81,34 +97,25 @@ var Particle = Entity.extend(function(params){
 	 */
 	updateSprite: function() {
 		this.t++;
+		
+		//tweening
+		if (this.tweens.length === 3) {
+			var time = this.t/this.life;
+			var mid = this.tweenPoint;
+
+			for (var prop in this.tweens[1]) {
+				this[prop] = Util.tween(time,mid,this.tweens[0][prop],this.tweens[1][prop],this.tweens[2][prop]);
+			}
+		}
+
 		this.sprite.position = new PIXI.Point(
 			this.x,
 			this.y
 		);
 		this.sprite.scale = new PIXI.Point(this.scale,this.scale);
-		this.scale+=this.scaleRate;
+		this.sprite.alpha = this.alpha;
 		this.sprite.rotation = this.angle;
-
-		//transparency easing
-		if (this.easeIn && this.t<this.life*0.5*this.easeTime) {
-			this.sprite.alpha = Util.easeInCubic(
-				this.t,
-				this.minAlpha,
-				this.maxAlpha,
-				this.life*0.5*this.easeTime
-			);
-		}
-		else if (this.easeOut && this.t>this.life-this.life*0.5*this.easeTime) {
-			this.sprite.alpha = this.maxAlpha-Util.easeOutCubic(
-				this.t-this.life*0.5,
-				this.minAlpha,
-				this.maxAlpha,
-				this.life*0.5*this.easeTime
-			);	
-		}
-		else {
-			this.sprite.alpha = this.maxAlpha;
-		}
+		if (typeof this.red !== "undefined") this.sprite.tint = PIXI.rgb2hex([this.red/255,this.green/255,this.blue/255]);
 	},
 
 	/**
@@ -119,7 +126,7 @@ var Particle = Entity.extend(function(params){
 	step: function() {
 		this.updateSprite();
 		this.supr();
-		this.xs -= 0.2;
+		this.xs -= 0.2; //this is very bad, move this
 
 		if (!this.inBounds(Graphics.getBounds()) || this.t>this.life) {
 			this.destroy();

@@ -259,26 +259,28 @@ var Player = Entity.extend(function(props){
 			var rand = new Random();
 			for (var i=0; i<3; i++) {
 				
+				var flarePoint = Util.rotatePoint(new PIXI.Point(
+					(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-5*(this.xs/this.top),5*(this.xs/this.top)),
+					rand.next(-2,2)
+				), this.sprite.anchor, this.angle);
+
 				if (!Starfield.isWarping)
 				Game.particleSystem.emit({
 					"type": "TrailSmoke",
-					"x": this.x-(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-10,10),
-					"y": this.y+rand.next(-10,10),
+					"x": this.x-(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-10,10)-flarePoint.x,
+					"y": this.y+rand.next(-10,10)-flarePoint.y,
 					"xs": rand.next(-5,-4.5),
 					"ys": rand.next(-1,1),
 					"texture": Particle.textureSmoke
 				});
 
-				var flarePoint = Util.rotatePoint(new PIXI.Point(
-					(this.sprite.width/2)*(1+(i+1)/3)+rand.next(-5*(this.xs/this.top),5*(this.xs/this.top)),
-					rand.next(-2,2)
-				), this.sprite.anchor, this.angle);
+				var flareSpd = rand.next(-20,-10)*(Starfield.warpTime>1?3:1);
 				Game.particleSystem.emit({
 					"type": "EngineFlare",
 					"x": this.x-flarePoint.x,
 					"y": this.y-flarePoint.y,
-					"xs": rand.next(-20,-10)*(Starfield.warpTime>1?3:1)+this.xs+boundEffects.x,
-					"ys": rand.next(-1,1),
+					"xs": Math.cos(this.angle)*flareSpd+this.xs+boundEffects.x,
+					"ys": Math.sin(this.angle)*flareSpd+this.ys,
 					"tint": this.flameColor
 				});
 			}

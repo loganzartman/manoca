@@ -140,6 +140,15 @@ var HostileFactory = {
 			"params": {}
 		},
 
+		ufoCrazy: {
+			"pattern": "random",
+			"count": 2,
+			"type": "Ufo",
+			"cooldown": 10,
+			"delay": 120,
+			"params": {}
+		},
+
 		wormRandom: {
 			"pattern": "random",
 			"count": 1,

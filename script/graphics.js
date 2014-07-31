@@ -44,6 +44,8 @@ var Graphics = {
 	 * This method sizes and positions the canvas.
 	 */
 	init: function() {
+		
+
 		Graphics.activeStage = MainMenu.stage; //because
 		Game.setStage(MainMenu.stage);
 

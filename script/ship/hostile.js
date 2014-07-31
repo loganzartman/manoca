@@ -25,8 +25,7 @@ var Hostile = Entity.extend(function(props){
 				"type": "Explosion",
 				"x": this.x+Random.next(-this.sprite.width/3,this.sprite.width/3),
 				"y": this.y+Random.next(-this.sprite.height/3,this.sprite.height/3),
-				"scale": 0.01,
-				"maxAlpha": 0.7
+				"scale": 1
 			});
 			this.xs*=1.02;
 			this.ys*=1.02;
@@ -39,7 +38,7 @@ var Hostile = Entity.extend(function(props){
 				"type": "Explosion",
 				"x": obj.x||this.x,
 				"y": obj.y||this.y,
-				"scale": 0.2
+				"scale": 1
 			});
 			this.health -= obj.damage||1;
 			return true;
@@ -61,6 +60,27 @@ var Hostile = Entity.extend(function(props){
 				"x": this.x,
 				"y": this.y,
 				"n": 20
+			});
+
+			var shockwaveScale = (this.sprite.width/64);
+			Game.particleSystem.emit({
+				"type": "Shockwave",
+				"x": this.x,
+				"y": this.y,
+				"tweens": [
+					{
+						"alpha": 1,
+						"scale": 0
+					},
+					{
+						"alpha": 1,
+						"scale": shockwaveScale
+					},
+					{
+						"alpha": 0,
+						"scale": shockwaveScale*1.5
+					}
+				]
 			});
 
 			this.xs *= Random.next(0.5,1.5);
@@ -85,7 +105,7 @@ var Hostile = Entity.extend(function(props){
 				"x": that.x+Random.next(-that.sprite.width/2,that.sprite.width/2),
 				"y": that.y+Random.next(-that.sprite.height/2,that.sprite.height/2),
 				"n": 1,
-				"s": 0.2,
+				"s": 1
 			});
 		}
 	}

@@ -266,6 +266,8 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/particle/trailSmoke.js");
 		ResourceLoader.queue("script/particle/engineFlare.js");
 		ResourceLoader.queue("script/particle/explosion.js");
+		ResourceLoader.queue("script/particle/testParticle.js");
+		ResourceLoader.queue("script/particle/shockwave.js");
 		
 		//Weapons
 		ResourceLoader.queue("script/weapon/bullet.js");
