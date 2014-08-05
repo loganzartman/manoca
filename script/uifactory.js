@@ -25,9 +25,11 @@ var UIFactory = {
 			btn.isdown = true;
 			btn.setTexture(texDown);
 			btn.label.position = new PIXI.Point(8,10);
+			Sound.play("click", 0.5);
 		}
 		function btnHover() {
 			btn.setTexture(texHover);
+			Sound.play("coin", 0.5);
 		}
 		function btnOut() {
 			btn.setTexture(texNormal);

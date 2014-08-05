@@ -25,6 +25,25 @@ var GunMount = klass(function(type,anchorPoint){
 				"shooter": ship
 			});
 
+			//sound
+			if (typeof laser.sound !== "undefined") {
+				var snd = Sound.play(laser.sound, 0.3);
+				var spx,spy;
+				if (ship === Game.player) {
+					spx = this.anchorPoint.y-0.5;
+					spy = this.anchorPoint.x-0.5;
+				}
+				else {
+					spx = (ship.y-Game.player.y)/Graphics.height;
+					spy = (ship.x-Game.player.x)/Graphics.width;
+				}
+				snd.pos3d(
+					spx,
+					spy,
+					0.5
+				);
+			}
+
 			Game.entities.push(laser);
 
 			this.lastFire = Date.now();

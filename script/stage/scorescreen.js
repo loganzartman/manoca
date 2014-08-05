@@ -23,6 +23,17 @@ var ScoreScreen = {
 			:complimentBank[Math.floor(Math.random()*complimentBank.length)] + "New high score.";
 		var col = Game.score<=Game.profile.highscore?"orange":"lime"
 
+		//sound
+		if (Game.score>Game.profile.highscore) {
+			Sound.play("highscore");
+		}
+		else if (Level.completed) {
+			Sound.play("success");
+		}
+		else {
+			Sound.play("destroyed");
+		}
+
 		ScoreScreen.response = new PIXI.Text(text, {
 			font: "bold 90px 'Titillium Web'",
 			fill: col,

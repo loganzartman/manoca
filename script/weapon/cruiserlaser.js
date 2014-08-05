@@ -3,7 +3,8 @@
 var CruiserLaser = BasicLaser.extend(function(props){
 	this.glow.tint = 0xFF2210;
 
-	//todo: player health
+	this.sound = "laser_big";
+
 	this.damage = CruiserLaser.damage;
 })
 .statics({

@@ -18,6 +18,8 @@ var BasicLaser = Bullet.extend(function(props){
 	this.glow.blendMode = PIXI.blendModes.ADD;
 	this.sprite.addChild(this.glow);
 
+	this.sound = "laser";
+
 	this.t = 0;
 
 	this.damage = BasicLaser.damage;

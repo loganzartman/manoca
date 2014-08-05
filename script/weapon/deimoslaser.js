@@ -3,6 +3,8 @@
 var DeimosLaser = BasicLaser.extend(function(props){
 	this.glow.tint = 0xFF1010;
 	this.damage = DeimosLaser.damage;
+
+	this.sound = "laser_big";
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),

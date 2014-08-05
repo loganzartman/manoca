@@ -5,6 +5,7 @@ var Hostile = Entity.extend(function(props){
 	this.pointValue = 100;
 	this.damage = 30;
 	this.instantDestroy = true;
+	this.soundDestroy = "explode"+(~~Random.next(4));
 })
 .methods({
 	step: function() {
@@ -16,7 +17,7 @@ var Hostile = Entity.extend(function(props){
 			}
 
 			if (this.collidesCircles(Game.player) && !this.dead && !Game.debugMode) {
-				this.kill();
+				this.kill({"nosound": true});
 				Game.player.damagedBy(this);
 			}
 		}
@@ -46,11 +47,26 @@ var Hostile = Entity.extend(function(props){
 		return false;
 	},
 
-	kill: function() {
-
-
+	kill: function(props) {
 		if (!this.dead) {
+			
 			Game.addScore(this.pointValue);
+			var snd = Sound.play(this.soundDestroy);
+			
+			if (!props.nosound) {
+				if (Math.random()<0.1) {
+					setTimeout(function(){
+						Sound.playIgs();
+					}, 100);
+				}
+			}
+
+			snd.pos3d(
+				/*x*/ (this.y-Game.player.y)/Graphics.height,
+				/*y*/ (this.x-Game.player.x)/Graphics.width,
+				/*z*/ 0.5
+			);
+
 			Scrap.make({
 				"entity": this,
 				"count": ~~Random.next(this.pointValue/40,this.pointValue/20)

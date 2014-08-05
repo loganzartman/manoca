@@ -3,6 +3,8 @@
 var BoraLaser = BasicLaser.extend(function(props){
 	this.glow.tint = 0x227704;
 	this.damage = BoraLaser.damage;
+
+	this.sound = "laser_small";
 })
 .statics({
 	texture: PIXI.Texture.fromImage("img/lasercore.png"),

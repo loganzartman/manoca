@@ -152,14 +152,15 @@ var ShipSelect = {
 		btn.drawRect(x, y, bw, bh);
 		btn.hitArea = new PIXI.Rectangle(x, y, bw, bh);
 		btn.setInteractive(true);
-		btn.mousedown = function() {
+		btn.mousedown = btn.touchstart = function() {
 			ShipSelect.selected = ship;
 			ShipSelect.updateSelected(ship);
 		}
 		btn.mouseover = function() {
 			btn.tgtalpha = btn._curalpha = 0.5;
+			Sound.play("coin", 0.25);
 		}
-		btn.mouseout = function() {
+		btn.mouseout = btn.touchend = function() {
 			btn.tgtalpha = 0.1;
 		}
 

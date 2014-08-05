@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.48",
+	VERSION: "0.1.49",
 	loaded: false,
 	player: null,
 	entities: [],
@@ -72,6 +72,7 @@ var Game = {
 		Level.init();
 		MainMenu.init(); //TEST: REMOVAL
 		Graphics.init();
+		Sound.init();
 		Starfield.init();
 		Input.init();
 		
@@ -254,6 +255,10 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/starfield.js");
 		ResourceLoader.queue("script/uifactory.js");
 		ResourceLoader.queue("script/entity.js");
+
+		//Sound
+		ResourceLoader.queue("script/howler.js");
+		ResourceLoader.queue("script/sound.js");
 
 		//Etc
 		ResourceLoader.queue("script/profile.js");

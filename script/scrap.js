@@ -13,6 +13,7 @@ var Scrap = Entity.extend(function(props){
 	this.sprite.anchor = new PIXI.Point(0.5,0.5);
 	this.sprite.depth = 900;
 	this.updateSprite();
+	this.collectSound = "coin";
 	Graphics.stage.addChild(this.sprite);
 })
 .statics({
@@ -59,6 +60,7 @@ var Scrap = Entity.extend(function(props){
 		}
 		if (this.distanceTo(Game.player)<Game.player.sprite.width/2) {
 			this.destroy();
+			if (Math.random()<0.5) Sound.play(this.collectSound, 0.1);
 			Game.player.scrap += this.value;
 		}
 

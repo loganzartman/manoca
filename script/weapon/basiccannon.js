@@ -11,6 +11,8 @@ var BasicCannon = Bullet.extend(function(props){
 	this.updateSprite();
 	Graphics.stage.addChild(this.sprite);
 
+	this.sound = "cannon";
+
 	this.damage = BasicCannon.damage;
 	this.collisionMask = {
 		width: 16,
