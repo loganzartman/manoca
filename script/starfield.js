@@ -61,6 +61,8 @@ var Starfield = {
 	},
 
 	beginWarp: function() {
+		Starfield.playedFireSound = false;
+		Sound.play("hyperdrive_start");
 		Starfield.nebula.filters = [Starfield.dispFilter];
 		Starfield.dispFilter.scale = new PIXI.Point(0,0);
 		Starfield.dispFilter.offset = new PIXI.Point(0,0);
@@ -75,6 +77,7 @@ var Starfield = {
 	},
 
 	resetWarp: function() {
+		Sound.stop("hyperdrive_start");
 		Starfield.nebula.filters = undefined;
 		Starfield.dispFilter.scale = new PIXI.Point(0,0);
 		Starfield.dispFilter.offset = new PIXI.Point(0,0);
@@ -109,6 +112,10 @@ var Starfield = {
 				Starfield.dispFilter.scale = new PIXI.Point(cubic*200, cubic*200);
 			}
 			else {
+				if (!Starfield.playedFireSound) {
+					Sound.play("hyperdrive_fire");
+					Starfield.playedFireSound = true;
+				}
 				Starfield.speed = 2;
 				Starfield.hypSprite.alpha = 1;
 				Starfield.hypSprite.tilePosition.x -= 60;

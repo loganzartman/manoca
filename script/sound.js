@@ -17,6 +17,7 @@ var Sound = {
 	 */
 	init: function() {
 		Sound.queue("snd/click.wav", "click");
+		Sound.queue("snd/hover.wav", "hover");
 		Sound.queue("snd/explode.wav", "explode0");
 		Sound.queue("snd/explode2.wav", "explode1");
 		Sound.queue("snd/explode3.wav", "explode2");
@@ -27,6 +28,10 @@ var Sound = {
 		Sound.queue("snd/cannon.wav", "cannon");
 		Sound.queue("snd/coin.wav", "coin");
 		Sound.queue("snd/test.wav", "test");
+
+		Sound.queue("snd/engine.wav", "engine", {"loop": true});
+		Sound.queue("snd/hyperdrive_start.wav", "hyperdrive_start");
+		Sound.queue("snd/hyperdrive_fire.wav", "hyperdrive_fire");
 
 		Sound.queue("snd/voice/igs0.wav", "igs0");
 		Sound.queue("snd/voice/igs1.wav", "igs1");
@@ -41,12 +46,11 @@ var Sound = {
 	 * @param src {String} file path to sound
 	 * @param name {String} what to identify the sound as
 	 */
-	queue: function(src, name) {
-		var snd = new Howl({
+	queue: function(src, name, props) {
+		var snd = new Howl(Util.collect({
 			urls: [src],
-			autoplay: false,
-			loop: false
-		});
+			autoplay: false
+		}, props));
 		Sound.sounds[name] = snd;
 	},
 
@@ -64,6 +68,13 @@ var Sound = {
 			inst.volume(Sound.volume*volume);
 			inst.play();
 			return inst;
+		}
+	},
+
+	stop: function(name) {
+		var inst = Sound.sounds[name];
+		if (inst) {
+			inst.stop();
 		}
 	},
 

@@ -53,7 +53,7 @@ var Hostile = Entity.extend(function(props){
 			Game.addScore(this.pointValue);
 			var snd = Sound.play(this.soundDestroy);
 			
-			if (!props.nosound) {
+			if (!props || !props.nosound) {
 				if (Math.random()<0.1) {
 					setTimeout(function(){
 						Sound.playIgs();
