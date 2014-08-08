@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.49",
+	VERSION: "0.1.50",
 	loaded: false,
 	player: null,
 	entities: [],
@@ -88,6 +88,12 @@ var Game = {
 		Game.mainMenu();
 	},
 
+	starmap: function() {
+		Starmap.init();
+		Starfield.addToContainer(Starmap.stage);
+		Game.setStage(Starmap.stage);
+	},
+
 	/**
 	 * Opens the ship selection menu after a level has been selected.
 	 * @param level {Object} the level that should be loaded.  See Level class.
@@ -118,7 +124,7 @@ var Game = {
 		Game.entities.push(Game.player);
 
 		Starfield.addToContainer(Graphics.stage, Level.background);
-		Starfield.speed = 1;
+		Starfield.speed = Starfield.gameSpeed;
 
 		Game.setStage(Graphics.stage);
 
@@ -141,7 +147,7 @@ var Game = {
 		Level.setLevel(Levels[0]);
 		Game.playing = false;
 		Starfield.resetWarp();
-		Starfield.speed = 0.1;
+		Starfield.speed = Starfield.menuSpeed;
 
 		//Launch score screen
 		ScoreScreen.init();
@@ -244,6 +250,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("webfont/PT Sans");
 		ResourceLoader.queue("webfont/Play");
 		ResourceLoader.queue("webfont/Titillium Web");
+		ResourceLoader.queue("webfont/Exo");
 
 		//Core
 		ResourceLoader.queue("script/pixi.dev.js");
@@ -289,15 +296,16 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/ship/ufo.js");
 		ResourceLoader.queue("script/ship/worm.js");
 		ResourceLoader.queue("script/ship/cruiser.js");
+		
+		//Levels
+		ResourceLoader.queue("script/hostileFactory.js");
+		ResourceLoader.queue("script/level.js");
 
 		//Stages (ie. menus)
 		ResourceLoader.queue("script/stage/mainmenu.js");
 		ResourceLoader.queue("script/stage/scorescreen.js");
+		ResourceLoader.queue("script/stage/starmap.js");
 		ResourceLoader.queue("script/stage/shipselect.js");
-
-		//Levels
-		ResourceLoader.queue("script/hostileFactory.js");
-		ResourceLoader.queue("script/level.js");
 	},
 
 	resourceQueue: [],

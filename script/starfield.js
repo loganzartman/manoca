@@ -7,6 +7,8 @@ var Starfield = {
 	nebula: null,
 	starTexture: null,
 	speed: 1,
+	menuSpeed: 0.05,
+	gameSpeed: 1,
 	dispFilter: null,
 	isWarping: false,
 	warpTime: 0,
@@ -31,7 +33,7 @@ var Starfield = {
 		Starfield.hypFlash.beginFill(0xFFFFFF);
 		Starfield.hypFlash.drawRect(0,0,Graphics.width,Graphics.height);
 		Starfield.hypFlash.endFill();
-		Starfield.hypFlash.depth = 2;
+		Starfield.hypFlash.depth = 10000;
 
 		Starfield.starTexture = PIXI.Texture.fromImage("img/star.png");
 
@@ -43,7 +45,7 @@ var Starfield = {
 		Starfield.nebula.depth = 0;
 
 		var rand = new Random();
-		var nstars = (Graphics.width*Graphics.height)/3000;
+		var nstars = (Graphics.width*Graphics.height)/2000;
 		for (var i=0; i<nstars; i++) {
 			Starfield.stars.push({
 				"x": ~~rand.next(0,Graphics.width),
@@ -132,16 +134,16 @@ var Starfield = {
 
 
 			var star = Starfield.g.children[i];
-			star.alpha = s.a/(8-s.z);
 
-			star.alpha = s.a/(8-s.z);
+			star.alpha = Math.min(0.75,s.a/(6-s.z*0.75))*0.7;
+
 			star.position = new PIXI.Point(
 				Util.xmod((s.x+(Starfield.offset.x/s.z)),Graphics.width-s.xs/(8-s.z)*2),
 				Util.xmod((s.y+(Starfield.offset.y/s.z)),Graphics.height)
 			);
 			star.scale = new PIXI.Point(
-				(s.xs/(8-s.z))/(48),
-				(Math.max(1,1/(8-s.z)))/3
+				(Starfield.warpTime>1?2:1)*(s.xs*(Math.abs(Starfield.speed)<0.1?sign(Starfield.speed)*0.1:Starfield.speed)/(8-s.z))/(48),
+				Math.max(0.1,s.z/24)
 			);
 		};
 	}

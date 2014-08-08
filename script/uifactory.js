@@ -16,15 +16,16 @@ var UIFactory = {
 			texDown   = either(params.buttonDown,UIFactory.textures.buttonDown),
 			texHover  = either(params.buttonHover,UIFactory.textures.buttonHover);
 
+		var lblx = 8, lbly = 10;
 		function btnUp() {
 			btn.isdown = false;
 			btn.setTexture(texHover);
-			btn.label.position = new PIXI.Point(8,6);
+			btn.label.position = new PIXI.Point(lblx,lbly);
 		}
 		function btnDown() {
 			btn.isdown = true;
 			btn.setTexture(texDown);
-			btn.label.position = new PIXI.Point(8,10);
+			btn.label.position = new PIXI.Point(lblx,lbly+4);
 			Sound.play("click", 0.5);
 		}
 		function btnHover() {
@@ -33,7 +34,7 @@ var UIFactory = {
 		}
 		function btnOut() {
 			btn.setTexture(texNormal);
-			btn.label.position = new PIXI.Point(8,6);
+			btn.label.position = new PIXI.Point(lblx,lbly);
 		}
 
 		btn.mousedown = btn.touchstart = function(data){
@@ -53,8 +54,8 @@ var UIFactory = {
 		}
 
 		if (typeof params.text === "string") {
-			var label = new PIXI.Text(params.text,{
-				"font": "18pt 'Titillium Web'",
+			var label = new PIXI.Text(params.text.toUpperCase(),{
+				"font": "18pt 'Exo'",
 				"fill": "white"
 			});
 			btn.label = label;
@@ -67,7 +68,7 @@ var UIFactory = {
 		btn.depth = 1000;
 
 		btn.setText = function(str) {
-			btn.label.setText(str);
+			btn.label.setText(str.toUpperCase());
 		}
 		btn.setSize = function(sz) {
 			btn.scale = new PIXI.Point(sz,1);
@@ -79,7 +80,7 @@ var UIFactory = {
 
 	showStatus: function(params) {
 		UIFactory.statustext = new PIXI.Text(params.text,{
-			"font": "18pt 'Titillium Web'",
+			"font": "18pt 'Exo'",
 			"fill": "white",
 			"stroke": "black",
 			"strokeThickness": 2

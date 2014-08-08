@@ -35,7 +35,7 @@ var ScoreScreen = {
 		}
 
 		ScoreScreen.response = new PIXI.Text(text, {
-			font: "bold 90px 'Titillium Web'",
+			font: "bold 90px 'Exo'",
 			fill: col,
 			stroke: "black",
 			align: "center",
@@ -46,7 +46,7 @@ var ScoreScreen = {
 
 		//the scrap label
 		ScoreScreen.scraptext = new PIXI.Text("scrap collected:", {
-			font: "bold 25px 'Titillium Web'",
+			font: "bold 25px 'Exo'",
 			fill: "white",
 			stroke: "black",
 			align: "center",
@@ -57,7 +57,7 @@ var ScoreScreen = {
 
 		//the scrap
 		ScoreScreen.scrap = new PIXI.Text(Util.formatNumberCommas(Game.player.scrap), {
-			font: "bold 90px 'Titillium Web'",
+			font: "bold 90px 'Exo'",
 			fill: "lime",
 			stroke: "black",
 			align: "center",
@@ -68,7 +68,7 @@ var ScoreScreen = {
 
 		//the score label
 		ScoreScreen.text = new PIXI.Text("you scored:", {
-			font: "bold 25px 'Titillium Web'",
+			font: "bold 25px 'Exo'",
 			fill: "white",
 			stroke: "black",
 			align: "center",
@@ -79,7 +79,7 @@ var ScoreScreen = {
 
 		//the score
 		ScoreScreen.score = new PIXI.Text(Util.formatNumberCommas(Game.score), {
-			font: "bold 90px 'Titillium Web'",
+			font: "bold 90px 'Exo'",
 			fill: "yellow",
 			stroke: "black",
 			align: "center",
@@ -90,7 +90,7 @@ var ScoreScreen = {
 
 		//the high score label
 		ScoreScreen.highScoreText = new PIXI.Text("high score: ", {
-			font: "bold 25px 'Titillium Web'",
+			font: "bold 25px 'Exo'",
 			fill: "white",
 			stroke: "black",
 			align: "center",
@@ -101,7 +101,7 @@ var ScoreScreen = {
 
 		//the high score
 		ScoreScreen.highScore = new PIXI.Text(Util.formatNumberCommas(Game.profile.highscore), {
-			font: "bold 60px 'Titillium Web'",
+			font: "bold 60px 'Exo'",
 			fill: "white",
 			stroke: "black",
 			align: "center",

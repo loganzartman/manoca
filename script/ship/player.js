@@ -15,8 +15,10 @@ var Player = Entity.extend(function(props){
 	this.flameColor = either(props.flameColor, 0xFF6510);
 	this.health = this.maxHealth = either(props.health, 100);
 
-	var snd = Sound.play("engine");
-	snd.loop(true);
+	this.snd = Sound.play("engine");
+	this.snd.loop(true);
+	this.sndh = Sound.play("engineh");
+	this.sndh.loop(true);
 
 	this.attractorRange = 300;
 	this.attractorStrength = 2;
@@ -193,6 +195,7 @@ var Player = Entity.extend(function(props){
 		if (Level.completed && !Starfield.isWarping && Input.key(Input.VK_H)) {
 			Starfield.beginWarp();
 			Sound.stop("engine");
+			Sound.stop("engineh");
 			UIFactory.hideStatus();
 			setTimeout(function(){
 				Game.end();
@@ -289,12 +292,18 @@ var Player = Entity.extend(function(props){
 				});
 			}
 		}
+
+		//sound
+		var bal = Math.sqrt(this.xs*this.xs+this.ys*this.ys)/this.top;
+		this.snd.volume(1-bal);
+		this.sndh.volume(bal);
 		
 		this.updateSprite();
 	},
 	kill: function() {
 		if (!this.dead) {
 			Sound.stop("engine");
+			Sound.stop("engineh");
 			this.dead = true;
 			Game.end();
 		}

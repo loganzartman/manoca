@@ -62,7 +62,9 @@ var Graphics = {
 		Graphics.renderer = PIXI.autoDetectRenderer(
 			Graphics.width,
 			Graphics.height,
-			Graphics.canvas
+			Graphics.canvas,
+			false,
+			true
 		);
 
 		window.addEventListener("resize", Graphics.resize, false);
@@ -71,7 +73,7 @@ var Graphics = {
 	addCursor: function() {
 		Graphics.cursor = new PIXI.Sprite(Graphics.texture.cursor);
 		Graphics.cursor.anchor = new PIXI.Point(0.5,0.5);
-		Graphics.cursor.blendMode = PIXI.blendModes.ADD;
+		Graphics.cursor.blendMode = PIXI.blendModes.NORMAL;
 		Graphics.cursor.depth = 100000;
 		Graphics.activeStage.addChild(Graphics.cursor);
 	},
@@ -97,7 +99,7 @@ var Graphics = {
 
 		//score thingy
 		Graphics.score = new PIXI.Text("Score: -1", {
-			font: "bold 20px 'Titillium Web'",
+			font: "bold 20px 'Exo'",
 			fill: "white",
 			stroke: "black",
 			strokeThickness: 2
@@ -109,7 +111,7 @@ var Graphics = {
 
 		//health thingy
 		Graphics.hull = new PIXI.Text("Hull: -1", {
-			font: "bold 20px 'Titillium Web'",
+			font: "bold 20px 'Exo'",
 			fill: "red",
 			stroke: "black",
 			strokeThickness: 2
@@ -121,7 +123,7 @@ var Graphics = {
 
 		//scrap thingy
 		Graphics.scrap = new PIXI.Text("Scrap: -1", {
-			font: "bold 20px 'Titillium Web'",
+			font: "bold 20px 'Exo'",
 			fill: "red",
 			stroke: "black",
 			strokeThickness: 2
@@ -198,7 +200,7 @@ var Graphics = {
 			Graphics.hull.setText("Hull: "+Game.player.health);
 			var hv = ~~((Game.player.health/Game.player.maxHealth)*255);
 			Graphics.hull.setStyle({
-				font: "bold 20px 'Titillium Web'",
+				font: "bold 20px 'Exo'",
 				stroke: "black",
 				align: "left",
 				strokeThickness: 2,
@@ -208,7 +210,7 @@ var Graphics = {
 			Graphics.scrap.setText("Scrap: "+Util.formatNumberCommas(Game.player.scrap));
 			var sv = PIXI.hex2rgb(Util.hsl2rgb((Game.time*0.001)%1,1,0.7));
 			Graphics.scrap.setStyle({
-				font: "bold 20px 'Titillium Web'",
+				font: "bold 20px 'Exo'",
 				stroke: "black",
 				align: "left",
 				strokeThickness: 2,
@@ -219,7 +221,7 @@ var Graphics = {
 		if (MainMenu.scraptext) {
 			var sv = PIXI.hex2rgb(Util.hsl2rgb((Game.time*0.001)%1,1,0.7));
 			MainMenu.scraptext.setStyle({
-				font: "bold 30px 'Titillium Web'",
+				font: "bold 30px 'Exo'",
 				stroke: "black",
 				align: "right",
 				strokeThickness: 2,
@@ -230,7 +232,7 @@ var Graphics = {
 		if (ScoreScreen.scrap) {
 			var sv = PIXI.hex2rgb(Util.hsl2rgb((Game.time*0.001)%1,1,0.7));
 			ScoreScreen.scrap.setStyle({
-				font: "bold 90px 'Titillium Web'",
+				font: "bold 90px 'Exo'",
 				stroke: "black",
 				align: "center",
 				strokeThickness: 10,

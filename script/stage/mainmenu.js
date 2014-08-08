@@ -4,32 +4,10 @@ var MainMenu = {
 	stage: null,
 
 	titleTexture: null,
-	levelIndex: 1,
 
 	init: function() {
 		MainMenu.stage = new PIXI.Stage(0x000000, false);
 		if (Starfield.nebula) Starfield.nebula.setTexture(Starfield.nebulae[0]);
-
-		/*MainMenu.shipIndex = 0;
-		MainMenu.shipButton = UIFactory.makeButton({
-			text: "ship: "+Player.ships[0].name,
-			action: function() {
-				MainMenu.shipIndex = (MainMenu.shipIndex+1)%Player.ships.length;
-				MainMenu.shipButton.setText("ship: "+Player.ships[MainMenu.shipIndex].name);
-			}
-		});
-		MainMenu.shipButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
-		*/
-
-		MainMenu.levelButton = UIFactory.makeButton({
-			text: "level: "+Levels[MainMenu.levelIndex+1].name,
-			action: function() {
-				MainMenu.levelIndex = (MainMenu.levelIndex+1)%(Levels.length-1);
-				MainMenu.levelButton.setText("level: "+Levels[MainMenu.levelIndex+1].name);
-			}
-		});
-		MainMenu.levelButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-308);
-		MainMenu.levelButton.setSize(1.2);
 
 		MainMenu.settingsButton = UIFactory.makeButton({
 			text: "input: mouse",
@@ -40,9 +18,9 @@ var MainMenu = {
 		MainMenu.settingsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-188);
 
 		MainMenu.startButton = UIFactory.makeButton({
-			text: "Select Ship",
+			text: "Starmap",
 			action: function() {
-				Game.shipSelect(Levels[MainMenu.levelIndex+1]);
+				Game.starmap();
 			}
 		});
 		MainMenu.startButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
@@ -57,7 +35,7 @@ var MainMenu = {
 		title.depth = 2000;
 
 		MainMenu.scraptext = new PIXI.Text("Scrap: "+Util.formatNumberCommas(Game.profile.scrap), {
-			font: "bold 30px 'Titillium Web'",
+			font: "bold 30px 'Exo'",
 			fill: "white",
 			stroke: "black",
 			align: "left",
@@ -67,7 +45,7 @@ var MainMenu = {
 		MainMenu.scraptext.depth = 20000;
 
 		MainMenu.highscore = new PIXI.Text("Highscore: "+Util.formatNumberCommas(Game.profile.highscore), {
-			font: "bold 30px 'Titillium Web'",
+			font: "bold 30px 'Exo'",
 			fill: "white",
 			stroke: "black",
 			align: "left",
@@ -101,9 +79,7 @@ var MainMenu = {
 		MainMenu.stage.addChild(MainMenu.infotext);
 		MainMenu.stage.addChild(MainMenu.startButton);
 		MainMenu.stage.addChild(MainMenu.settingsButton);
-		//MainMenu.stage.addChild(MainMenu.shipButton);
-		MainMenu.stage.addChild(MainMenu.levelButton);
 		MainMenu.stage.addChild(title);
-		Starfield.speed = 0.1;
+		Starfield.speed = Starfield.menuSpeed;
 	}
 };

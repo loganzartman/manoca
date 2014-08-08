@@ -30,6 +30,7 @@ var Sound = {
 		Sound.queue("snd/test.wav", "test");
 
 		Sound.queue("snd/engine.wav", "engine", {"loop": true});
+		Sound.queue("snd/engineh.wav", "engineh", {"loop": true});
 		Sound.queue("snd/hyperdrive_start.wav", "hyperdrive_start");
 		Sound.queue("snd/hyperdrive_fire.wav", "hyperdrive_fire");
 

@@ -11,9 +11,9 @@ var ShipSelect = {
 
 		//Selected Ship UI
 		ShipSelect.selectedUI = new PIXI.Graphics();
-		ShipSelect.selectedUI.lineStyle(2,0xf7cf7b,1);
+		ShipSelect.selectedUI.lineStyle(2,0xFFFFFF,1);
 		ShipSelect.selectedUI.alpha = 0.3;
-		ShipSelect.selectedUI.beginFill(0xf7cf7b);
+		ShipSelect.selectedUI.beginFill(0x000000);
 		ShipSelect.selectedUI.drawRect(
 			ShipSelect.margin,
 			ShipSelect.margin,
@@ -30,7 +30,7 @@ var ShipSelect = {
 		ShipSelect.stage.addChild(ShipSelect.shipSprite);
 
 		ShipSelect.shipName = new PIXI.Text("name", {
-			"font": "30pt 'Titillium Web'",
+			"font": "30pt 'Exo'",
 			"fill": "white",
 			"stroke": "black",
 			"strokeThickness": 4
@@ -39,7 +39,7 @@ var ShipSelect = {
 		ShipSelect.stage.addChild(ShipSelect.shipName);
 
 		ShipSelect.shipSpecs = new PIXI.Text("name", {
-			"font": "18pt 'Titillium Web'",
+			"font": "18pt 'Exo'",
 			"fill": "white",
 			"stroke": "black",
 			"strokeThickness": 2
@@ -115,9 +115,10 @@ var ShipSelect = {
 		sprite.scale = new PIXI.Point(0.75,0.75);
 		sprite.position = new PIXI.Point(x+ShipSelect.margin/2,y+ShipSelect.margin/4);
 		sprite.depth = 2001;
+		sprite.tint = unlocked?0xffffff:0x000000;
 
 		var name = new PIXI.Text(ship.name, {
-			"font": "18pt 'Titillium Web'",
+			"font": "18pt 'Exo'",
 			"fill": "white",
 			"stroke": "black",
 			"strokeThickness": 2
@@ -130,7 +131,7 @@ var ShipSelect = {
 
 		if (!unlocked) {
 			var cost = new PIXI.Text(Util.formatNumberCommas(ship.cost), {
-				"font": "18pt 'Titillium Web'",
+				"font": "18pt 'Exo'",
 				"fill": Game.profile.scrap>=ship.cost?"lime":"red",
 				"stroke": "black",
 				"strokeThickness": 2
@@ -146,7 +147,7 @@ var ShipSelect = {
 		var btn = new PIXI.Graphics();
 		btn.lineStyle(2,unlocked?0xf7cf7b:0xFF0505,1);
 		btn.tgtalpha = 0.1;
-		btn.beginFill(unlocked?0xf7cf7b:0x777777);
+		btn.beginFill(unlocked?0xffffff:0xb71005);
 		var bw = Graphics.width - ShipSelect.margin - x,
 			bh = sprite.height + ShipSelect.margin/2;
 		btn.drawRect(x, y, bw, bh);
@@ -183,8 +184,11 @@ var ShipSelect = {
 
 	updateSelected: function(ship) {
 		if (!ship) ship = Player.ships[0];
+		var unlocked = Profile.shipUnlocked(Game.profile, ship);
 
 		ShipSelect.shipSprite.setTexture(ship.texture);
+		ShipSelect.shipSprite.tint = unlocked?0xffffff:0x000000;
+
 		ShipSelect.shipName.setText(ship.name);
 		ShipSelect.shipName.position = new PIXI.Point(
 			Graphics.width/2 - ShipSelect.margin*2 - ShipSelect.shipName.width,
@@ -209,7 +213,7 @@ var ShipSelect = {
 
 		ShipSelect.shipSpecs.setText(specs);
 
-		if (Profile.shipUnlocked(Game.profile, ship)) {
+		if (unlocked) {
 			ShipSelect.startButton.setText("Launch");
 		}
 		else {
