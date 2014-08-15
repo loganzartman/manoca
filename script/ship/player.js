@@ -132,6 +132,31 @@ var Player = Entity.extend(function(props){
 				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.85))
 			],
 			"health": 245
+		},
+		{
+			"id": 6,
+			"name": "UWOT",
+			"cost": 200000,
+			"unlockedDefault": false,
+			"texture": PIXI.Texture.fromImage("img/rs400.png"),
+			"flameColor": 0x1510FF,
+			"accel": 4,
+			"top": 40,
+			"fric": 8/7,
+			"srot": 1/2,
+			"mounts": [
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.85)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.85)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.5)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.5)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
+				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.5))
+			],
+			"health": 245
 		}
 	]
 })

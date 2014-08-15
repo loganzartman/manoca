@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.50",
+	VERSION: "0.1.51",
 	loaded: false,
 	player: null,
 	entities: [],
@@ -294,6 +294,7 @@ var ResourceLoader = {
 		ResourceLoader.queue("script/ship/player.js");
 		ResourceLoader.queue("script/ship/hostile.js");
 		ResourceLoader.queue("script/ship/ufo.js");
+		ResourceLoader.queue("script/ship/scout.js");
 		ResourceLoader.queue("script/ship/worm.js");
 		ResourceLoader.queue("script/ship/cruiser.js");
 		

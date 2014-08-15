@@ -68,11 +68,22 @@ var HostileFactory = {
 					};
 				break;
 				case "linear":
-					var offsetX = (generator.point1.x-generator.point2.x)-(~~((generator.point1.x-generator.point2.x)/4))*4;
-			    	var offsetY = (generator.point1.y-generator.point2.y)-(~~((generator.point1.y-generator.point2.y)/4))*4;
+					var rndx = 0, rndy = Random.next(Graphics.height);
+					var p1x,p1y,p2x,p2y;
+					if (typeof generator.point1.x === "undefined") p1x = rndx;
+					else p1x = generator.point1.x;
+					if (typeof generator.point1.y === "undefined") p1y = rndy;
+					else p1y = generator.point1.y;
+					if (typeof generator.point2.x === "undefined") p2x = rndx;
+					else p2x = generator.point2.x;
+					if (typeof generator.point2.y === "undefined") p2y = rndy;
+					else p2y = generator.point2.y;
+
+					var offsetX = (p1x-p2x)-(~~((p1x-p2x)/4))*4;
+			    	var offsetY = (p1y-p2y)-(~~((p1y-p2y)/4))*4;
 				    return {
-			            "x": Util.lerp(generator.point1.x, generator.point2.x, i/generator.count)+offsetX/2,
-			            "y": Util.lerp(generator.point1.y, generator.point2.y, i/generator.count)+offsetY/2,
+			            "x": Util.lerp(p1x, p2x, i/generator.count)+offsetX/2,
+			            "y": Util.lerp(p1y, p2y, i/generator.count)+offsetY/2,
 			            "xs": generator.xs,
 			            "ys": generator.ys
 				    };
@@ -141,10 +152,16 @@ var HostileFactory = {
 		},
 
 		ufoCrazy: {
-			"pattern": "random",
-			"count": 2,
-			"type": "Ufo",
-			"cooldown": 10,
+			"pattern": "linear",
+			"point1": {
+			    "x": Graphics.width+64
+			},
+			"point2": {
+			    "x": Graphics.width+192,
+			},
+			"count": 10,
+			"type": "Scout",
+			"cooldown": 200,
 			"delay": 120,
 			"params": {}
 		},

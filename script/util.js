@@ -254,5 +254,29 @@ var Util = {
 	logcolor: function(col) {
 		if (!(col instanceof Array)) col = PIXI.hex2rgb(col);
 		console.log("%c  ", "background: rgb("+(~~(col[0]*255))+","+(~~(col[1]*255))+","+(~~(col[2]*255))+"); font-size: 30px;");
+	},
+
+	isTouchDevice: function() {
+		return navigator.maxTouchPoints || navigator.msMaxTouchPoints;
+	},
+
+	toggleFullscreen: function() {
+		var doc = window.document;
+		var docEl = doc.documentElement;
+
+		var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+		var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+		if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+			requestFullScreen.call(docEl);
+		}
+		else {
+			cancelFullScreen.call(doc);
+		}
+	},
+
+	checkFullscreen: function() {
+		var doc = window.document;
+		return doc.fullscreenElement || doc.mozFullScreenElement || doc.webkitFullscreenElement || doc.msFullscreenElement;
 	}
 };

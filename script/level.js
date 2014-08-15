@@ -41,14 +41,14 @@ var Level = {
 	            	HostileFactory.getGenerator("wormRandom",{}),
 	            	HostileFactory.getGenerator("cruiserRandom",{})
 	            ]
-			}/*,
+			},
 			{
-				"name": "3manyUFOs",
+				"name": "test2",
 				"background": 5,
 				"generators": [
 					HostileFactory.getGenerator("ufoCrazy",{})
 	            ]
-			}*/
+			}
 		];
 
 		Level.setLevel(Levels[0]); //set to "none" level
@@ -75,7 +75,7 @@ var Level = {
 		//completion check
 		if (!Level.completed && Level.name==="Test") {
 			Level.completed = true;
-			UIFactory.showStatus({"text": "Level Complete.  Press H to activate hyperdrive."});
+			UIFactory.showStatus({"text": "Level Complete.  Press H/Tap to activate hyperdrive."});
 		}
 		Level.generateHostiles();
 	},
