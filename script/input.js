@@ -56,6 +56,7 @@ var Input = {
 	VK_G: 71,
 	VK_H: 72,
 	VK_Q: 81,
+	VK_Z: 90,
 
 	/**
 	 * Initializes input system.
@@ -70,6 +71,9 @@ var Input = {
 			}
 			if (event.keyCode===Input.VK_G) {
 				Game.debugMode = !Game.debugMode;
+			}
+			if (event.keyCode===Input.VK_Z && Game.playing) {
+				Game.player.guns.toggleMode();
 			}
 		}, false);
 		document.addEventListener("keyup", function(event){

@@ -79,6 +79,12 @@ var UIFactory = {
 	},
 
 	showStatus: function(params) {
+		if (UIFactory.statustext instanceof PIXI.Text) UIFactory.hideStatus();
+		if (UIFactory.statustimer) {
+			clearTimeout(UIFactory.statustimer);
+			UIFactory.statustimer = null;
+		}
+
 		UIFactory.statustext = new PIXI.Text(params.text,{
 			"font": "18pt 'Exo'",
 			"fill": "white",
@@ -88,9 +94,12 @@ var UIFactory = {
 		UIFactory.statustext.position = new PIXI.Point(32,Graphics.height-64);
 		UIFactory.statustext.depth = 20000;
 
+		if (params.timeout) UIFactory.statustimer = setTimeout(UIFactory.hideStatus, params.timeout);
+		
+		var start = Game.time;
 		Object.defineProperty(UIFactory.statustext, "alpha", {
 			get: function() {
-				return Math.sin(Game.time/10)*0.4+0.6;
+				return Math.sin((Game.time-start)/10)*0.4+0.6;
 			}
 		});
 

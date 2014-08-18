@@ -135,7 +135,7 @@ var Player = Entity.extend(function(props){
 		},
 		{
 			"id": 6,
-			"name": "UWOT",
+			"name": "Horizon II",
 			"cost": 200000,
 			"unlockedDefault": false,
 			"texture": PIXI.Texture.fromImage("img/rs400.png"),

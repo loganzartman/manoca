@@ -56,34 +56,79 @@ var GunMount = klass(function(type,anchorPoint){
 var GunCycler = klass(function(ship, gunMounts){
 	this.ship = ship;
 	this.gunMounts = gunMounts;
+	this.mode = GunCycler.modes.STAGGER;
 	
-	this.groups = {};
-	for (var item in this.gunMounts) {
-		if (this.gunMounts.hasOwnProperty(item)) {
-			var mount = this.gunMounts[item];
-			if (!(this.groups[mount.type.delay] instanceof Array)) {
-				this.groups[mount.type.delay] = [mount];
-				this.groups[mount.type.delay].ind = 0;
-				this.groups[mount.type.delay].lastFire = 0;
-			}
-			else {
-				this.groups[mount.type.delay].push(mount);
-			}
-		}
-	}
+	this.generateGroups();
 
 	this.lastFire = Date.now();
 	this.ind = 0;
 })
+.statics({
+	modes: {
+		"STAGGER": 0,
+		"SYNC": 1
+	}
+})
 .methods({
+	add: function(mount) {
+		var ind = this.gunMounts.push(mount);
+		this.generateGroups();
+		return ind;
+	},
+
+	remove: function(index) {
+		var mount = this.gunMounts.splice(index,1);
+		this.generateGroups();
+		return mount;
+	},
+
+	toggleMode: function() {
+		this.mode = 1-this.mode;
+		UIFactory.showStatus({
+			"text": "FIRE MODE: "+["STAGGER","SYNC"][this.mode],
+			"timeout": 1000
+		});
+	},
+
+	generateGroups: function() {
+		this.groups = {};
+		for (var item in this.gunMounts) {
+			if (this.gunMounts.hasOwnProperty(item)) {
+				var mount = this.gunMounts[item];
+				if (!(this.groups[mount.type.delay] instanceof Array)) {
+					this.groups[mount.type.delay] = [mount];
+					this.groups[mount.type.delay].ind = 0;
+					this.groups[mount.type.delay].lastFire = 0;
+				}
+				else {
+					this.groups[mount.type.delay].push(mount);
+				}
+			}
+		}
+	},
+
 	fire: function() {
 		for (var delay in this.groups) {
 			if (this.groups.hasOwnProperty(delay)) {
 				var group = this.groups[delay];
-				if (Game.time - group.lastFire >= delay/group.length) {
-					group.lastFire = Game.time;
-					group[group.ind].fire(this.ship);
-					group.ind = (group.ind+1)%group.length;
+
+				switch (this.mode) {
+					case GunCycler.modes.STAGGER:
+						if (Game.time - group.lastFire >= delay/group.length) {
+							group.lastFire = Game.time;
+							group[group.ind].fire(this.ship);
+							group.ind = (group.ind+1)%group.length;
+						}
+					break;
+
+					case GunCycler.modes.SYNC:
+						if (Game.time - group.lastFire >= delay) {
+							group.lastFire = Game.time;
+							for (var i = group.length - 1; i >= 0; i--) {
+								group[i].fire(this.ship);
+							}
+						}
+					break;
 				}
 			}
 		}
