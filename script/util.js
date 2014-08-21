@@ -231,6 +231,17 @@ var Util = {
 	    return (Math.round(r * 255)<<16) + (Math.round(g * 255)<<8) + (Math.round(b * 255));
 	},
 
+	starcolor: function(generator) {
+		var s = 0.7, l = 0.5;
+		var col = generator.next(0,1);
+
+		if (col<0.5) return Util.hsl2rgb(generator.next(0.02,0.17), s, l);
+		else if (col<0.55) return Util.hsl2rgb(generator.next(0.2,0.24), s, l);
+		else if (col<0.75) return Util.hsl2rgb(generator.next(0.5,0.6), s, l);
+		else if (col<0.80) return Util.hsl2rgb(generator.next(0.7,0.74), s, l);
+		else return Util.hsl2rgb(generator.next(0,1), 0.3, 0.7);
+	},
+
 	List: function() {
 		var l = {};
 		l.length = 0;

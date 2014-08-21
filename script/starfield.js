@@ -55,7 +55,9 @@ var Starfield = {
 				"z": rand.next(2,7),
 				"a": 0.7
 			});
-			Starfield.g.addChild(new PIXI.Sprite(Starfield.starTexture));
+			var sprt = new PIXI.Sprite(Starfield.starTexture);
+			sprt.anchor = new PIXI.Point(0.5,0.5);
+			Starfield.g.addChild(sprt);
 		}
 
 		Starfield.addToContainer(Graphics.stage);

@@ -150,7 +150,7 @@ var Starmap = {
 		var size = Starmap._rand.next(0.5,0.8);
 		starCore.scale = new PIXI.Point(size,size);
 		starCore.rotation = Starmap._rand.next(0,Math.PI*2);
-		starCore.tint = Starmap._rand.next(0x000000,0xFFFFFF);
+		starCore.tint = Util.starcolor(Starmap._rand);
 
 		//create the warp button
 		var btn = UIFactory.makeButton({
@@ -242,7 +242,7 @@ var Starmap = {
 		});
 
 		var glowRotOffset = Starmap._rand.next(0,Math.PI*2);
-		var glowRotSpd = Starmap._rand.next(-0.01,0.01);
+		var glowRotSpd = -coreRotSpd*Starmap._rand.next(0,1);
 		Object.defineProperty(starGlow, "rotation", {
 			get: function() {
 				return (-Game.time*coreRotSpd + Game.time*glowRotSpd + glowRotOffset) % (Math.PI*2);
