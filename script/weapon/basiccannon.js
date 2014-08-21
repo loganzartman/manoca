@@ -20,11 +20,13 @@ var BasicCannon = Bullet.extend(function(props){
 	};
 })
 .statics({
-	texture: PIXI.Texture.fromImage("img/lasercore.png"),
+	texture: PIXI.Texture.fromImage("img/plasma-core.png"),
 	delay: 7,
 	damage: 7,
 	speed: 70,
-	recoil: 4
+	recoil: 4,
+
+	getDPS: BasicPlasma.getDPS
 })
 .methods({
 	updateSprite: function() {

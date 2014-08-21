@@ -35,6 +35,7 @@ var Hostile = Entity.extend(function(props){
 
 	damagedBy: function(obj) {
 		if (!this.dead && obj instanceof Bullet && !(obj.shooter instanceof Hostile)) {
+			if (obj.emitFire)
 			Game.particleSystem.emit({
 				"type": "Explosion",
 				"x": obj.x||this.x,

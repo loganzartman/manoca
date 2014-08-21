@@ -1,21 +1,17 @@
 "use strict";
 
-var Cruiser = Hostile.extend(function(props){
+var DummyShip = Hostile.extend(function(props){
 	this.sprite.depth = 1000;
 	Graphics.stage.addChild(this.sprite);
-	this.health = 100;
-	this.pointValue = 2500;
-	this.xs = either(props.xs, Random.next(-1,-2));
+	this.health = Infinity;
+	this.pointValue = 10;
+	this.xs = either(props.xs, 0);
 	this.ys = either(props.ys, 0);
 	Graphics.addEngineFire(this, "engineFire", new PIXI.Point(18,0), 0xFF8844);
 
 	this.angle = Math.PI;
 
-	this.leftGun = new GunMount(CruiserPlasma, new PIXI.Point(0.5,0.1));
-	this.rightGun = new GunMount(CruiserPlasma, new PIXI.Point(0.5,0.9));
-	this.guns = new GunCycler(this, [this.leftGun, this.rightGun], CruiserPlasma.delay/2);
-
-	this.damage = 300;
+	this.damage = 10;
 	this.instantDestroy = false;
 })
 .statics({
@@ -28,9 +24,6 @@ var Cruiser = Hostile.extend(function(props){
 	},
 	step: function() {
 		this.supr();
-		if (!this.dead) {
-			this.guns.fire();
-		}
 		this.updateSprite();
 	}
 });

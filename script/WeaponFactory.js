@@ -1,7 +1,7 @@
 "use strict";
 
 var WeaponFactory = {
-	makeLaser: function(props) {
+	makePlasma: function(props) {
 
 	}
 };

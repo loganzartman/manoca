@@ -5,7 +5,7 @@
  * @param props props
  */
 var Player = Entity.extend(function(props){
-	this.guns = new GunCycler(this, props.mounts, BoraLaser.delay/2);
+	this.guns = new GunCycler(this, props.mounts, BoraPlasma.delay/2);
 
 	this.accel = either(props.accel, 3);
 	this.top = either(props.top, 30);
@@ -60,7 +60,7 @@ var Player = Entity.extend(function(props){
 			"fric": 8/7,
 			"srot": 1/4,
 			"mounts": [
-				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.2))
+				new GunMount(BoraPlasma, new PIXI.Point(0.5, 0.2))
 			],
 			"health": 70
 		},
@@ -76,8 +76,8 @@ var Player = Entity.extend(function(props){
 			"fric": 8/7,
 			"srot": 1/2,
 			"mounts": [
-				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.1)),
-				new GunMount(BoraLaser, new PIXI.Point(0.5, 0.9))
+				new GunMount(BoraPlasma, new PIXI.Point(0.5, 0.1)),
+				new GunMount(BoraPlasma, new PIXI.Point(0.5, 0.9))
 			],
 			"health": 105
 		},
@@ -93,8 +93,8 @@ var Player = Entity.extend(function(props){
 			"fric": 8/7,
 			"srot": 3/8,
 			"mounts": [
-				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
-				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
+				new GunMount(BasicPlasma, new PIXI.Point(0.5, 0.1)),
+				new GunMount(BasicPlasma, new PIXI.Point(0.5, 0.9))
 			],
 			"health": 150
 		},
@@ -110,9 +110,9 @@ var Player = Entity.extend(function(props){
 			"fric": 17/14,
 			"srot": 1/7,
 			"mounts": [
-				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.5)),
-				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.1)),
-				new GunMount(DeimosLaser, new PIXI.Point(0.5, 0.9))
+				new GunMount(BasicPlasma, new PIXI.Point(0.5, 0.5)),
+				new GunMount(DeimosPlasma, new PIXI.Point(0.5, 0.1)),
+				new GunMount(DeimosPlasma, new PIXI.Point(0.5, 0.9))
 			],
 			"health": 300
 		},
@@ -136,25 +136,17 @@ var Player = Entity.extend(function(props){
 		{
 			"id": 6,
 			"name": "Horizon II",
-			"cost": 200000,
+			"cost": 350,
 			"unlockedDefault": false,
-			"texture": PIXI.Texture.fromImage("img/rs400.png"),
+			"texture": PIXI.Texture.fromImage("img/horizonii.png"),
 			"flameColor": 0x1510FF,
 			"accel": 4,
 			"top": 40,
 			"fric": 8/7,
 			"srot": 1/2,
 			"mounts": [
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.85)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.85)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.5)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.5)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.15)),
-				new GunMount(BasicCannon, new PIXI.Point(0.5, 0.5))
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.1)),
+				new GunMount(BasicLaser, new PIXI.Point(0.5, 0.9))
 			],
 			"health": 245
 		}

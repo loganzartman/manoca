@@ -22,9 +22,10 @@ var Sound = {
 		Sound.queue("snd/explode2.wav", "explode1");
 		Sound.queue("snd/explode3.wav", "explode2");
 		Sound.queue("snd/explode4.wav", "explode3");
+		Sound.queue("snd/plasma.wav", "plasma");
+		Sound.queue("snd/plasma_small.wav", "plasma_small");
+		Sound.queue("snd/plasma_big.wav", "plasma_big");
 		Sound.queue("snd/laser.wav", "laser");
-		Sound.queue("snd/laser_small.wav", "laser_small");
-		Sound.queue("snd/laser_big.wav", "laser_big");
 		Sound.queue("snd/cannon.wav", "cannon");
 		Sound.queue("snd/coin.wav", "coin");
 		Sound.queue("snd/test.wav", "test");

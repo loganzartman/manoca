@@ -14,20 +14,21 @@ var GunMount = klass(function(type,anchorPoint){
 			var xs = Math.cos(ship.angle+rnd.next(-rc,rc))*this.type.speed,
 				ys = Math.sin(ship.angle+rnd.next(-rc,rc))*this.type.speed;
 
-			var laserPoint = Util.rotatePoint(this.anchorPoint, ship.sprite.anchor, ship.angle);
+			var projectilePoint = Util.rotatePoint(this.anchorPoint, ship.sprite.anchor, ship.angle);
 
-			var laser = new this.type({
-				"x": ship.x + (laserPoint.x-ship.sprite.anchor.x)*ship.sprite.height,
-				"y": ship.y + (laserPoint.y-ship.sprite.anchor.y)*ship.sprite.width,
+			var projectile = new this.type({
+				"x": ship.x + (projectilePoint.x-ship.sprite.anchor.x)*ship.sprite.height,
+				"y": ship.y + (projectilePoint.y-ship.sprite.anchor.y)*ship.sprite.width,
 				"xs": xs,
 				"ys": ys,
+				"angle": ship.angle+rnd.next(-rc,rc),
 				"texture": this.type.texture,
 				"shooter": ship
 			});
 
 			//sound
-			if (typeof laser.sound !== "undefined") {
-				var snd = Sound.play(laser.sound, 0.3);
+			if (typeof projectile.sound !== "undefined") {
+				var snd = Sound.play(projectile.sound, 0.3);
 				var spx,spy;
 				if (ship === Game.player) {
 					spx = this.anchorPoint.y-0.5;
@@ -44,7 +45,7 @@ var GunMount = klass(function(type,anchorPoint){
 				);
 			}
 
-			Game.entities.push(laser);
+			Game.entities.push(projectile);
 
 			this.lastFire = Date.now();
 			return true;

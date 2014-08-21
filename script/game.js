@@ -283,16 +283,18 @@ var ResourceLoader = {
 		
 		//Weapons
 		ResourceLoader.queue("script/weapon/bullet.js");
-		ResourceLoader.queue("script/weapon/basiclaser.js");
-		ResourceLoader.queue("script/weapon/deimoslaser.js");
-		ResourceLoader.queue("script/weapon/boralaser.js");
-		ResourceLoader.queue("script/weapon/cruiserlaser.js");
+		ResourceLoader.queue("script/weapon/basicplasma.js");
+		ResourceLoader.queue("script/weapon/deimosplasma.js");
+		ResourceLoader.queue("script/weapon/boraplasma.js");
+		ResourceLoader.queue("script/weapon/cruiserplasma.js");
 		ResourceLoader.queue("script/weapon/basiccannon.js");
+		ResourceLoader.queue("script/weapon/basiclaser.js");
 		ResourceLoader.queue("script/weapon/gunmounts.js");
 
 		//Ships
 		ResourceLoader.queue("script/ship/player.js");
 		ResourceLoader.queue("script/ship/hostile.js");
+		ResourceLoader.queue("script/ship/dummyship.js");
 		ResourceLoader.queue("script/ship/ufo.js");
 		ResourceLoader.queue("script/ship/scout.js");
 		ResourceLoader.queue("script/ship/worm.js");

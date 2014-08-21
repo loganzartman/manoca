@@ -207,7 +207,7 @@ var ShipSelect = {
 
 		var dps = 0;
 		for (var i = ship.mounts.length - 1; i >= 0; i--) {
-			dps += (ship.mounts[i].type.damage*60)/ship.mounts[i].type.delay;
+			dps += ship.mounts[i].type.getDPS();
 		};
 		specs += "Damage/second: "+dps.toFixed(2)+"\n";
 
