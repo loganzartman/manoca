@@ -41,11 +41,20 @@ var HostileFactory = {
 	 * @param generator a map of parameters
 	 */
 	make: function(generator) {
+		//cooldown timer
 		if (typeof generator._timer_ === "undefined") {
 			generator._timer_ = generator.delay;
 		}
 		else if (generator._timer_>0) {
 			generator._timer_--;
+			return;
+		}
+
+		//repeat counter
+		if (typeof generator._repeatCount_ === "undefined") {
+			generator._repeatCount_ = 0;
+		}
+		else if (generator.repeat>=0 && generator._repeatCount_++ >= generator.repeat) {
 			return;
 		}
 
@@ -138,6 +147,11 @@ var HostileFactory = {
 	            gen[repl] = params[repl];
 	        }
 	    }
+
+	    gen.isComplete = function() {
+	    	return gen.repeat<0?false:gen._repeatCount_>=gen.repeat;
+	    };
+
 	    return gen;
 	},
 
@@ -148,6 +162,7 @@ var HostileFactory = {
 			"type": "Ufo",
 			"cooldown": 60,
 			"delay": 120,
+			"repeat": -1,
 			"params": {}
 		},
 
@@ -163,6 +178,7 @@ var HostileFactory = {
 			"type": "Scout",
 			"cooldown": 200,
 			"delay": 120,
+			"repeat": 5,
 			"params": {}
 		},
 
@@ -172,6 +188,7 @@ var HostileFactory = {
 			"type": "Worm",
 			"cooldown": 200,
 			"delay": 400,
+			"repeat": -1,
 			"params": {}
 		},
 
@@ -189,6 +206,7 @@ var HostileFactory = {
 			"type": "Worm",
 			"cooldown": 200,
 			"delay": 500,
+			"repeat": -1,
 			"params": {}
 		},
 		
@@ -208,6 +226,7 @@ var HostileFactory = {
 			"type": "Ufo",
 			"cooldown": 500,
 			"delay": 500,
+			"repeat": -1,
 			"params": {}
 		},
 
@@ -217,6 +236,7 @@ var HostileFactory = {
 			"type": "Cruiser",
 			"cooldown": 500,
 			"delay": 800,
+			"repeat": -1,
 			"params": {}
 		}
 	}

@@ -4,6 +4,7 @@ var Levels = [];
 var Level = {
 	none: null, //set to an empty level on init
 	completed: false,
+	hostileCount: 0,
 
 	init: function() {
 		Levels = [
@@ -66,6 +67,7 @@ var Level = {
 	setLevel: function(level) {
 		Level.currentGenerators = level.generators;
 		Level.name = level.name;
+		Level.hostileCount = 0;
 
 		var ind = level.background<0?~~Random.next(7):level.background;
 		Level.background = PIXI.Texture.fromImage("img/nebula"+ind+".png");
@@ -73,11 +75,25 @@ var Level = {
 
 	step: function() {
 		//completion check
-		if (!Level.completed && Level.name==="Test") {
-			Level.completed = true;
-			UIFactory.showStatus({"text": "Level Complete.  Press H/Tap to activate hyperdrive."});
+		if (!Level.completed) {
+			//for debugging purposes
+			if (Level.name==="Test") Level._completeLevel();
+			
+			//standard level completion check
+			else if (Level.hostileCount === 0) {
+				var completed = true;
+				for (var i = Level.currentGenerators.length - 1; i >= 0; i--) {
+					completed = completed&&Level.currentGenerators[i].isComplete();
+				};
+				if (completed) Level._completeLevel();
+			}
 		}
 		Level.generateHostiles();
+	},
+
+	_completeLevel: function() {
+		Level.completed = true;
+		UIFactory.showStatus({"text": "Level Complete.  Press H/Tap to activate hyperdrive."});
 	},
 
 	currentGenerators: [],

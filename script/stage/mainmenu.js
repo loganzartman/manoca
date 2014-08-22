@@ -9,6 +9,16 @@ var MainMenu = {
 		MainMenu.stage = new PIXI.Stage(0x000000, false);
 		if (Starfield.nebula) Starfield.nebula.setTexture(Starfield.nebulae[0]);
 
+		MainMenu.creditsButton = UIFactory.makeButton({
+			text: "About",
+			action: function() {
+				//todo
+
+				//Game.starmap();
+			}
+		});
+		MainMenu.creditsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
+
 		MainMenu.settingsButton = UIFactory.makeButton({
 			text: "input: mouse",
 			action: function() {
@@ -23,7 +33,7 @@ var MainMenu = {
 				Game.starmap();
 			}
 		});
-		MainMenu.startButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
+		MainMenu.startButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-248);
 		MainMenu.startButton.tint = 0x11AA11;
 
 		MainMenu.titleTexture = PIXI.Texture.fromImage("img/title.png");
@@ -78,6 +88,7 @@ var MainMenu = {
 		MainMenu.stage.addChild(MainMenu.highscore);
 		MainMenu.stage.addChild(MainMenu.infotext);
 		MainMenu.stage.addChild(MainMenu.startButton);
+		MainMenu.stage.addChild(MainMenu.creditsButton);
 		MainMenu.stage.addChild(MainMenu.settingsButton);
 		MainMenu.stage.addChild(title);
 		Starfield.speed = Starfield.menuSpeed;

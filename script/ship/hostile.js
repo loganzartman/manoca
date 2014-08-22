@@ -6,6 +6,7 @@ var Hostile = Entity.extend(function(props){
 	this.damage = 30;
 	this.instantDestroy = true;
 	this.soundDestroy = "explode"+(~~Random.next(4));
+	Level.hostileCount++;
 })
 .methods({
 	step: function() {
@@ -125,5 +126,10 @@ var Hostile = Entity.extend(function(props){
 				"s": 1
 			});
 		}
+	},
+
+	destroy: function() {
+		this.supr();
+		Level.hostileCount--;
 	}
 });
