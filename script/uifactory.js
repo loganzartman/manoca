@@ -1,6 +1,8 @@
 "use strict";
 
 var UIFactory = {
+	margin: 32,
+
 	init: function() {
 		UIFactory.textures.buttonNormal = PIXI.Texture.fromImage("img/btnNormal.png");
 		UIFactory.textures.buttonDown = PIXI.Texture.fromImage("img/btnDown.png");
@@ -17,6 +19,7 @@ var UIFactory = {
 			texHover  = either(params.buttonHover,UIFactory.textures.buttonHover);
 
 		var lblx = 8, lbly = 10;
+		btn.label = {};
 		function btnUp() {
 			btn.isdown = false;
 			btn.setTexture(texHover);
@@ -54,12 +57,11 @@ var UIFactory = {
 		}
 
 		if (typeof params.text === "string") {
-			var label = new PIXI.Text(params.text.toUpperCase(),{
+			btn.label = new PIXI.Text(params.text.toUpperCase(),{
 				"font": "18pt 'Exo'",
 				"fill": "white"
 			});
-			btn.label = label;
-			btn.addChild(label);
+			btn.addChild(btn.label);
 		}
 
 		btnOut();
@@ -76,6 +78,43 @@ var UIFactory = {
 		}
 
 		return btn;
+	},
+
+	makeLabeledInput: function(params) {
+		var group = new PIXI.DisplayObjectContainer();
+
+		var label = new PIXI.Text(params.labeltext, {
+			font: "bold 18px 'Exo'",
+			fill: "white",
+			stroke: "black",
+			align: "left",
+			strokeThickness: 2
+		});
+		label.position = new PIXI.Point(params.x, params.y);
+		label.depth = 20000;
+		group.addChild(label);
+
+		var button = UIFactory.makeButton({
+			text: params.text,
+			action: params.action
+		});
+		button.setSize(params.size);
+		button.position = new PIXI.Point(
+			label.width + UIFactory.margin,
+			0
+		);
+		button.depth = 20000;
+		group.addChild(button);
+
+		group.setText = function(str) {
+			button.setText(str);
+			button.setSize((button.label.width+32)/button.texture.width);
+		}
+		group.setLabelText = function(str) {
+			label.setText(str);
+		}
+
+		return group;
 	},
 
 	showStatus: function(params) {

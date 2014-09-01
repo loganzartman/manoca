@@ -12,20 +12,18 @@ var MainMenu = {
 		MainMenu.creditsButton = UIFactory.makeButton({
 			text: "About",
 			action: function() {
-				//todo
-
-				//Game.starmap();
+				Game.about();
 			}
 		});
-		MainMenu.creditsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
+		MainMenu.creditsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-188);
 
 		MainMenu.settingsButton = UIFactory.makeButton({
-			text: "input: mouse",
+			text: "Settings",
 			action: function() {
 				Game.settings();
 			}
 		});
-		MainMenu.settingsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-188);
+		MainMenu.settingsButton.position = new PIXI.Point(Graphics.width*0.1, Graphics.height-128);
 
 		MainMenu.startButton = UIFactory.makeButton({
 			text: "Starmap",
@@ -89,7 +87,7 @@ var MainMenu = {
 		MainMenu.stage.addChild(MainMenu.infotext);
 		MainMenu.stage.addChild(MainMenu.startButton);
 		MainMenu.stage.addChild(MainMenu.creditsButton);
-		MainMenu.stage.addChild(MainMenu.settingsButton);
+		//MainMenu.stage.addChild(MainMenu.settingsButton);
 		MainMenu.stage.addChild(title);
 		Starfield.speed = Starfield.menuSpeed;
 	}

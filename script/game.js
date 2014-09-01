@@ -1,7 +1,7 @@
 "use strict";
 
 var Game = {
-	VERSION: "0.1.52",
+	VERSION: "0.1.53",
 	loaded: false,
 	player: null,
 	entities: [],
@@ -215,19 +215,20 @@ var Game = {
 
 	/**
 	 * Shows the settings screen.
-	 * NOTE: Currently toggles between input modes; there is no settings screen.
 	 */
 	settings: function() {
-		if (Input.movementMode === Input.modes.KEYBOARD) {
-			MainMenu.settingsButton.setText("input: mouse");
-			Input.movementMode = Input.modes.MOUSE;
-			return;
-		}
-		if (Input.movementMode === Input.modes.MOUSE) {
-			MainMenu.settingsButton.setText("input: keyboard");
-			Input.movementMode = Input.modes.KEYBOARD;
-			return;
-		}
+		SettingsScreen.init();
+		Starfield.addToContainer(SettingsScreen.stage);
+		Game.setStage(SettingsScreen.stage);
+	},
+
+	/**
+	 * Shows the about screen.
+	 */
+	about: function() {
+		AboutScreen.init();
+		Starfield.addToContainer(AboutScreen.stage);
+		Game.setStage(AboutScreen.stage);
 	},
 
 	/**
@@ -307,6 +308,8 @@ var ResourceLoader = {
 		//Stages (ie. menus)
 		ResourceLoader.queue("script/stage/mainmenu.js");
 		ResourceLoader.queue("script/stage/scorescreen.js");
+		ResourceLoader.queue("script/stage/settingsscreen.js");
+		ResourceLoader.queue("script/stage/aboutscreen.js");
 		ResourceLoader.queue("script/stage/starmap.js");
 		ResourceLoader.queue("script/stage/shipselect.js");
 	},
