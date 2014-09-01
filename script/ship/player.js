@@ -219,7 +219,7 @@ var Player = Entity.extend(function(props){
 			},10000);
 		}
 
-		this.engineFire.scale = Starfield.warpTime>1?3:Input.key(Input.VK_Q)?0:1+(this.xs/this.top);
+		this.engineFire.scale = Starfield.warpTime>1?3:Input.key(Input.VK_Q)?0:1+(CarrierIntro.t<CarrierIntro.duration?1:this.xs/this.top);
 
 		//speed limiter
 		if (Math.abs(this.ys)>this.top) {
@@ -267,19 +267,24 @@ var Player = Entity.extend(function(props){
 		}
 
 		//angle smoothing
-		var acx = Math.cos(this.angle);
-		var acy = Math.sin(this.angle);
-		var atx = Math.cos(targetAngle)*this.srot;
-		var aty = Math.sin(targetAngle)*this.srot;
-		var newangle = Math.atan2(acy+aty, acx+atx);
-		this.angle = newangle;
+		if (CarrierIntro.t<CarrierIntro.duration) {
+			this.angle = 0;
+		}
+		else {
+			var acx = Math.cos(this.angle);
+			var acy = Math.sin(this.angle);
+			var atx = Math.cos(targetAngle)*this.srot;
+			var aty = Math.sin(targetAngle)*this.srot;
+			var newangle = Math.atan2(acy+aty, acx+atx);
+			this.angle = newangle;
+		}
 
 		//guns
 		if (!Starfield.isWarping && (Input.key(Input.VK_SPACE) || Input.mouseLeft)) {
 			this.guns.fire();
 		}
 
-		if (!Input.key(Input.VK_Q)) {
+		if (!(CarrierIntro.t<CarrierIntro.duration*0.25) && !Input.key(Input.VK_Q)) {
 			var rand = new Random();
 			for (var i=0; i<3; i++) {
 				
@@ -298,13 +303,13 @@ var Player = Entity.extend(function(props){
 					"texture": Particle.textureSmoke
 				});
 
-				var flareSpd = rand.next(-20,-10)*(Starfield.warpTime>1?3:1);
+				var flareSpd = rand.next(-20,-10)*(Starfield.warpTime>1?3:1)*(CarrierIntro.t<CarrierIntro.duration?2:1);
 				Game.particleSystem.emit({
 					"type": "EngineFlare",
 					"x": this.x-flarePoint.x,
 					"y": this.y-flarePoint.y,
-					"xs": Math.cos(this.angle)*flareSpd+this.xs+boundEffects.x,
-					"ys": Math.sin(this.angle)*flareSpd+this.ys+boundEffects.y,
+					"xs": Math.cos(this.angle)*flareSpd+(CarrierIntro.t<CarrierIntro.duration?0:this.xs+boundEffects.x),
+					"ys": Math.sin(this.angle)*flareSpd+(CarrierIntro.t<CarrierIntro.duration?0:this.ys+boundEffects.y),
 					"tint": this.flameColor
 				});
 			}

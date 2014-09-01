@@ -110,6 +110,7 @@ var Game = {
 	 */
 	restart: function(level) {
 		Game.score = 0;
+		Game.time = 0;
 		Game.entities = [];
 		Game.particles = null;
 
@@ -125,6 +126,8 @@ var Game = {
 
 		Starfield.addToContainer(Graphics.stage, Level.background);
 		Starfield.speed = Starfield.gameSpeed;
+
+		CarrierIntro.init(Graphics.stage);
 
 		Game.setStage(Graphics.stage);
 
@@ -144,6 +147,7 @@ var Game = {
 		Profile.save(Game.profile);
 
 		//"Unload" the level
+		CarrierIntro.destroy();
 		Level.setLevel(Levels[0]);
 		Game.playing = false;
 		Starfield.resetWarp();
@@ -184,6 +188,8 @@ var Game = {
 		Game.time++;
 		if (Game.playing) {
 			Level.step();
+
+			CarrierIntro.step();
 
 			for (var i = Game.entities.length - 1; i >= 0; i--) {
 				var e = Game.entities[i];
@@ -271,6 +277,7 @@ var ResourceLoader = {
 		//Etc
 		ResourceLoader.queue("script/profile.js");
 		ResourceLoader.queue("script/scrap.js");
+		ResourceLoader.queue("script/carrierIntro.js");
 
 		//Particles
 		ResourceLoader.queue("script/particle/particle.js");

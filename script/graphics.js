@@ -185,7 +185,7 @@ var Graphics = {
 			var mfdx = Input.mouseX-Game.player.x, mfdy = Input.mouseY-Game.player.y;
 			Graphics.mouseforce.rotation = Math.atan2(mfdy, mfdx);
 			var mfdist = Math.sqrt(mfdx*mfdx+mfdy*mfdy);
-			Graphics.mouseforce.alpha = Math.max(0,Math.min(1,(mfdist-40)/150));
+			Graphics.mouseforce.alpha = CarrierIntro.t<CarrierIntro.duration?0:Math.max(0,Math.min(1,(mfdist-40)/150));
 			Graphics.mouseforce.tint = Game.player.flameColor;
 		}
 		else {

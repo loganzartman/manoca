@@ -44,8 +44,9 @@ var HostileFactory = {
 		//cooldown timer
 		if (typeof generator._timer_ === "undefined") {
 			generator._timer_ = generator.delay;
+			return;
 		}
-		else if (generator._timer_>0) {
+		else if (CarrierIntro.t<CarrierIntro.duration || generator._timer_>0) {
 			generator._timer_--;
 			return;
 		}
